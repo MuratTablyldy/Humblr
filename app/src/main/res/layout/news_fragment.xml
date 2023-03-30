@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+
+   <!-- <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/t_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">-->
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search"
+            style="Widget.Material3.SearchView"
+            android:layout_width="match_parent"
+            app:iconifiedByDefault="false"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/background_card"
+            android:background="@drawable/search_background"
+            android:contentDescription="@string/search"
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryHint="@string/search" />
+
+        <!--<com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:startIconTint="?attr/colorSecondaryVariant"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:theme="@style/editText"
+            android:hint="@string/search"
+            android:background="@color/background"
+            android:backgroundTint="@color/background"
+            android:elevation="10dp"
+            app:boxCornerRadiusTopStart="20dp"
+            app:startIconDrawable="@drawable/ic_baseline_search_24"
+            app:layout_constraintEnd_toEndOf="parent">
+            <EditText
+                android:contentDescription="@string/search_link"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.google.android.material.textfield.TextInputLayout>-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/group"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/background"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search" />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/group" />
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+</LinearLayout>

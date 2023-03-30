@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ru.skillbox.humblr.utils.MTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="20sp"
+        android:layout_margin="20dp"
+        tools:text="When finger or object first comes in contact with the screen. The event contains the initial starting location of a gesture."
+        app:background_color="@color/indigo"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

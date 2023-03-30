@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/drawable-anydpi-v21/exo_ic_play_circle_filled.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/drawable-anydpi-v21/exo_icon_play.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_list_divider.xml" value="0.12708333333333333" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_player_control_view.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_player_view.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_styled_player_control_ffwd_button.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_styled_player_control_rewind_button.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_styled_player_control_view.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_styled_player_view.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_styled_settings_list.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_styled_settings_list_item.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_styled_sub_settings_list_item.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Fragments_2/caches/transforms-3/89087750b872c7a2958ca83b7e116230/transformed/jetified-exoplayer-ui-2.18.1/res/layout/exo_track_selection_dialog.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable-v23/background.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/back_shape.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/backgrond_page_counter.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/background.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/background_icon.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/background_text.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/comment_button.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/emojione_monotone_bookmark_tabs.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/exo_styled_controls_pause.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/exo_styled_controls_play.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/exo_styled_controls_view.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/favorite.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/frog.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/frog_2.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/gv.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_android_black_24dp.xml" value="0.22685185185185186" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_arrow_drop_up_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_card_giftcard_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_circle_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_comment_24.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_fullscreen_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_fullscreen_exit_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_mode_comment_32.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_pause_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_phone_paused_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_play_arrow_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_share_32.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_thumb_down_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_thumb_up_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_volume_off_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_baseline_volume_up_24.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_close_24.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_down.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_efresh.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_globe_icon.xml" value="0.22685185185185186" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_group.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_group_10.xml" value="0.1296875" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_group_6.xml" value="0.1296875" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_group_7.xml" value="0.1296875" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_group__1_.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_group__2_.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_group__3_.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_page1.xml" value="0.1296875" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_play.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_rectangle_1.xml" value="0.1296875" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_reddit_head.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_reddit_icon.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_replay.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/ic_replay_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/join.xml" value="0.13125" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/kinaq.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/reddit_icon.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/vector.xml" value="0.14322916666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/drawable/vote_up_anim.xml" value="0.26614583333333336" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout-v23/subreddit_layout_reddit_video.xml" value="0.296010296010296" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/activity_layout.xml" value="0.19157608695652173" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/bottom_link_bar.xml" value="0.264" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/comment_view.xml" value="0.264" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/comment_view_reply.xml" value="0.176" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/content_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/controller_layout.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/controller_layout_full_mode.xml" value="0.3534675615212528" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/controller_layout_nofull_mode.xml" value="0.4" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/controller_youtube_view.xml" value="0.264" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/detail_fragment.xml" value="0.1" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/empty_view.xml" value="0.24728260869565216" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/exo_playback_control_view.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/exo_styled_player_view.xml" value="0.12714955706096925" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/exoplayer_full.xml" value="0.17798913043478262" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/favorite.xml" value="0.23731884057971014" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/fragment_window.xml" value="0.3075933075933076" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/full_screen_mode_reddit.xml" value="0.11510416666666666" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/lcee_recycle_view.xml" value="0.12708333333333333" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/login_view.xml" value="0.12158054711246201" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/main_activity.xml" value="0.31029619181946405" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/more_button.xml" value="0.15416666666666667" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/news_fragment.xml" value="0.16799999999999998" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/one_time_page_fragment.xml" value="0.14583333333333334" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/page_view.xml" value="0.11354166666666667" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/page_view_fragment.xml" value="0.20199275362318841" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/pict_layout_view.xml" value="0.12708333333333333" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/profile_fragment.xml" value="0.23731884057971014" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/recycle_loading_layout.xml" value="0.12708333333333333" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/recycler_empty_layout.xml" value="0.15416666666666667" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/recycler_error_layout.xml" value="0.2" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/recycler_loading_layout.xml" value="0.12708333333333333" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/recycleview_empty.xml" value="0.72" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/starter_view.xml" value="0.2" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/subreddit_layout.xml" value="0.264" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/subreddit_layout_reddit_video.xml" value="0.264" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/subreddit_layout_with_media.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/subreddit_layout_youtube.xml" value="0.25" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/subreddit_pict_layout_view.xml" value="0.2847222222222222" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/vote_up_anim.xml" value="0.1" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/layout/youtube_layout_full_mode.xml" value="0.11927083333333334" />
+        <entry key="..\:/gitLib/android_basic/Humblr/app/src/main/res/menu/bottom_menu.xml" value="0.12179487179487179" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

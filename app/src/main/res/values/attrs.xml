@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LCEERecyclerView">
+        <attr name="errorText" format="string"/>
+        <attr name="errorIcon" format="reference"/>
+        <attr name="emptyText" format="string"/>
+        <attr name="emptyIcon" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="MControllerView">
+        <attr name="on_selected" format="reference"/>
+        <attr name="on_released" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="MComButton">
+        <attr name="on_select" format="reference"/>
+        <attr name="on_release" format="reference"/>
+        <attr name="on_selected_color" format="color"/>
+        <attr name="on_released_color" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="MTextView">
+        <attr name="background_color" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="MFloatingActionButton">
+        <attr name="tint_on_selected" format="color"/>
+        <attr name="tint_on_release" format="color"/>
+    </declare-styleable>
+</resources>

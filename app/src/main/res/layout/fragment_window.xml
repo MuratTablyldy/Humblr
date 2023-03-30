@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="20dp">
+
+    <FrameLayout
+        android:id="@+id/sceneHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- <LinearLayout
+             android:id="@+id/linear"
+             android:layout_width="match_parent"
+             android:orientation="vertical"
+             android:layout_height="match_parent"
+             android:background="@color/white_o">-->
+        <!--    <FrameLayout
+                android:id="@+id/m_bar"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:elevation="10dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">-->
+
+        <!-- </FrameLayout>-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/roo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/m_bar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                android:elevation="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/to_json"
+                    android:layout_width="80dp"
+                    android:layout_height="3dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:src="@drawable/comment_button"
+                    app:layout_constraintBottom_toTopOf="@id/rec"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
+            <ru.skillbox.humblr.utils.LCEERecyclerView
+                android:id="@+id/rec"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="#F8F6FD"
+                app:emptyIcon="@drawable/empty"
+                app:emptyText="Oops! Nothing Here"
+                app:errorIcon="@drawable/wrong"
+                app:errorText="Something went wrong!"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_bar" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/comment_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:elevation="20dp"
+                android:text="@string/show_all"
+                app:icon="@drawable/ic_baseline_comment_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/write_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_baseline_create_24"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@id/comment_button"
+                app:layout_constraintEnd_toEndOf="@id/comment_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</androidx.cardview.widget.CardView>

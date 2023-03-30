@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graf"
+    app:startDestination="@id/logFragment"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <fragment
+        android:id="@+id/starterFragment"
+        android:name="ru.skillbox.humblr.ui.login.starterFragment.StarterFragment"
+        android:label="StarterFragment"
+        tools:layout="@layout/starter_view"
+        >
+        <action
+            android:id="@+id/action_starterFragment_to_logFragment"
+            app:destination="@id/logFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+    </fragment>
+    <fragment
+        android:id="@+id/logFragment"
+        android:name="ru.skillbox.humblr.ui.login.logFrag.LogFragment"
+        android:label="LogFragment"
+        tools:layout="@layout/login_view">
+        <action
+            android:id="@+id/action_logFragment_to_starterFragment"
+            app:destination="@id/starterFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+    </fragment>
+</navigation>

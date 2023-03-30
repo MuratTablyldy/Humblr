@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/main_nav_graph"
+        android:title="@string/news"
+        android:icon="@drawable/list_selected" />
+    <item android:id="@+id/write_comment_grapth"
+        android:title="@string/favorite"
+        android:icon="@drawable/favorites_selection" />
+    <item android:id="@+id/detail_graph"
+        android:title="@string/profile"
+        android:icon="@drawable/profile_selection"
+        />
+</menu>

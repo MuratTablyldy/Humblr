@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "195565742384",
+    "project_id": "hamblr",
+    "storage_bucket": "hamblr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195565742384:android:0d14899f4ff5cb56ecc0f5",
+        "android_client_info": {
+          "package_name": "ru.skillbox.humblr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195565742384-11f6kakqjp6vbmkoa6p4028pvdrktfq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7plNz8_mS_Vxlj6YmjwCojF8e3EYcx4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195565742384-11f6kakqjp6vbmkoa6p4028pvdrktfq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

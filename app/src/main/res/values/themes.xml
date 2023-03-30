@@ -1,0 +1,93 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Humblr" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/unsub</item>
+        <item name="colorPrimaryVariant">@color/primaryColor</item>
+        <item name="colorOnPrimary">@color/primaryLightColor</item>
+        <!-- Secondary brand color. -->
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textAppearance">@color/grey</item>
+        <item name="colorAccent">@color/primaryLightColor</item>
+        <item name="android:colorAccent" >@color/primaryLightColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/grey</item>
+        <item name="colorOnSecondary">@color/secondaryDarkColor</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MyApp.Headline6</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MyApp.Body2</item>
+        <item name="snackbarStyle">@style/snackBar</item>
+        <item name="imageButtonStyle">@style/imageButton</item>
+        <!-- Status bar color. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="bottomNavigationStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="itemTextColor">@color/bottom_nav_color</item>
+        <item name="itemIconTint">@color/bottom_nav_color</item>
+        <item name="labelVisibilityMode">selected</item>
+    </style>
+    <style name="borderLessButt" parent="Widget.AppCompat.Button.Borderless">
+        <item name="colorSecondary">@color/primaryLightColor</item>
+    </style>
+    <style name="Theme.Humblr.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+    </style>
+
+    <style name="image_style" parent="Widget.MaterialComponents.ShapeableImageView">
+        <item name="colorOnPrimary">@color/grey2</item>
+        <item name="iconTint">@color/grey2</item>
+    </style>
+    <style name="voteStyle" parent="ShapeAppearanceOverlay.Material3.FloatingActionButton">
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/grey</item>
+        <item name="colorPrimaryVariant">@color/grey</item>
+        <item name="colorPrimary">@color/grey</item>
+        <item name="colorOnSecondary">@color/grey</item>
+        <item name="color">@color/grey</item>
+        <item name="rippleColor">@color/grey</item>
+    </style>
+    
+
+    <style name="CardTheme" parent="CardView">
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Card</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="cardCornerRadius">@dimen/corner_radius</item>
+        <item name="android:layout_margin">16dp</item>
+
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent</item>
+    </style>
+    <style name="snackBar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+    </style>
+    <style name="imageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="backgroundTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Card" parent="">
+        <item name="colorPrimary">@color/cardview_light_background</item>
+        <item name="colorSurface">@color/cardview_light_background</item>
+        <item name="colorOnSurface">@color/cardview_light_background</item>
+    </style>
+    <style name="editText" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="colorControlNormal">@color/grey</item>
+        <item name="colorControlActivated">?attr/colorPrimary</item>
+        <item name="colorControlHighlight">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Theme.MaterialDesign.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MaterialDesign.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
+    <style name="edit" parent="Widget.Design.TextInputLayout">
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/edit_text_color</item>
+        
+    </style>
+
+</resources>

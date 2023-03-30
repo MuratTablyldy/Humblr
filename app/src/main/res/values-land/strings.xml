@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Humblr</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="skip">пропустить</string>
+    <string name="exit">закрыть</string>
+    <string name="welcome">Добро пожаловать в Humblr</string>
+    <string name="welcome_text">Здесь собраны сообщества по всевозможным интересам</string>
+    <string name="sub_humblr">SubHumblr</string>
+    <string name="sub_humblr_text">Ты можешь найти новые сабы по интересам и посмтреть сабы, на которые ты подписан</string>
+    <string name="action_humblr">Делись и сохраняй</string>
+    <string name="action_humblr_text">Вкладка изьранное хранит закладки с коментариями и сабами. В профиле ты найдешь информацию о себе</string>
+
+    <string name="alert_title">Вы хотите выйти?</string>
+    <string name="pos_button">Да</string>
+    <string name="neg_button">Нет</string>
+    <string name="text_intro">найди единомышленников  с Hamblr</string>
+    <string name="news">news</string>
+    <string name="favorite">favorite</string>
+    <string name="profile">profile</string>
+    <string name="search">search</string>
+    <string name="new_button">NEW</string>
+    <string name="popular">POPULAR</string>
+    <string name="join">join</string>
+    <string name="page_count">%1$d/%2$d</string>
+    <string name="days_ago">%1$s %2$d d ago</string>
+    <string name="hours_ago">%1$s %2$d h ago</string>
+    <string name="minutes_ago">%1$s %2$d m ago</string>
+    <string name="now">%1$s now</string>
+    <string name="reply">Reply</string>
+    <string name="edited">edited</string>
+    <string name="show_all">show all</string>
+    <string name="share">Share</string>
+    <string name="empty">Wow, such empty</string>
+    <string name="comments_count">Show %1$d more →</string>
+    <string name="add_comment">add comment</string>
+</resources>

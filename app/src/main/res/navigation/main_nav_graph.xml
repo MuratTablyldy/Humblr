@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/newsFragment">
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="ru.skillbox.humblr.news.NewsFragment"
+        tools:layout="@layout/news_fragment"
+        android:label="NewsFragment" >
+        <action
+            android:id="@+id/action_newsFragment_to_detainFragment"
+            app:destination="@id/detainFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+        <action
+            android:id="@+id/action_newsFragment_to_detailTextFragment"
+            app:destination="@id/detailTextFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+        <action
+            android:id="@+id/action_newsFragment_to_fullScreenFragment"
+            app:destination="@id/fullScreenFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+        <argument
+            android:name="index"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_newsFragment_to_youtubeFragment"
+            app:destination="@id/youtubeFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+        <action
+            android:id="@+id/action_newsFragment_to_detailLinkFragment"
+            app:destination="@id/detailLinkFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+    </fragment>
+    <fragment
+        android:id="@+id/detainFragment"
+        android:name="ru.skillbox.humblr.news.DetailFragment"
+        android:label="DetailFragment" >
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailTextFragment"
+        android:name="ru.skillbox.humblr.news.DetailTextFragment"
+        android:label="DetailTextFragment" >
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenFragment"
+        android:name="ru.skillbox.humblr.news.FullScreenFragment"
+        android:label="FullScreenFragment" >
+        <argument
+            android:name="rebinder"
+            app:argType="kohii.v1.core.Rebinder" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <argument
+            android:name="link"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fullScreenFragment_to_newsFragment"
+            app:destination="@id/newsFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+    </fragment>
+    <fragment
+        android:id="@+id/youtubeFragment"
+        android:name="ru.skillbox.humblr.news.YoutubeFragment"
+        android:label="YoutubeFragment"
+        tools:layout="@layout/fullscreen_youtube">
+        <argument
+            android:name="link"
+            app:argType="string" />
+        <argument
+            android:name="time"
+            app:argType="long" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailLinkFragment"
+        android:name="ru.skillbox.humblr.news.DetailLinkFragment"
+        android:label="DetailLinkFragment" >
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
+</navigation>

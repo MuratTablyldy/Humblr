@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+   <item android:drawable="@drawable/back_shape"/>
+    <item android:drawable="@drawable/ic_globe_icon" android:height="@dimen/icon_size"
+        android:width="@dimen/icon_size" android:gravity="top|center_horizontal"/>
+
+</layer-list>
+

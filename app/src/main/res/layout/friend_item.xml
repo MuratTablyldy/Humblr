@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="item"
+            type="ru.skillbox.humblr.data.entities.Account" />
+        <variable
+            name="listener"
+            type="ru.skillbox.humblr.utils.richLink.ViewListener"/>
+
+    </data>
+    <androidx.cardview.widget.CardView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="10dp">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
+                tools:src="@tools:sample/avatars"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+            <ru.skillbox.humblr.utils.MTextView
+                android:id="@+id/user_name"
+                tools:text="@tools:sample/full_names"
+                android:layout_width="wrap_content"
+                app:background_color="@color/indigo"
+                android:textSize="13sp"
+                android:text="@{item.name}"
+                android:textStyle="bold"
+                android:textColor="@color/text_button"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"/>
+
+            <ru.skillbox.humblr.utils.MTextView
+                android:id="@+id/nick_name"
+                android:textColor="@color/text_button"
+                android:textSize="11sp"
+                android:textStyle="normal"
+                android:text="@{item.id}"
+                app:background_color="@color/indigo"
+                android:layout_margin="5dp"
+                tools:text="@tools:sample/lorem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+</layout>

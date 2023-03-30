@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_m"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toolB"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?attr/colorPrimary"
+                android:elevation="10dp"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.FloatingActionButton.Secondary"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tint="@color/white_o"
+                    android:src="@drawable/vectorback"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/white_o"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"
+                    app:layout_constraintStart_toEndOf="@id/back"
+                    app:layout_constraintEnd_toStartOf="@id/join"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <ru.skillbox.humblr.utils.MControllerView
+                    android:id="@+id/join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:layout_margin="5dp"
+                    app:on_selected="@drawable/subscribed"
+                    app:on_released="@drawable/subscribe"
+                    android:src="@color/unsub"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/coordinator"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolB">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/primaryLightColor"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.appbar.CollapsingToolbarLayout
+                        android:id="@+id/collapsing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/top_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/avatar_view"
+                                android:layout_width="48dp"
+                                android:layout_margin="5dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_reddit_icon"
+                                app:layout_constraintBottom_toTopOf="@id/pager_view"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:src="@tools:sample/avatars" />
+
+                            <TextView
+                                android:layout_margin="5dp"
+                                android:id="@+id/reddit_name"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/grey"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toStartOf="@id/time"
+                                app:layout_constraintStart_toEndOf="@id/avatar_view"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/time"
+                                android:layout_margin="5dp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:textColor="@color/grey"
+                                android:gravity="start"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/reddit_name"
+                                app:layout_constraintEnd_toEndOf="parent"/>
+                            <TextView
+                                android:id="@+id/user_name"
+                                android:layout_margin="5dp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/avatar_view"
+                                app:layout_constraintTop_toBottomOf="@id/reddit_name" />
+
+                            <androidx.viewpager2.widget.ViewPager2
+                                android:id="@+id/pager_view"
+                                android:layout_width="match_parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_height="300dp"
+                                android:layout_marginTop="4dp"
+                                app:layout_constraintTop_toBottomOf="@id/avatar_view" />
+
+                            <TextView
+                                android:id="@+id/counter"
+                                android:layout_width="wrap_content"
+                                android:visibility="gone"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/backgrond_page_counter"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:textColor="@color/white_o"
+                                android:textSize="18sp"
+                                app:layout_constraintEnd_toEndOf="@id/pager_view"
+                                app:layout_constraintTop_toTopOf="@id/pager_view"
+                                tools:text=" 1/12 " />
+
+                            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                                android:id="@+id/dots_indicator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:elevation="2dp"
+                                android:paddingBottom="30dp"
+                                app:dotsColor="@color/primaryDarkColor"
+                                app:dotsCornerRadius="8dp"
+                                app:dotsSize="16dp"
+                                app:dotsSpacing="4dp"
+                                app:dotsWidthFactor="2.5"
+                                app:layout_constraintBottom_toBottomOf="@id/pager_view"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:progressMode="true"
+                                app:selectedDotColor="@color/primaryColor" />
+
+                            <TextView
+                                android:id="@+id/text_view"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/pager_view" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/bar_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_scrollFlags="noScroll">
+
+                        <ru.skillbox.humblr.utils.MControllerView
+                            android:id="@+id/up_vote"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="5dp"
+                            app:fabSize="mini"
+                            android:layout_gravity="center"
+
+                            app:on_selected="@drawable/upvote_cl"
+                            app:on_released="@drawable/upvote_un"
+                            android:foregroundTint="@color/grey"
+                            android:src="@drawable/ic_baseline_thumb_up_24"
+                            app:backgroundTint="@color/white"
+                            app:borderWidth="0dp"
+                            app:elevation="0dp"
+                            app:rippleColor="@color/grey"
+                            app:tint="@color/grey" />
+
+                        <com.robinhood.ticker.TickerView
+                            android:id="@+id/vote_number"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="2dp"
+                            android:gravity="center"
+                            android:textColor="@color/grey"
+                            android:textSize="16sp"
+                            app:ticker_animationDuration="1000"
+                            app:ticker_defaultPreferredScrollingDirection="any" />
+
+                        <ru.skillbox.humblr.utils.MControllerView
+                            android:id="@+id/down_vote"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="5dp"
+                            app:fabSize="mini"
+                            android:layout_gravity="center"
+                            app:on_selected="@drawable/downvote_cl"
+                            app:on_released="@drawable/downvote_un"
+                            app:tint_on_release="@color/grey"
+                            app:tint_on_selected="?attr/colorPrimary"
+                            android:foregroundTint="@color/grey"
+                            android:src="@drawable/ic_baseline_thumb_down_24"
+                            app:backgroundTint="@color/white"
+                            app:borderWidth="0dp"
+                            app:elevation="0dp"
+                            app:rippleColor="@color/grey"
+                            app:tint="@color/grey" />
+
+                        <ImageButton
+                            android:id="@+id/comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            android:foregroundTint="@color/grey"
+                            android:src="@drawable/ic_baseline_mode_comment_32"
+                            android:textColor="@color/grey"
+                            app:borderWidth="0dp"
+                            app:fabSize="mini"
+                            app:elevation="0dp"
+                            app:rippleColor="@color/grey"
+                            app:tint="@color/grey" />
+
+                        <com.robinhood.ticker.TickerView
+                            android:id="@+id/comment_number"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="2dp"
+                            android:gravity="center"
+                            android:textColor="@color/grey"
+                            android:textSize="16sp"
+                            app:ticker_animationDuration="1000"
+                            app:ticker_defaultPreferredScrollingDirection="any" />
+
+                        <Button
+                            android:id="@+id/share"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            android:drawableLeft="@drawable/ic_baseline_share_32"
+                            android:drawableTint="@color/grey"
+                            android:text="@string/share"
+                            android:textColor="@color/grey"
+                            android:textSize="10sp" />
+
+                        <ru.skillbox.humblr.utils.MControllerView
+                            android:id="@+id/save"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            app:on_selected="@drawable/saved"
+                            app:on_released="@drawable/save"
+                            android:clickable="false" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </com.google.android.material.appbar.AppBarLayout>
+
+                <ru.skillbox.humblr.utils.LCEERecyclerView
+                    android:id="@+id/rec"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                    app:errorText="Something went wrong!"
+                    app:emptyText="Oops! Nothing Here"
+                    app:emptyIcon="@drawable/empty"
+                    app:errorIcon="@drawable/wrong"/>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/comment_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/show_all"
+                app:icon="@drawable/ic_baseline_comment_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/write_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_baseline_create_24"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@id/comment_button"
+                app:layout_constraintEnd_toEndOf="@id/comment_button" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+
