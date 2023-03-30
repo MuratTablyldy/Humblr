@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.skillbox.humblr.data.Result
 import ru.skillbox.humblr.data.entities.*
@@ -21,7 +20,7 @@ class WindowFragViewModel @Inject constructor(val repository: MainRepository) : 
     val pageList = MutableLiveData<MutableList<Comment>>(null)
     val exceptions = SingleLiveEvent<Exception>(null)
     val me = MutableLiveData<Account?>()
-    var currentPage=1
+    var currentPage = 1
 
     val state = MutableLiveData(State.INIT)
 
@@ -178,41 +177,43 @@ class WindowFragViewModel @Inject constructor(val repository: MainRepository) : 
         type: String
     ): FromMore? {
 
-            val result = repository.getChildren(
-                depth,
-                id,
-                children,
-                limitChildren,
-                linkId,
-                sort,
-                type
-            )
-            return when (result) {
-                is Result.Success -> {
-                    result.data
-                }
-                is Result.Error -> {
-                    exceptions.postValue(result.exception)
-                    null
-                }
+        val result = repository.getChildren(
+            depth,
+            id,
+            children,
+            limitChildren,
+            linkId,
+            sort,
+            type
+        )
+        return when (result) {
+            is Result.Success -> {
+                result.data
             }
+            is Result.Error -> {
+                exceptions.postValue(result.exception)
+                null
+            }
+        }
     }
-    suspend fun save(fullname:String,category:String):Boolean{
-        return when(repository.save(fullname = fullname, category = category)){
-            is Result.Success->{
+
+    suspend fun save(fullname: String, category: String): Boolean {
+        return when (repository.save(fullname = fullname, category = category)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
     }
-    suspend fun unsave(fullname:String):Boolean{
-        return when(repository.unsave(fullname = fullname)){
-            is Result.Success->{
+
+    suspend fun unsave(fullname: String): Boolean {
+        return when (repository.unsave(fullname = fullname)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }

@@ -15,29 +15,29 @@ import ru.skillbox.humblr.data.Result
 import ru.skillbox.humblr.databinding.WriteMessageFragmentBinding
 
 @AndroidEntryPoint
-class WriteMessageFragment():Fragment() {
-    val viewModel:WriteMessageViewModel by viewModels()
-    private var _binding:WriteMessageFragmentBinding?=null
-    val binding:WriteMessageFragmentBinding
-    get() = _binding!!
-    val args:WriteMessageFragmentArgs by navArgs()
+class WriteMessageFragment() : Fragment() {
+    val viewModel: WriteMessageViewModel by viewModels()
+    private var _binding: WriteMessageFragmentBinding? = null
+    val binding: WriteMessageFragmentBinding
+        get() = _binding!!
+    val args: WriteMessageFragmentArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding=WriteMessageFragmentBinding.inflate(inflater,container,false)
+        _binding = WriteMessageFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding=null
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.userName.text=args.to
+        binding.userName.text = args.to
         binding.exit.setOnClickListener {
             binding.editor.html = ""
             activity?.onBackPressed()
@@ -81,15 +81,19 @@ class WriteMessageFragment():Fragment() {
         }
         binding.editor.focusEditor()
         binding.post.setOnClickListener {
-            if(!binding.title.editText?.text.isNullOrBlank() && !binding.editor.html.isNullOrBlank()){
+            if (!binding.title.editText?.text.isNullOrBlank() && !binding.editor.html.isNullOrBlank()) {
                 lifecycleScope.launch {
-                    when(viewModel.sendMessage(binding.title.editText?.text.toString(), binding.editor.html!!,args.to)){
-                        is Result.Success->{
+                    when (viewModel.sendMessage(
+                        binding.title.editText?.text.toString(),
+                        binding.editor.html!!,
+                        args.to
+                    )) {
+                        is Result.Success -> {
                             activity?.onBackPressed()
                         }
-                        is Result.Error->{
+                        is Result.Error -> {
                             Toast.makeText(
-                                requireContext(),"damn",Toast.LENGTH_SHORT
+                                requireContext(), "damn", Toast.LENGTH_SHORT
                             ).show()
                         }
                     }

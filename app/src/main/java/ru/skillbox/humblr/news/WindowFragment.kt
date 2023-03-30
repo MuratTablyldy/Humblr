@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -69,7 +68,7 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Com.Companion.NullComment.pages= emptyList()
+        Com.Companion.NullComment.pages = emptyList()
         Com.Companion.NullComment.setPagesCount(0)
         _binding2 = WriteCommentLayoutBinding.inflate(inflater, container, false)
         mainFragment = parentFragment as FullScreenFragment
@@ -156,7 +155,8 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
         val link =
             mainFragment.viewModel.linkItem.value as Link.LinkRedditVideo
         binding2.editor.focusEditor()
-        val imm =  requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding2.editor, InputMethodManager.SHOW_IMPLICIT)
         binding2.title.text = link.title
         val instant = link.createdUTC.let { Instant.ofEpochSecond(it) }
@@ -222,10 +222,10 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
                     val me = viewModel.me.value
                     comment.account = UserInfo(me?.name!!, me.icon!!)
                     val list = viewModel.pageList.value!! + (comment)
-                    if(list.size>2){
-                        adapter.setPage(list,false)
+                    if (list.size > 2) {
+                        adapter.setPage(list, false)
                     } else {
-                        adapter.setPage(list,true)
+                        adapter.setPage(list, true)
                     }
 
                     binding2.editor.html = ""
@@ -248,9 +248,9 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
     }
 
     private fun getComments(link: String) {
-        val status=(activity as MainActivity).internetStatus()
-        if(status){
-            Log.d("status","starus")
+        val status = (activity as MainActivity).internetStatus()
+        if (status) {
+            Log.d("status", "starus")
             binding.rec.showLoadingView()
             viewModel.getComments(
                 link = link,
@@ -362,9 +362,9 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
                     binding.rec.hideAllViews()
                     binding.rec.recyclerView.visibility = View.VISIBLE
 
-                    if(viewModel.state.value == WindowFragViewModel.State.LOADED_PREVIEW){
-                        adapter.setPage(it,true)
-                    } else{
+                    if (viewModel.state.value == WindowFragViewModel.State.LOADED_PREVIEW) {
+                        adapter.setPage(it, true)
+                    } else {
                         val size = viewModel.comments.value!!.size
                         var pages = size / 10
                         val remainder = size % 10
@@ -373,7 +373,7 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
                         }
                         adapter.setPagesCount(pages)
                         Com.Companion.NullComment.setCurrentPage(viewModel.currentPage)
-                        adapter.setPage(it,false)
+                        adapter.setPage(it, false)
                     }
                     binding.rec.recyclerView.scrollToPosition(0)
                 }
@@ -476,7 +476,7 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
             if (preview) {
                 viewModel.state.postValue(WindowFragViewModel.State.LOADING_PREVIEW)
             } else {
-                viewModel.currentPage=index
+                viewModel.currentPage = index
                 viewModel.state.postValue(WindowFragViewModel.State.LOADING_ACCOUNT)
             }
             viewModel.viewModelScope.launch {
@@ -575,9 +575,11 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
         TransitionManager.go(scene)
         val link =
             (parentFragment as FullScreenFragment).viewModel.linkItem.value as Link.LinkRedditVideo
-        val imm =  requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding2.editor, InputMethodManager.SHOW_IMPLICIT)
-        binding2.title.text = comment.body?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY) }
+        binding2.title.text =
+            comment.body?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY) }
         val instant = link.createdUTC.let { Instant.ofEpochSecond(it) }
         val res = binding2.userName.context.resources
         val prefix =
@@ -587,7 +589,7 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
 
         val now = Instant.now()
         val duration = Duration.between(instant, now)
-        val pref="$${comment.author} $prefix"
+        val pref = "$${comment.author} $prefix"
         when {
             duration.toDays() > 0 -> {
                 binding2.userName.text =
@@ -686,7 +688,7 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
             }
         } else {
             lifecycleScope.launch {
-                when (viewModel.save(commentId,"comment")) {
+                when (viewModel.save(commentId, "comment")) {
                     true -> {
                         //nothing to do, everything ok!
                     }
@@ -793,8 +795,8 @@ class WindowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks, OnLi
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding=null
-        _binding2=null
+        _binding = null
+        _binding2 = null
     }
 
 }

@@ -1,11 +1,8 @@
 package ru.skillbox.humblr.data.repositories
 
-import com.squareup.moshi.Json
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 import ru.skillbox.humblr.data.entities.*
-import ru.skillbox.humblr.data.interfaces.Votable
 
 interface RedditApiSIMPLE {
     @Headers("Accept : application/json","User-Agent : android:hampApp:v1.0.0 (by /u/MuratTabyldy)")

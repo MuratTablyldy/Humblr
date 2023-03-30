@@ -17,42 +17,43 @@ import ru.skillbox.humblr.data.repositories.RedditApi
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileUserViewModel @Inject constructor(val repository: MainRepository):ViewModel() {
+class ProfileUserViewModel @Inject constructor(val repository: MainRepository) : ViewModel() {
 
-    val userLinks= MutableLiveData<List<Link>?>()
-    val errors=MutableLiveData<Exception>()
+    val userLinks = MutableLiveData<List<Link>?>()
+    val errors = MutableLiveData<Exception>()
     val account = MutableLiveData<Account>()
-    val comments=MutableLiveData<List<Comment>>()
-    val me=MutableLiveData<Account>()
-    val linkState=MutableLiveData(State.INIT)
-    private val _selectedRebinder= MutableLiveData<Pair<Int, Rebinder?>>(-1 to null)
-    fun setRebinder(value: Pair<Int, Rebinder?>){
+    val comments = MutableLiveData<List<Comment>>()
+    val me = MutableLiveData<Account>()
+    val linkState = MutableLiveData(State.INIT)
+    private val _selectedRebinder = MutableLiveData<Pair<Int, Rebinder?>>(-1 to null)
+    fun setRebinder(value: Pair<Int, Rebinder?>) {
         _selectedRebinder.postValue(value)
     }
 
-    val exceptions= MutableLiveData<Exception>(null)
+    val exceptions = MutableLiveData<Exception>(null)
     val rebinder: LiveData<Pair<Int, Rebinder?>>
         get() = _selectedRebinder
 
     val recyclerViewVolume = MutableLiveData(VolumeInfo(true, 1F))
 
-    val state= MutableLiveData(RecycleViewModel.State.INIT)
+    val state = MutableLiveData(RecycleViewModel.State.INIT)
 
-    suspend fun getSubredditAbout(subreddit:String)=
+    suspend fun getSubredditAbout(subreddit: String) =
         repository.getSubredditAbout(subreddit)
-    suspend fun vote(dir:Int,id:String,rank:Int?)=repository.vote(dir,id,rank)
+
+    suspend fun vote(dir: Int, id: String, rank: Int?) = repository.vote(dir, id, rank)
 
 
     fun getUserLinks(
-        username:String,
+        username: String,
         after: String?,
         before: String?,
         count: Int?,
         limit: Int?,
-        srDetail:Boolean
-    ){
+        srDetail: Boolean
+    ) {
         viewModelScope.launch {
-            val result=repository.getUserSubreddits(
+            val result = repository.getUserSubreddits(
                 username,
                 after,
                 before,
@@ -60,41 +61,43 @@ class ProfileUserViewModel @Inject constructor(val repository: MainRepository):V
                 limit,
                 srDetail
             )
-            when(result){
-                is Result.Success->{
-                    val things=result.data.data.children?.map { it.data }
+            when (result) {
+                is Result.Success -> {
+                    val things = result.data.data.children?.map { it.data }
                     userLinks.postValue(things)
                 }
-                is Result.Error->{
+                is Result.Error -> {
                     errors.postValue(result.exception)
                 }
             }
         }
     }
-    suspend fun getInfo(subName: String){
-        when(val info = repository.getAccountInfo(subName)){
-            is Result.Success->{
+
+    suspend fun getInfo(subName: String) {
+        when (val info = repository.getAccountInfo(subName)) {
+            is Result.Success -> {
                 account.postValue(info.data.data!!)
             }
-            is Result.Error->{
+            is Result.Error -> {
                 errors.postValue(info.exception)
             }
         }
     }
+
     fun getCommentsMine(
-        username:String,
+        username: String,
         after: String?,
         before: String?,
         count: Int?,
         limit: Int?,
-        srDetail:Boolean?,
+        srDetail: Boolean?,
 
         time: RedditApi.Time,
-        context:Int,
+        context: Int,
         sort: RedditApi.Sort
-    ){
+    ) {
         viewModelScope.launch {
-            val result=repository.getCommentsMine(
+            val result = repository.getCommentsMine(
                 username,
                 after,
                 before,
@@ -105,35 +108,41 @@ class ProfileUserViewModel @Inject constructor(val repository: MainRepository):V
                 context,
                 sort
             )
-            when(result){
-                is Result.Success->{
-                    val things=result.data.data.children?.map { it.data }
-                    if(things!=null){
+            when (result) {
+                is Result.Success -> {
+                    val things = result.data.data.children?.map { it.data }
+                    if (things != null) {
                         comments.postValue(things!!)
                     }
                 }
-                is Result.Error->{
+                is Result.Error -> {
                     errors.postValue(result.exception)
                 }
             }
         }
     }
-    suspend fun subscribe(action: RedditApi.SubscibeType, skip:Boolean?, srName:String)=repository.subscribe(action,skip,srName)
-    suspend fun sendMessage(subject:String,text:String,to:String)=repository.sendMessage(subject, text, to)
-    suspend fun getMe(){
-        when(val res=repository.getMe()){
-            is Result.Success->{
+
+    suspend fun subscribe(action: RedditApi.SubscibeType, skip: Boolean?, srName: String) =
+        repository.subscribe(action, skip, srName)
+
+    suspend fun sendMessage(subject: String, text: String, to: String) =
+        repository.sendMessage(subject, text, to)
+
+    suspend fun getMe() {
+        when (val res = repository.getMe()) {
+            is Result.Success -> {
                 me.postValue(res.data.data!!)
             }
-            is Result.Error->{
+            is Result.Error -> {
                 errors.postValue(res.exception)
             }
         }
     }
 
-    enum class State{
-        EXPANDED,NOT,INIT
+    enum class State {
+        EXPANDED, NOT, INIT
     }
+
     companion object {
         const val SWITCH_BOUND = 0.8f
         const val TO_EXPANDED = 0

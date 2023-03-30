@@ -1,19 +1,16 @@
 package ru.skillbox.humblr.data.repositories
 
-import android.util.Log
-import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
 import org.json.JSONObject
 import javax.inject.Inject
 
 class AuthSessionService @Inject constructor() {
-    val mediatype = "application/json; charset=utf-8".toMediaType()
-    val client: OkHttpClient = OkHttpClient()
+    private val mediatype = "application/json; charset=utf-8".toMediaType()
+    private val client: OkHttpClient = OkHttpClient()
     private val TOKEN = "token"
     private val TOKEN_TYPE = "token_type_hint"
 

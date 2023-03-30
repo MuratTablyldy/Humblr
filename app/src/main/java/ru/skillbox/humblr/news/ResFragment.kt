@@ -95,9 +95,9 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
     @OptIn(InternalCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rec.visibility=View.INVISIBLE
-        binding.progress.root.visibility=View.VISIBLE
-        binding.progress.progressL.visibility=View.VISIBLE
+        binding.rec.visibility = View.INVISIBLE
+        binding.progress.root.visibility = View.VISIBLE
+        binding.progress.progressL.visibility = View.VISIBLE
         _kohii = KohiiProvider.get(requireContext())
         val args = arguments?.getString(FavoritesSavedAdapter.ARG_TYPE)
         argType = args
@@ -141,7 +141,8 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
                 commAdapter = CommentFavoritesAdapter(lifecycleScope, this)
                 binding.rec.recyclerView.adapter = commAdapter
                 layoutManager = binding.rec.recyclerView.layoutManager as LinearLayoutManager
-                binding.rec.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                binding.rec.recyclerView.addOnScrollListener(object :
+                    RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
                         val lastIndex = layoutManager.findLastVisibleItemPosition()
@@ -165,7 +166,7 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
                                 } else {
                                     binding.rec.showEmptyView()
                                 }
-                            },binding.progress.progressL)
+                            }, binding.progress.progressL)
                         }
                     } else if (args == "LINKS_SAVED") {
                         if (name != null) {
@@ -194,7 +195,8 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
                     kohiiM.register(this, memoryMode = MemoryMode.HIGH)
                         .addBucket(binding.rec.recyclerView)
                 layoutManager = binding.rec.recyclerView.layoutManager as LinearLayoutManager
-                binding.rec.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                binding.rec.recyclerView.addOnScrollListener(object :
+                    RecyclerView.OnScrollListener() {
                     val PERCENT_SHOW = 80
                     val PERCENT_HIDE = 50
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -256,7 +258,6 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
         bind()
 
 
-
     }
 
     override fun onDestroy() {
@@ -269,17 +270,17 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
             if (it != null) {
                 when (argType) {
                     "LINKS_ALL" -> {
-                        binding.progress.root.visibility=View.VISIBLE
-                        viewModel.getSubredditsMine(it.name!!, null, null, null, null, true,{
+                        binding.progress.root.visibility = View.VISIBLE
+                        viewModel.getSubredditsMine(it.name!!, null, null, null, null, true, {
                             if (adapter!!.itemCount > 0) {
                                 adapter?.removeLoad()
                             } else {
                                 binding.rec.showEmptyView()
                             }
-                        },binding.progress.progressL)
+                        }, binding.progress.progressL)
                     }
                     "LINKS_SAVED" -> {
-                        binding.progress.root.visibility=View.VISIBLE
+                        binding.progress.root.visibility = View.VISIBLE
                         viewModel.getSavedSubreddits(
                             it.name!!,
                             null,
@@ -337,11 +338,11 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
             }
             links.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    if(binding.rec.visibility==View.INVISIBLE){
-                        binding.progress.root.visibility=View.INVISIBLE
-                        binding.rec.visibility=View.VISIBLE
+                    if (binding.rec.visibility == View.INVISIBLE) {
+                        binding.progress.root.visibility = View.INVISIBLE
+                        binding.rec.visibility = View.VISIBLE
                         binding.rec.apply {
-                            alpha=0f
+                            alpha = 0f
                             animate().alpha(1f).setDuration(200).start()
                         }
                     }
@@ -359,11 +360,11 @@ class ResFragment : Fragment(), CommentAdapter.CommentHandler, MListener {
             }
             comments.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    if(binding.rec.visibility==View.INVISIBLE){
-                        binding.progress.root.visibility=View.INVISIBLE
-                        binding.rec.visibility=View.VISIBLE
+                    if (binding.rec.visibility == View.INVISIBLE) {
+                        binding.progress.root.visibility = View.INVISIBLE
+                        binding.rec.visibility = View.VISIBLE
                         binding.rec.apply {
-                            alpha=0f
+                            alpha = 0f
                             animate().alpha(1f).setDuration(200).start()
                         }
                     }

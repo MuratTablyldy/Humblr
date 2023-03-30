@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,12 +13,8 @@ import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +22,6 @@ import kohii.v1.core.Rebinder
 import kotlinx.coroutines.InternalCoroutinesApi
 import ru.skillbox.humblr.R
 import ru.skillbox.humblr.databinding.MainActivityBinding
-import ru.skillbox.humblr.mainPackage.MainViewModel
 import ru.skillbox.humblr.news.NewsFragmentDirections
 import ru.skillbox.humblr.news.ProfileFragmentDirections
 import ru.skillbox.humblr.ui.login.LoginActivity

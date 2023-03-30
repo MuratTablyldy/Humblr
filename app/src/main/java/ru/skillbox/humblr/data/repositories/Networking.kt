@@ -1,22 +1,12 @@
 package ru.skillbox.humblr.data.repositories
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.text.TextUtils
-import android.util.Log
-import androidx.core.content.ContextCompat.getSystemService
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import java.io.File
-import java.io.IOException
-import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

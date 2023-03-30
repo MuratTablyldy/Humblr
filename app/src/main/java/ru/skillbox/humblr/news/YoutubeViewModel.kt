@@ -14,41 +14,42 @@ import ru.skillbox.humblr.utils.SingleLiveEvent
 import javax.inject.Inject
 
 @HiltViewModel
-class YoutubeViewModel @Inject constructor(val repository: MainRepository):ViewModel() {
+class YoutubeViewModel @Inject constructor(val repository: MainRepository) : ViewModel() {
     private val _comments = MutableLiveData<List<Comment>?>(null)
     val comments: LiveData<List<Comment>?>
         get() = _comments
     val pageList = MutableLiveData<MutableList<Comment>>(null)
     val exceptions = SingleLiveEvent<Exception>(null)
     val me = MutableLiveData<Account?>()
-    var currentPage=1
-    var time:Float=0f
+    var currentPage = 1
+    var time: Float = 0f
 
     val state = MutableLiveData(State.INIT)
 
     val linkItem = MutableLiveData<Link.LinkYouTube>(null)
-    val subInfo=MutableLiveData<SubredditInfo>()
+    val subInfo = MutableLiveData<SubredditInfo>()
     private var previousVisibility = false
     private val _bottomViewVisibility = MutableLiveData<Boolean>(false)
     suspend fun vote(dir: Int, id: String, rank: Int?) =
         repository.vote(dir, id, rank)
 
-    suspend fun save(fullname:String,category:String):Boolean{
-        return when(repository.save(fullname = fullname, category = category)){
-            is Result.Success->{
+    suspend fun save(fullname: String, category: String): Boolean {
+        return when (repository.save(fullname = fullname, category = category)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
     }
-    suspend fun unsave(fullname:String):Boolean{
-        return when(repository.unsave(fullname = fullname)){
-            is Result.Success->{
+
+    suspend fun unsave(fullname: String): Boolean {
+        return when (repository.unsave(fullname = fullname)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
@@ -223,8 +224,10 @@ class YoutubeViewModel @Inject constructor(val repository: MainRepository):ViewM
         }
     }
 
-    suspend fun subscribe(action: RedditApi.SubscibeType, skip:Boolean?, srName:String)=repository.subscribe(action,skip,srName)
-    suspend fun getSubredditAbout(subreddit:String)=
+    suspend fun subscribe(action: RedditApi.SubscibeType, skip: Boolean?, srName: String) =
+        repository.subscribe(action, skip, srName)
+
+    suspend fun getSubredditAbout(subreddit: String) =
         repository.getSubredditAbout(subreddit)
 
     enum class State {

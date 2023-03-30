@@ -10,10 +10,10 @@ class FetchSessionManager(context: Context) {
         context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     fun fetchAuthToken(): TokenHolder {
         synchronized(this){
-            val map= TokenHolder.KEYS.values().map { key->
-                val value =prefs.getString(key.toString(),null)
+            val map= TokenHolder.KEYS.values().associate { key ->
+                val value = prefs.getString(key.toString(), null)
                 key.toString() to value
-            }.toMap()
+            }
             return TokenHolder(map)
         }
     }

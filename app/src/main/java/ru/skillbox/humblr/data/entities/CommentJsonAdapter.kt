@@ -127,11 +127,11 @@ public class CommentJsonAdapter(
                 18 -> {
 
                     val values = reader.readJsonValue()
-                    if (values == "") {
-                        replies= Thing(null,null,"t1",Listing(null,null,null, mutableListOf()))
-                    //    reader.skipValue()
+                    replies = if (values == "") {
+                        Thing(null,null,"t1",Listing(null,null,null, mutableListOf()))
+                        //    reader.skipValue()
                     } else {
-                        replies = nullableThingOfListingOfThing2Adapter.fromJsonValue(values)
+                        nullableThingOfListingOfThing2Adapter.fromJsonValue(values)
                     }
                 }
                 19 -> saved = nullableBooleanAdapter.fromJson(reader)

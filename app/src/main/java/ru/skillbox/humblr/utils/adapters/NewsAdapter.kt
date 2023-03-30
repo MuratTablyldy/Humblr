@@ -15,8 +15,8 @@ class NewsAdapter(listener: MListener) : RecyclerView.Adapter<MViewHolder>() {
     private val delegate = AdapterDelegatesManager<List<Link>>()
     var redditVidAdapter: WithRedditVideoAdapter
     var youtubeAdap: YouTubeLinkAdapter
-    val list:List<Link>
-    get() = differ.currentList
+    val list: List<Link>
+        get() = differ.currentList
 
     init {
         redditVidAdapter = WithRedditVideoAdapter(listener)
@@ -29,11 +29,12 @@ class NewsAdapter(listener: MListener) : RecyclerView.Adapter<MViewHolder>() {
             .addDelegate(LoadingAdapter())
     }
 
-    fun removeLoad(){
+    fun removeLoad() {
         val mList = ArrayList(differ.currentList)
         mList.remove(Link.LoadingLink)
         differ.submitList(mList)
     }
+
     fun getItemLink(position: Int): String {
         return differ.currentList[position].getLink()
     }

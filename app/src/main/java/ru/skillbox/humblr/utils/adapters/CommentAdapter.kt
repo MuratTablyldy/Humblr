@@ -1,7 +1,6 @@
 package ru.skillbox.humblr.utils.adapters
 
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,10 @@ import ru.skillbox.humblr.databinding.CommentViewBinding
 import ru.skillbox.humblr.utils.MControllerView
 import ru.skillbox.humblr.utils.dp
 
-class CommentAdapter(private val scope: CoroutineScope, private val commentHandler: CommentHandler) :
+class CommentAdapter(
+    private val scope: CoroutineScope,
+    private val commentHandler: CommentHandler
+) :
     AbsListItemAdapterDelegate<Comment, Created, CommentParentViewHolder.CommentViewHolderViewHolder>() {
 
     private fun addComment(
@@ -47,8 +49,8 @@ class CommentAdapter(private val scope: CoroutineScope, private val commentHandl
         ) { root, _, _ ->
             bind(root, comment)
             val columnHolder = root.findViewById<LinearLayoutCompat>(R.id.column_holder)
-            if(depth>1){
-                for (i  in 1 until  depth) {
+            if (depth > 1) {
+                for (i in 1 until depth) {
                     val view = View(root.context)
                     view.setBackgroundColor(root.context.getColor(R.color.grey2))
                     columnHolder.addView(view)
@@ -57,9 +59,9 @@ class CommentAdapter(private val scope: CoroutineScope, private val commentHandl
                     view.layoutParams.width = 3.dp
                 }
             }
-            val buttone=root.findViewById<FloatingActionButton>(R.id.comment_button)
+            val buttone = root.findViewById<FloatingActionButton>(R.id.comment_button)
             buttone.setOnClickListener {
-                commentHandler.writeComment(root,linearLayoutCompat,comment,false,depth)
+                commentHandler.writeComment(root, linearLayoutCompat, comment, false, depth)
             }
             val index = rootLin.children.indexOf(paretntView)
             linearLayoutCompat.addView(root, index + 1)
@@ -81,16 +83,17 @@ class CommentAdapter(private val scope: CoroutineScope, private val commentHandl
 
     fun bind(root: View, comment: Comment) {
         scope.launch {
-            var icon = comment.account?.profileImg?.replace("amp;","")
-            if(icon==null){
-                icon="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png"
+            var icon = comment.account?.profileImg?.replace("amp;", "")
+            if (icon == null) {
+                icon = "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png"
             }
-            Glide.with(root).load(icon).apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)).override(150,150)
+            Glide.with(root).load(icon)
+                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)).override(150, 150)
                 .into(root.findViewById(R.id.avatar))
             root.findViewById<TextView>(R.id.nickname).text = comment.author
-            val saveButton=root.findViewById<MControllerView>(R.id.save)
+            val saveButton = root.findViewById<MControllerView>(R.id.save)
             saveButton.onClickListener {
-                commentHandler.save(saveButton,comment.name!!)
+                commentHandler.save(saveButton, comment.name!!)
             }
             val messageView = root.findViewById<TextView>(R.id.text)
             messageView.text =
@@ -161,12 +164,12 @@ class CommentAdapter(private val scope: CoroutineScope, private val commentHandl
                     voteNumber.text = comment.score.toString()
                 }
             }
-            val upvoteB=root.findViewById<MControllerView>(R.id.up_vote)
-            val downVoteB=root.findViewById<MControllerView>(R.id.down_vote)
+            val upvoteB = root.findViewById<MControllerView>(R.id.up_vote)
+            val downVoteB = root.findViewById<MControllerView>(R.id.down_vote)
 
             upvoteB.onClickListener {
                 scope.launch {
-                    commentHandler.vote(1, "t1_${comment.id}",upvoteB,voteNumber)
+                    commentHandler.vote(1, "t1_${comment.id}", upvoteB, voteNumber)
                 }
             }
             downVoteB.onClickListener {
@@ -191,34 +194,52 @@ class CommentAdapter(private val scope: CoroutineScope, private val commentHandl
     ) {
         holder.binding?.replyView?.removeAllViews()
         bind(holder.binding!!.root, comment)
-        val button= holder.binding!!.commentButton
+        val button = holder.binding!!.commentButton
         button.setOnClickListener {
-            commentHandler.writeComment(holder.binding!!.root, holder.binding!!.replyView,comment,true,0)
+            commentHandler.writeComment(
+                holder.binding!!.root,
+                holder.binding!!.replyView,
+                comment,
+                true,
+                0
+            )
         }
         if (comment.replies.data.children?.isNotEmpty() == true) {
             val comments = comment.replies.data.children
-            val firstView=LayoutInflater.from(holder.itemView.context).inflate(
+            val firstView = LayoutInflater.from(holder.itemView.context).inflate(
                 R.layout.comment_view_reply,
                 holder.binding!!.replyView,
                 true
             )
-            val buttone=firstView.findViewById<FloatingActionButton>(R.id.comment_button)
+            val buttone = firstView.findViewById<FloatingActionButton>(R.id.comment_button)
             buttone.setOnClickListener {
-                commentHandler.writeComment(firstView,holder.binding!!.replyView,comment,false,1)
+                commentHandler.writeComment(
+                    firstView,
+                    holder.binding!!.replyView,
+                    comment,
+                    false,
+                    1
+                )
             }
-            bind(firstView,comments!!.first().data as Comment)
-            val button= holder.binding!!.commentButton
+            bind(firstView, comments!!.first().data as Comment)
+            val button = holder.binding!!.commentButton
             button.setOnClickListener {
-                commentHandler.writeComment(holder.binding!!.root, holder.binding!!.replyView,comment,true,0)
+                commentHandler.writeComment(
+                    holder.binding!!.root,
+                    holder.binding!!.replyView,
+                    comment,
+                    true,
+                    0
+                )
             }
-            if(comments.size>1){
+            if (comments.size > 1) {
                 val buttonMore = (LayoutInflater.from(holder.itemView.context).inflate(
                     R.layout.more_button,
                     holder.binding!!.replyView,
                     true
                 ) as LinearLayoutCompat).findViewById<Button>(R.id.show_more)
 
-                val num = comments.let { getNumComments(it)-1 }
+                val num = comments.let { getNumComments(it) - 1 }
                 buttonMore.text = String.format(
                     holder.itemView.context.resources.getString(R.string.comments_count),
                     num
@@ -241,10 +262,10 @@ class CommentAdapter(private val scope: CoroutineScope, private val commentHandl
             count++
             val com = list[index]
             val comm = com.data as Comment
-                val children=comm.replies.data.children
-                if(!children.isNullOrEmpty()){
-                    count+=getNumComments(children)
-                }
+            val children = comm.replies.data.children
+            if (!children.isNullOrEmpty()) {
+                count += getNumComments(children)
+            }
 
         }
         return count
@@ -254,11 +275,11 @@ class CommentAdapter(private val scope: CoroutineScope, private val commentHandl
         item is Comment
 
     interface CommentHandler {
-        fun getPage(index:Int,preview:Boolean)
-        suspend fun vote(num:Int,name:String,view: MControllerView,tickerView: TickerView)
+        fun getPage(index: Int, preview: Boolean)
+        suspend fun vote(num: Int, name: String, view: MControllerView, tickerView: TickerView)
         fun ready()
-        fun writeComment(view:View,parent:ViewGroup,comment: Comment,root:Boolean,depth:Int)
-        fun save(view: MControllerView,commentId:String)
+        fun writeComment(view: View, parent: ViewGroup, comment: Comment, root: Boolean, depth: Int)
+        fun save(view: MControllerView, commentId: String)
     }
 
 }

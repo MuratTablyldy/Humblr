@@ -1,16 +1,8 @@
 package ru.skillbox.humblr.data.repositories
 
-
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import retrofit2.Response
 import retrofit2.http.*
 import ru.skillbox.humblr.data.entities.*
-import retrofit2.http.Url
-
-import okhttp3.ResponseBody
-import retrofit2.Call
-
 import retrofit2.http.GET
 
 

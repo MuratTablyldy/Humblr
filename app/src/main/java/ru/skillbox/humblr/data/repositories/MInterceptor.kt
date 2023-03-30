@@ -1,9 +1,6 @@
 package ru.skillbox.humblr.data.repositories
 
-import android.os.SystemClock
-import android.util.Log
 import okhttp3.*
-
 
 class MInterceptor(private var cancelList: MutableList<String>) : Interceptor {
 

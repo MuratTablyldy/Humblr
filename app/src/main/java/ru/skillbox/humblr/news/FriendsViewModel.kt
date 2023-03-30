@@ -11,26 +11,32 @@ import ru.skillbox.humblr.data.repositories.MainRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class FriendsViewModel @Inject constructor(val repository: MainRepository):ViewModel() {
+class FriendsViewModel @Inject constructor(val repository: MainRepository) : ViewModel() {
 
-    val empty=MutableLiveData(false)
-    val friends=MutableLiveData<List<Account>>()
-    val errors=MutableLiveData<Exception>()
-    fun getFriends(before:String?,after:String?,count:Int?,limit:Int?){
+    val empty = MutableLiveData(false)
+    val friends = MutableLiveData<List<Account>>()
+    val errors = MutableLiveData<Exception>()
+    fun getFriends(before: String?, after: String?, count: Int?, limit: Int?) {
         viewModelScope.launch {
-            val friend=repository.getFriends(before = before, after = after, count = count, limit = limit,true)
-            when(friend){
-                is Result.Success->{
-                    val friendq=friend.data.data.children
+            val friend = repository.getFriends(
+                before = before,
+                after = after,
+                count = count,
+                limit = limit,
+                true
+            )
+            when (friend) {
+                is Result.Success -> {
+                    val friendq = friend.data.data.children
 
-                    if(friendq!=null && friendq.isNotEmpty()){
+                    if (friendq != null && friendq.isNotEmpty()) {
                         friends.postValue(friendq!!)
-                    } else{
+                    } else {
                         empty.postValue(true)
                     }
 
                 }
-                is Result.Error->{
+                is Result.Error -> {
                     errors.postValue(friend.exception)
                 }
             }

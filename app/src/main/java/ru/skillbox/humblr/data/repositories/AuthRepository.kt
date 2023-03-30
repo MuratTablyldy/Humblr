@@ -2,8 +2,6 @@ package ru.skillbox.humblr.data.repositories
 
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.work.*
 import ru.skillbox.humblr.data.repositories.modules.TokenHolder
@@ -27,20 +25,20 @@ class AuthRepository @Inject constructor(
         val values =
             """(access_token=.+&|$)(token_type=.+&|$)(state=.+&|$)(expires_in=.+&|$)""".toRegex()
                 .find(fragment)?.groupValues
-        val parameters = values!!.map { parameter ->
+        val parameters = values!!.associate { parameter ->
             val parts = parameter.split("=")
             val key = parts[0]
             val value = if (parts[1].contains("&")) {
                 parts[1].removeSuffix("&")
             } else parts[1]
             key to value
-        }.toMap()
+        }
         val tokenHolder=TokenHolder(parameters)
         sessionManager.saveAuthToken(tokenHolder)
         State.getInstance().expired.value=false
         return tokenHolder
     }
-    @RequiresApi(Build.VERSION_CODES.N)
+
     fun startWorker(token:String, expTime:Long, tokenType:String, context: Context) {
         val workConstraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)

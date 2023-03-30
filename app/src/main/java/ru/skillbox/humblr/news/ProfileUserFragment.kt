@@ -77,6 +77,7 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
 
     private lateinit var subsribers: HashMap<Int, MViewHolder.YoutubeViewHolder>
     private var playback: Playback? = null
+
     @OptIn(InternalCoroutinesApi::class)
     private var selection by Delegates.observable<Pair<Int, Rebinder?>>(
         initialValue = -1 to null,
@@ -94,7 +95,7 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
                 }
                 val link =
                     (binding.recyclerView.recyclerView.adapter as NewsAdapter).getItemLink(newPos)
-                (activity as MainActivity).navigateToRedditVideoFragment(newRebinder,newPos,link)
+                (activity as MainActivity).navigateToRedditVideoFragment(newRebinder, newPos, link)
                 binding.recyclerView.recyclerView.adapter?.notifyItemChanged(newPos)
             } else {
                 if (oldRebinder != null) {
@@ -149,7 +150,7 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
         layoutManager = binding.recyclerView.recyclerView.layoutManager as LinearLayoutManager
         adapter = NewsAdapter(listener = this)
         binding.recyclerView.recyclerView.adapter = adapter
-        binding.writeCommentB.setOnClickListener{
+        binding.writeCommentB.setOnClickListener {
             val direction =
                 ProfileUserFragmentDirections.actionProfileUserFragmentToWriteMessageFragment(
                     viewModel.me.value?.name!!,
@@ -173,10 +174,12 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
                             }
                             is Result.Error -> {
                                 button.setImageDrawable(subscribedIcon)
-                                button.setBackgroundColor(resources.getColor(
-                                    R.color.selected,
-                                    null
-                                ))
+                                button.setBackgroundColor(
+                                    resources.getColor(
+                                        R.color.selected,
+                                        null
+                                    )
+                                )
                                 binding.subscribe.icon = subscribedIcon
                                 binding.subscribe.setBackgroundColor(
                                     resources.getColor(
@@ -231,7 +234,7 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
         }
         binding.subscribe.setOnClickListener {
             val button = it as ExtendedFloatingActionButton
-            val small=binding.subscribeB
+            val small = binding.subscribeB
             if (button.icon == subscribedIcon) {
                 small.setImageDrawable(subscribeIcon)
                 binding.subscribe.icon = subscribeIcon
@@ -277,10 +280,12 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
                             }
                             is Result.Error -> {
                                 small.setImageDrawable(subscribeIcon)
-                                small.setBackgroundColor(resources.getColor(
-                                    R.color.unselected,
-                                    null
-                                ))
+                                small.setBackgroundColor(
+                                    resources.getColor(
+                                        R.color.unselected,
+                                        null
+                                    )
+                                )
                                 binding.subscribe.icon = subscribeIcon
                                 binding.subscribe.setBackgroundColor(
                                     resources.getColor(
@@ -311,7 +316,7 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
                 }
                 binding.readMore.setOnClickListener {
                     viewModel.linkState.postValue(ProfileUserViewModel.State.EXPANDED)
-                    binding.readMore.visibility=View.INVISIBLE
+                    binding.readMore.visibility = View.INVISIBLE
                 }
             }
 
@@ -338,7 +343,9 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
                                 if (percent > PERCENT_SHOW) {
                                     val holder = subsribers[index]
                                     holder?.initYoutube(getYoutubePlayer()) {
-                                        (activity as MainActivity).navigateToYoutubeFragment(direction=it)
+                                        (activity as MainActivity).navigateToYoutubeFragment(
+                                            direction = it
+                                        )
                                     }
                                 } else if (percent < PERCENT_HIDE) {
                                     val holder = subsribers[index]
@@ -394,15 +401,15 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
             }
             userLinks.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    if(viewModel.linkState.value==ProfileUserViewModel.State.INIT){
+                    if (viewModel.linkState.value == ProfileUserViewModel.State.INIT) {
                         viewModel.linkState.postValue(ProfileUserViewModel.State.NOT)
-                        if(it.isNotEmpty()){
-                            binding.readMore.visibility=View.VISIBLE
+                        if (it.isNotEmpty()) {
+                            binding.readMore.visibility = View.VISIBLE
                         }
-                    }else if(viewModel.linkState.value==ProfileUserViewModel.State.NOT){
+                    } else if (viewModel.linkState.value == ProfileUserViewModel.State.NOT) {
 
-                    } else{
-                        binding.readMore.visibility=View.INVISIBLE
+                    } else {
+                        binding.readMore.visibility = View.INVISIBLE
                         val last = it.last()
                         val list = adapter.list
                         if (!list.contains(last)) {
@@ -414,21 +421,20 @@ class ProfileUserFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener {
 
                 }
             }
-            linkState.observe(viewLifecycleOwner){
-                if(it==ProfileUserViewModel.State.NOT){
-                    val link=viewModel.userLinks.value?.first()
-                    if(link!=null){
+            linkState.observe(viewLifecycleOwner) {
+                if (it == ProfileUserViewModel.State.NOT) {
+                    val link = viewModel.userLinks.value?.first()
+                    if (link != null) {
                         adapter.addLink(link)
-                    }else{
+                    } else {
                         binding.recyclerView.showEmptyView()
                     }
-                }
-                else if(it==ProfileUserViewModel.State.EXPANDED){
-                    val links=viewModel.userLinks.value
-                    val lastIndex=links?.lastIndex!!
-                    val data= mutableListOf<Link>()
-                    for(i in 1..lastIndex){
-                         data.add(links[i])
+                } else if (it == ProfileUserViewModel.State.EXPANDED) {
+                    val links = viewModel.userLinks.value
+                    val lastIndex = links?.lastIndex!!
+                    val data = mutableListOf<Link>()
+                    for (i in 1..lastIndex) {
+                        data.add(links[i])
                     }
                     adapter.addLinks(data)
                 }

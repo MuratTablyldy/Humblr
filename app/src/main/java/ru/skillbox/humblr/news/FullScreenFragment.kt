@@ -4,16 +4,13 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
@@ -41,7 +38,6 @@ import kotlinx.coroutines.launch
 import ru.skillbox.humblr.R
 import ru.skillbox.humblr.data.Result
 import ru.skillbox.humblr.data.entities.Link
-import ru.skillbox.humblr.data.entities.RedditVideo
 import ru.skillbox.humblr.data.entities.SubredditInfo
 import ru.skillbox.humblr.data.entities.Thing
 import ru.skillbox.humblr.data.interfaces.OnBottomSheetCallbacks
@@ -85,7 +81,7 @@ class FullScreenFragment : Fragment(R.layout.full_screen_md) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Com.Companion.NullComment.pages= emptyList()
+        Com.Companion.NullComment.pages = emptyList()
         val link = args.link
         viewModel.link.postValue(link)
         index = args.position
@@ -198,8 +194,8 @@ class FullScreenFragment : Fragment(R.layout.full_screen_md) {
             commentNumber.setCharacterLists(TickerUtils.provideNumberList())
             userName = binding.exoPlayer.findViewById(R.id.user_name)
             userName.setOnClickListener {
-                val autor=(viewModel.linkItem.value as Link.LinkRedditVideo).author
-                if(autor!=null)
+                val autor = (viewModel.linkItem.value as Link.LinkRedditVideo).author
+                if (autor != null)
                     (activity as MainActivity).navigateToProfile(autor)
             }
             avatarView = binding.exoPlayer.findViewById(R.id.user_avatar)
@@ -217,8 +213,8 @@ class FullScreenFragment : Fragment(R.layout.full_screen_md) {
             buttonSave.onClickListener {
                 if (it == MControllerView.State.RELEASED) {
                     lifecycleScope.launch {
-                        val link=viewModel.linkItem.value
-                        if(link!=null){
+                        val link = viewModel.linkItem.value
+                        if (link != null) {
                             link as Link.LinkRedditVideo
                             val result = viewModel.save(link.name!!, "link")
                             if (!result) {
@@ -230,8 +226,8 @@ class FullScreenFragment : Fragment(R.layout.full_screen_md) {
                     }
                 } else {
                     lifecycleScope.launch {
-                        val link=viewModel.linkItem.value
-                        if(link!=null){
+                        val link = viewModel.linkItem.value
+                        if (link != null) {
                             link as Link.LinkRedditVideo
                             val result = viewModel.unsave(link.name!!)
                             if (!result) {

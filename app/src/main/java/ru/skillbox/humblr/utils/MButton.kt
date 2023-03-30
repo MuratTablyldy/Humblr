@@ -2,10 +2,7 @@ package ru.skillbox.humblr.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
-
-import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import ru.skillbox.humblr.R
 

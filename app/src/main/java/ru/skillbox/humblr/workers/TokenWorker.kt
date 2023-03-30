@@ -29,13 +29,13 @@ class TokenWorker(context: Context, params: WorkerParameters) : CoroutineWorker(
                     tokenType
                 )
                 if (respose.isSuccess) {
-                    State.getInstance().expired.value=true
+                    State.getInstance().expired.value = true
                     sessionManager.removeToken()
                     continuation.resume(Result.success())
                 } else {
                     val failure = respose.exceptionOrNull()
                     val data = Data.Builder().putString(ERROR, failure.toString()).build()
-                    State.getInstance().error.value=failure
+                    State.getInstance().error.value = failure
                     continuation.resume(Result.failure(data))
                 }
             }
@@ -46,9 +46,10 @@ class TokenWorker(context: Context, params: WorkerParameters) : CoroutineWorker(
                     ERROR,
                     "token=$token, token_type=$tokenType, revoke_path=$revokePath"
                 ).build()
-           return Result.failure(data)
+            return Result.failure(data)
         }
     }
+
     companion object {
         const val TOKEN = "token"
         const val TOKEN_TYPE = "token_type"

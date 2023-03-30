@@ -9,9 +9,6 @@ import kotlinx.coroutines.*
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import retrofit2.Response
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
 import ru.skillbox.humblr.data.Result
 import ru.skillbox.humblr.data.entities.*
 import ru.skillbox.humblr.data.repositories.modules.TokenHolder
@@ -27,19 +24,24 @@ class MainRepository @Inject constructor(
 
     private val repository = networking.repository
     private val searchRepo = networking.repositorySearch
-    var tokenHolder: TokenHolder? = null
+    private var tokenHolder: TokenHolder? = null
     private val handler =
         CoroutineExceptionHandler { _, exception -> Log.e("exception", "$exception") }
 
-    fun revokeToken(){
-        val token=tokenHolder?.access_token
-        val type=tokenHolder?.token_type
-        if(token!=null && type!=null){
-            authSessionService.revokeToken("https://www.reddit.com/api/v1/revoke_token",token,type)
+    fun revokeToken() {
+        val token = tokenHolder?.access_token
+        val type = tokenHolder?.token_type
+        if (token != null && type != null) {
+            authSessionService.revokeToken(
+                "https://www.reddit.com/api/v1/revoke_token",
+                token,
+                type
+            )
             sessionManager.removeToken()
         }
     }
-    fun getDurationBeforeExpires(): Duration? {
+
+    private fun getDurationBeforeExpires(): Duration? {
         val expires = tokenHolder?.expires_when?.toLong()
         return if (expires != null) {
             val now = Instant.now()
@@ -56,8 +58,9 @@ class MainRepository @Inject constructor(
             Duration.between(now, end)
         } else null
     }
-    suspend fun getSubredditsAbout(ids:String):ru.skillbox.humblr.data.Result<Thing<Listing<Thing<SubredditInfo>>>>{
-        return invoke(Dispatchers.IO){
+
+    suspend fun getSubredditsAbout(ids: String): Result<Thing<Listing<Thing<SubredditInfo>>>> {
+        return invoke(Dispatchers.IO) {
             repository.getSubredditsAbout(
                 "bearer " + tokenHolder!!.access_token!!,
                 ids
@@ -156,7 +159,7 @@ class MainRepository @Inject constructor(
         language: String?,
         before: String?,
         after: String?,
-        limit:Int
+        limit: Int
     ): Result<Thing<Listing<Thing<Link>>>> {
         return invoke(Dispatchers.IO) {
             repository.getSubredditsHot(
@@ -164,7 +167,7 @@ class MainRepository @Inject constructor(
                 language = language,
                 beforeID = before,
                 afterID = after,
-                limit=limit
+                limit = limit
             )
         }
     }
@@ -173,7 +176,7 @@ class MainRepository @Inject constructor(
         language: String?,
         before: String?,
         after: String?,
-        limit:Int
+        limit: Int
     ): Result<Thing<Listing<Thing<Link>>>> {
         return invoke(Dispatchers.IO) {
             repository.getSubredditsNew(
@@ -187,7 +190,7 @@ class MainRepository @Inject constructor(
     }
 
     suspend fun getByID(scope: CoroutineScope, id: String) =
-        suspendCancellableCoroutine<Thing<Listing<Thing<Link>>>> { continuation ->
+        suspendCancellableCoroutine{ continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -206,7 +209,7 @@ class MainRepository @Inject constructor(
         }
 
     suspend fun getByParameter(scope: CoroutineScope, subreddit: String, parameter: String) =
-        suspendCancellableCoroutine<Thing<Listing<Thing<Link>>>> { continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -248,16 +251,17 @@ class MainRepository @Inject constructor(
                 }
             }
         }
-    suspend fun searchLink(query:String):Result<Thing<Listing<Thing<Link>>>>{
-        return invoke(Dispatchers.IO){
+
+    suspend fun searchLink(query: String): Result<Thing<Listing<Thing<Link>>>> {
+        return invoke(Dispatchers.IO) {
             searchRepo.search(
-                "bearer " + tokenHolder!!.access_token!!,query,"relevance",10
+                "bearer " + tokenHolder!!.access_token!!, query, "relevance", 10
             )
         }
     }
 
     suspend fun getCollection(scope: CoroutineScope, id: String, include: Boolean) =
-        suspendCancellableCoroutine<Thing<Listing<Any>>> { continuation ->
+        suspendCancellableCoroutine{ continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -276,7 +280,7 @@ class MainRepository @Inject constructor(
         }
 
     suspend fun getCollections(scope: CoroutineScope, name: String) =
-        suspendCancellableCoroutine<Thing<Listing<SubReddit>>> { continuation ->
+        suspendCancellableCoroutine{ continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -295,7 +299,7 @@ class MainRepository @Inject constructor(
         }
 
     suspend fun getUserInfo(scope: CoroutineScope, userName: String) =
-        suspendCancellableCoroutine<Thing<Account>> { continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch(handler) {
                     try {
@@ -412,7 +416,7 @@ class MainRepository @Inject constructor(
         scope: CoroutineScope,
         subreddit: String
     ) =
-        suspendCancellableCoroutine<Rules> { continuation ->
+        suspendCancellableCoroutine{ continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -434,7 +438,7 @@ class MainRepository @Inject constructor(
         scope: CoroutineScope,
         subreddit: String
     ) =
-        suspendCancellableCoroutine<EmojisCollection> { continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -468,7 +472,7 @@ class MainRepository @Inject constructor(
         scope: CoroutineScope,
         subredditCreator: SubredditCreator
     ) =
-        suspendCancellableCoroutine<Response<Unit>> { continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch(handler) {
                     val result = scope.async {
@@ -679,7 +683,13 @@ class MainRepository @Inject constructor(
         }
     }
 
-    suspend fun getFriends(before: String?, after: String?, count: Int?, limit: Int?,srDetail:Boolean):Result<Thing<Listing<Account>>> {
+    suspend fun getFriends(
+        before: String?,
+        after: String?,
+        count: Int?,
+        limit: Int?,
+        srDetail: Boolean
+    ): Result<Thing<Listing<Account>>> {
         return invoke(Dispatchers.IO) {
             repository.getFriends(
                 token = "bearer " + tokenHolder!!.access_token!!,
@@ -692,7 +702,14 @@ class MainRepository @Inject constructor(
             )
         }
     }
-    suspend fun getMineSubreddits(before: String?, after: String?, count: Int?, limit: Int?,srDetail:Boolean):Result<Thing<Listing<SubReddit>>>{
+
+    suspend fun getMineSubreddits(
+        before: String?,
+        after: String?,
+        count: Int?,
+        limit: Int?,
+        srDetail: Boolean
+    ): Result<Thing<Listing<SubReddit>>> {
         return invoke(Dispatchers.IO) {
             repository.getSubreddits(
                 token = "bearer " + tokenHolder!!.access_token!!,
@@ -705,7 +722,15 @@ class MainRepository @Inject constructor(
             )
         }
     }
-    suspend fun getUserSubreddits(userName:String,before: String?, after: String?, count: Int?, limit: Int?,srDetail:Boolean):Result<Thing<Listing<Thing<Link>>>>{
+
+    suspend fun getUserSubreddits(
+        userName: String,
+        before: String?,
+        after: String?,
+        count: Int?,
+        limit: Int?,
+        srDetail: Boolean
+    ): Result<Thing<Listing<Thing<Link>>>> {
         return invoke(Dispatchers.IO) {
             repository.getSubredditUser(
                 token = "bearer " + tokenHolder!!.access_token!!,
@@ -717,69 +742,84 @@ class MainRepository @Inject constructor(
                 show = "all",
                 username = userName,
                 context = 2,
-                type= RedditApi.Type.links,
+                type = RedditApi.Type.links,
                 time = RedditApi.Time.all,
-                sort=RedditApi.Sort.top
+                sort = RedditApi.Sort.top
             )
         }
     }
+
     suspend fun getSavedSubreddit(
-        username:String,
+        username: String,
         after: String?,
         before: String?,
         count: Int?,
         limit: Int?,
-        srDetail:Boolean?,
-        show:String,
+        srDetail: Boolean?,
+        show: String,
         time: RedditApi.Time,
-        context:Int,
+        context: Int,
         sort: RedditApi.Sort
-    ):Result<Thing<Listing<Thing<Link>>>>{
-       return invoke(Dispatchers.IO){
-           repository.getSubredditSaved(
-               token = "bearer " + tokenHolder!!.access_token!!,
-               username, after, before, count, limit, srDetail, show, RedditApi.Type.links, time, context, sort
-           )
-       }
+    ): Result<Thing<Listing<Thing<Link>>>> {
+        return invoke(Dispatchers.IO) {
+            repository.getSubredditSaved(
+                token = "bearer " + tokenHolder!!.access_token!!,
+                username,
+                after,
+                before,
+                count,
+                limit,
+                srDetail,
+                show,
+                RedditApi.Type.links,
+                time,
+                context,
+                sort
+            )
+        }
     }
-    suspend fun getCommentsMine(username:String,
-                                 after: String?,
-                                 before: String?,
-                                count: Int?,
-                                 limit: Int?,
-                                srDetail:Boolean?,
-                                time: RedditApi.Time,
-                                context:Int,
-                                sort: RedditApi.Sort
-    ):Result<Thing<Listing<Thing<Comment>>>>{
-        return invoke(Dispatchers.IO){
+
+    suspend fun getCommentsMine(
+        username: String,
+        after: String?,
+        before: String?,
+        count: Int?,
+        limit: Int?,
+        srDetail: Boolean?,
+        time: RedditApi.Time,
+        context: Int,
+        sort: RedditApi.Sort
+    ): Result<Thing<Listing<Thing<Comment>>>> {
+        return invoke(Dispatchers.IO) {
             repository.getCommentsMine(
                 token = "bearer " + tokenHolder!!.access_token!!,
                 username = username,
                 after = after,
-            before = before,
-            count = count,
-            limit = limit,
-            srDetail = srDetail,
-            show = "given",
-            type = RedditApi.Type.comments,
-            time = time,
-            context = context,
-            sort = sort
+                before = before,
+                count = count,
+                limit = limit,
+                srDetail = srDetail,
+                show = "given",
+                type = RedditApi.Type.comments,
+                time = time,
+                context = context,
+                sort = sort
             )
         }
     }
-    suspend fun getCommentsSaved(username:String,
-                                after: String?,
-                                before: String?,
-                                count: Int?,
-                                limit: Int?,
-                                srDetail:Boolean?,
-                                time: RedditApi.Time,
-                                context:Int,
-                                sort: RedditApi.Sort
-    ):Result<Thing<Listing<Thing<Comment>>>>{
-        return invoke(Dispatchers.IO){
+
+    suspend fun getCommentsSaved(
+        username: String,
+        after: String?,
+        before: String?,
+        count: Int?,
+        limit: Int?,
+        srDetail: Boolean?,
+        time: RedditApi.Time,
+        context: Int,
+        sort: RedditApi.Sort
+    ): Result<Thing<Listing<Thing<Comment>>>> {
+        return invoke(Dispatchers.IO) {
             repository.getCommentsSaved(
                 token = "bearer " + tokenHolder!!.access_token!!,
                 username = username,
@@ -796,17 +836,19 @@ class MainRepository @Inject constructor(
             )
         }
     }
-    suspend fun getSubredditSaved(username:String,
-                                 after: String?,
-                                 before: String?,
-                                 count: Int?,
-                                 limit: Int?,
-                                 srDetail:Boolean?,
-                                 time: RedditApi.Time,
-                                 context:Int,
-                                 sort: RedditApi.Sort
-    ):Result<Thing<Listing<Thing<Link>>>>{
-        return invoke(Dispatchers.IO){
+
+    suspend fun getSubredditSaved(
+        username: String,
+        after: String?,
+        before: String?,
+        count: Int?,
+        limit: Int?,
+        srDetail: Boolean?,
+        time: RedditApi.Time,
+        context: Int,
+        sort: RedditApi.Sort
+    ): Result<Thing<Listing<Thing<Link>>>> {
+        return invoke(Dispatchers.IO) {
             repository.getSubredditSaved(
                 token = "bearer " + tokenHolder!!.access_token!!,
                 username = username,
@@ -825,30 +867,32 @@ class MainRepository @Inject constructor(
     }
 
     suspend fun save(
-        category:String,
-        fullname:String
-    ):Result<Unit>{
+        category: String,
+        fullname: String
+    ): Result<Unit> {
         return invoke(Dispatchers.IO) {
             repository.save(token = "bearer " + tokenHolder!!.access_token!!, category, fullname)
         }
     }
+
     suspend fun unsave(
-        fullname:String
-    ):Result<Unit>{
+        fullname: String
+    ): Result<Unit> {
         return invoke(Dispatchers.IO) {
             repository.unsave(token = "bearer " + tokenHolder!!.access_token!!, fullname)
         }
     }
 
-    suspend fun getCatigories(
-        fullname:String
-    ):Result<String>{
+    /*suspend fun getCatigories(
+        fullname: String
+    ): Result<String> {
         return invoke(Dispatchers.IO) {
             repository.getSavedCategories(token = "bearer " + tokenHolder!!.access_token!!)
         }
-    }
-    suspend fun sendMessage(subject:String,text:String,to:String):Result<String>{
-        return invoke(Dispatchers.IO){
+    }*/
+
+    suspend fun sendMessage(subject: String, text: String, to: String): Result<String> {
+        return invoke(Dispatchers.IO) {
             repository.sendMessage(
                 token = "bearer " + tokenHolder!!.access_token!!,
                 "json",
@@ -856,8 +900,6 @@ class MainRepository @Inject constructor(
             )
         }
     }
-
-
 
     class TokenISInvalidException : Exception("Token has been expired or revoked")
 }

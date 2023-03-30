@@ -6,16 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.skillbox.humblr.data.Result
 import ru.skillbox.humblr.data.entities.*
 import ru.skillbox.humblr.data.repositories.MainRepository
 import ru.skillbox.humblr.data.repositories.RedditApi
-import ru.skillbox.humblr.utils.Com
 import ru.skillbox.humblr.utils.SingleLiveEvent
 import java.lang.Exception
 import javax.inject.Inject
@@ -32,32 +27,33 @@ class DetailTextViewModel @Inject constructor(private val repository: MainReposi
     private val _link = MutableLiveData<Link.LinkText>(null)
     val link: LiveData<Link.LinkText>
         get() = _link
-    val subInfo=MutableLiveData<SubredditInfo>()
-    val exceptions=SingleLiveEvent<Exception>()
+    val subInfo = MutableLiveData<SubredditInfo>()
+    val exceptions = SingleLiveEvent<Exception>()
     val me = MutableLiveData<Account?>()
     val state = MutableLiveData(State.INIT)
-    var currentPage=1
+    var currentPage = 1
     val pageList = MutableLiveData<MutableList<Comment>>(null)
 
     suspend fun vote(dir: Int, id: String, rank: Int?) =
         repository.vote(dir, id, rank)
 
-    suspend fun save(fullname:String,category:String):Boolean{
-        return when(repository.save(fullname = fullname, category = category)){
-            is Result.Success->{
+    suspend fun save(fullname: String, category: String): Boolean {
+        return when (repository.save(fullname = fullname, category = category)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
     }
-    suspend fun unsave(fullname:String):Boolean{
-        return when(repository.unsave(fullname = fullname)){
-            is Result.Success->{
+
+    suspend fun unsave(fullname: String): Boolean {
+        return when (repository.unsave(fullname = fullname)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
@@ -95,7 +91,7 @@ class DetailTextViewModel @Inject constructor(private val repository: MainReposi
             when (value) {
                 is Result.Success -> {
                     val array = value.data
-                    Log.d("link",array[0].data.children?.first()?.data.toString())
+                    Log.d("link", array[0].data.children?.first()?.data.toString())
                     val linkq = array[0].data.children?.first()?.data as Link.LinkText
                     _link.postValue(linkq)
                     comments = mutableListOf()
@@ -233,8 +229,10 @@ class DetailTextViewModel @Inject constructor(private val repository: MainReposi
         }
     }
 
-    suspend fun subscribe(action: RedditApi.SubscibeType, skip:Boolean?, srName:String)=repository.subscribe(action,skip,srName)
-    suspend fun getSubredditAbout(subreddit:String)=
+    suspend fun subscribe(action: RedditApi.SubscibeType, skip: Boolean?, srName: String) =
+        repository.subscribe(action, skip, srName)
+
+    suspend fun getSubredditAbout(subreddit: String) =
         repository.getSubredditAbout(subreddit)
 
     enum class State {

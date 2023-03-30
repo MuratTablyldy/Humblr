@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kohii.v1.core.Rebinder
 import kohii.v1.media.VolumeInfo
 import kotlinx.coroutines.launch
@@ -23,10 +22,11 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
     val comments = MutableLiveData<List<Comment>>(emptyList())
     val me = MutableLiveData<Account>()
     val recyclerViewVolume = MutableLiveData(VolumeInfo(true, 1F))
-    private val _selectedRebinder= MutableLiveData<Pair<Int, Rebinder?>>(-1 to null)
-    fun setRebinder(value: Pair<Int, Rebinder?>){
+    private val _selectedRebinder = MutableLiveData<Pair<Int, Rebinder?>>(-1 to null)
+    fun setRebinder(value: Pair<Int, Rebinder?>) {
         _selectedRebinder.postValue(value)
     }
+
     val rebinder: LiveData<Pair<Int, Rebinder?>>
         get() = _selectedRebinder
 
@@ -58,27 +58,28 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
             )
             when (result) {
                 is Result.Success -> {
-                    val data=result.data.data.children?.map { it.data }
-                    if(data.isNullOrEmpty()){
+                    val data = result.data.data.children?.map { it.data }
+                    if (data.isNullOrEmpty()) {
                         onEmpty.invoke()
-                    }else{
-                        progress.max=data.size.toFloat()
-                        var index=0f
-                        val ids=data.map { link->link.getSubredditI() }.reduce{first,second->"$first,$second"}
-                        val res=repository.getSubredditsAbout(ids)
-                        var infos:List<SubredditInfo>?=null
-                        when(res){
-                            is Result.Success->{
-                                infos=res.data.data.children?.map { it.data }
+                    } else {
+                        progress.max = data.size.toFloat()
+                        var index = 0f
+                        val ids = data.map { link -> link.getSubredditI() }
+                            .reduce { first, second -> "$first,$second" }
+                        val res = repository.getSubredditsAbout(ids)
+                        var infos: List<SubredditInfo>? = null
+                        when (res) {
+                            is Result.Success -> {
+                                infos = res.data.data.children?.map { it.data }
                             }
-                            is Result.Error->{
+                            is Result.Error -> {
                                 exceptions.postValue(res.exception)
                             }
                         }
-                        data.forEach { link->
-                            val info=infos?.find { it.displayName==link.getSubredditI() }
-                            progress.progress=index++
-                            link.subInfo=info
+                        data.forEach { link ->
+                            val info = infos?.find { it.displayName == link.getSubredditI() }
+                            progress.progress = index++
+                            link.subInfo = info
                         }
                         links.postValue(data!!)
                     }
@@ -172,7 +173,14 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
     }
 
     fun getSubredditsMine(
-        userName:String,before: String?, after: String?, count: Int?, limit: Int?,srDetail:Boolean,onEmpty:()->Unit,progress: RoundCornerProgressBar
+        userName: String,
+        before: String?,
+        after: String?,
+        count: Int?,
+        limit: Int?,
+        srDetail: Boolean,
+        onEmpty: () -> Unit,
+        progress: RoundCornerProgressBar
     ) {
         viewModelScope.launch {
             val result = repository.getUserSubreddits(
@@ -180,13 +188,13 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
             )
             when (result) {
                 is Result.Success -> {
-                    val data=result.data.data.children?.map { it.data }
+                    val data = result.data.data.children?.map { it.data }
 
-                    if(data.isNullOrEmpty()){
+                    if (data.isNullOrEmpty()) {
                         onEmpty.invoke()
-                    }else{
-                        progress.max=data.size.toFloat()
-                        var index=0f
+                    } else {
+                        progress.max = data.size.toFloat()
+                        var index = 0f
                         /*data.forEach { link->
                             progress.progress=index++
                             when(val info=repository.getSubredditAbout(link.getSubredditI())){
@@ -197,21 +205,22 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
                                 }
                             }
                         }*/
-                        val ids=data.map { link->link.getSubredditI() }.reduce{first,second->"$first,$second"}
-                        val res=repository.getSubredditsAbout(ids)
-                        var infos:List<SubredditInfo>?=null
-                        when(res){
-                            is Result.Success->{
-                                infos=res.data.data.children?.map { it.data }
+                        val ids = data.map { link -> link.getSubredditI() }
+                            .reduce { first, second -> "$first,$second" }
+                        val res = repository.getSubredditsAbout(ids)
+                        var infos: List<SubredditInfo>? = null
+                        when (res) {
+                            is Result.Success -> {
+                                infos = res.data.data.children?.map { it.data }
                             }
-                            is Result.Error->{
+                            is Result.Error -> {
                                 exceptions.postValue(res.exception)
                             }
                         }
-                        data.forEach { link->
-                            val info=infos?.find { it.displayName==link.getSubredditI() }
-                            progress.progress=index++
-                            link.subInfo=info
+                        data.forEach { link ->
+                            val info = infos?.find { it.displayName == link.getSubredditI() }
+                            progress.progress = index++
+                            link.subInfo = info
                         }
                         links.postValue(data!!)
                     }
@@ -223,28 +232,33 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
             }
         }
     }
-    suspend fun getInfo(subName:String)=repository.getAccountInfo(subName)
 
-    suspend fun subscribe(action: RedditApi.SubscibeType, skip:Boolean?, srName:String)=repository.subscribe(action,skip,srName)
-    suspend fun getSubredditAbout(subreddit:String)=
+    suspend fun getInfo(subName: String) = repository.getAccountInfo(subName)
+
+    suspend fun subscribe(action: RedditApi.SubscibeType, skip: Boolean?, srName: String) =
+        repository.subscribe(action, skip, srName)
+
+    suspend fun getSubredditAbout(subreddit: String) =
         repository.getSubredditAbout(subreddit)
-    suspend fun vote(dir:Int,id:String,rank:Int?)=repository.vote(dir,id,rank)
-    suspend fun save(fullname:String,category:String):Boolean{
-        return when(repository.save(fullname = fullname, category = category)){
-            is Result.Success->{
+
+    suspend fun vote(dir: Int, id: String, rank: Int?) = repository.vote(dir, id, rank)
+    suspend fun save(fullname: String, category: String): Boolean {
+        return when (repository.save(fullname = fullname, category = category)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
     }
-    suspend fun unsave(fullname:String):Boolean{
-        return when(repository.unsave(fullname = fullname)){
-            is Result.Success->{
+
+    suspend fun unsave(fullname: String): Boolean {
+        return when (repository.unsave(fullname = fullname)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }

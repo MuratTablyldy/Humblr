@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.text.HtmlCompat
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +25,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.Fade
 import androidx.transition.Scene
 import androidx.transition.Transition
-import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -47,7 +44,6 @@ import ru.skillbox.humblr.data.repositories.RedditApi
 import ru.skillbox.humblr.utils.adapters.DetailPagerAdapter
 import ru.skillbox.humblr.databinding.DetailFragmentBinding
 import ru.skillbox.humblr.databinding.FullScreenLayoutMBinding
-import ru.skillbox.humblr.databinding.LoadingViewBinding
 import ru.skillbox.humblr.databinding.LoadingViewPrevBinding
 import ru.skillbox.humblr.databinding.WriteCommentLayoutBinding
 import ru.skillbox.humblr.mainPackage.MainActivity
@@ -67,7 +63,7 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
     val binding: DetailFragmentBinding
         get() = _binding!!
     val viewModel: DetailViewModel by viewModels()
-    val rootView:FrameLayout?=null
+    val rootView: FrameLayout? = null
     lateinit var adapter: CommentsDelegateAdapter
     private lateinit var pagerAdapter: DetailPagerAdapter
     private val args: DetailFragmentArgs by navArgs()
@@ -75,12 +71,12 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
     private var _binding2: WriteCommentLayoutBinding? = null
     val binding2: WriteCommentLayoutBinding
         get() = _binding2!!
-    var _bindingLoad:LoadingViewPrevBinding?=null
-    val bindingLoad:LoadingViewPrevBinding
-    get() = _bindingLoad!!
+    var _bindingLoad: LoadingViewPrevBinding? = null
+    val bindingLoad: LoadingViewPrevBinding
+        get() = _bindingLoad!!
     private lateinit var scene: Scene
     private lateinit var scene2: Scene
-    private lateinit var screneLoading:Scene
+    private lateinit var screneLoading: Scene
     private var land = false
 
 
@@ -90,16 +86,16 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
         savedInstanceState: Bundle?
     ): View {
         land = resources.getBoolean(R.bool.land)
-        Com.Companion.NullComment.pages= emptyList()
+        Com.Companion.NullComment.pages = emptyList()
         Com.Companion.NullComment.setPagesCount(0)
         _bindingMain = FullScreenLayoutMBinding.inflate(inflater, container, false)
         _binding2 = WriteCommentLayoutBinding.inflate(inflater, null, false)
         _binding = DetailFragmentBinding.inflate(inflater, null, false)
-        _bindingLoad= LoadingViewPrevBinding.inflate(inflater,container,false)
+        _bindingLoad = LoadingViewPrevBinding.inflate(inflater, container, false)
         if (!land) {
             scene = Scene(bindingMain.root, binding2.root)
             scene2 = Scene(bindingMain.root, binding.root)
-            screneLoading= Scene(bindingMain.root,bindingLoad.root)
+            screneLoading = Scene(bindingMain.root, bindingLoad.root)
             TransitionManager.go(screneLoading, fadeTransition)
         }
 
@@ -110,11 +106,11 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.userName.setOnClickListener {
-            val autor=viewModel.link.value?.author
-            if(autor!=null)
-            (activity as MainActivity).navigateToProfile(autor)
+            val autor = viewModel.link.value?.author
+            if (autor != null)
+                (activity as MainActivity).navigateToProfile(autor)
         }
-        bindingLoad.progressL.max=3f
+        bindingLoad.progressL.max = 3f
         binding.voteNumber.setCharacterLists(TickerUtils.provideNumberList())
         binding.commentNumber.setCharacterLists(TickerUtils.provideNumberList())
         adapter = CommentsDelegateAdapter(lifecycleScope, this)
@@ -430,7 +426,7 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
                     }
 
                     binding2.editor.html = ""
-                    TransitionManager.go(scene2,fadeTransition)
+                    TransitionManager.go(scene2, fadeTransition)
                     binding.rec.recyclerView.scrollToPosition(list.lastIndex)
                 }
             }
@@ -640,7 +636,7 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
                         bind(layout, commentR)
                         group.addView(layout, 0)
                         binding2.editor.html = ""
-                        TransitionManager.go(scene2,fadeTransition)
+                        TransitionManager.go(scene2, fadeTransition)
                     } else {
                         val group = parent as LinearLayoutCompat
                         val index = group.indexOfChild(view)
@@ -889,7 +885,7 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
         viewModel.apply {
             link.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    bindingLoad.progressL.progress=1f
+                    bindingLoad.progressL.progress = 1f
                     if (!land) {
                         val instant =
                             viewModel.link.value?.createdUTC?.let { Instant.ofEpochSecond(it) }
@@ -929,7 +925,7 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
                         binding.upVote.isEnabled = true
                         binding.downVote.isEnabled = true
                         lifecycleScope.launch {
-                            bindingLoad.progressL.progress=2f
+                            bindingLoad.progressL.progress = 2f
                             binding.commentNumber.text = it.numComments
                             binding.voteNumber.text = (it.ups - it.downs).toString()
                             binding.userName.text = it.author
@@ -970,8 +966,8 @@ class DetailFragment : Fragment(), CommentAdapter.CommentHandler {
                 if (!land) {
                     if (it.userIsSubscriber == true) {
                         binding.join.changeState(MControllerView.State.SELECTED)
-                        bindingLoad.progressL.progress=3f
-                        TransitionManager.go(scene2,fadeTransition)
+                        bindingLoad.progressL.progress = 3f
+                        TransitionManager.go(scene2, fadeTransition)
                     }
                 }
             }

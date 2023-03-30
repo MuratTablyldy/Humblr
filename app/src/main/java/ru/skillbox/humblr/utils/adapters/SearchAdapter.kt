@@ -15,13 +15,15 @@ import ru.skillbox.humblr.data.entities.Link
 import ru.skillbox.humblr.databinding.ImageItemViewBinding
 import ru.skillbox.humblr.databinding.TextItemViewBinding
 
-class SearchAdapter(val onClick:(Link)->Unit) : RecyclerView.Adapter<SearchAdapter.BaseViewHolder>() {
+class SearchAdapter(val onClick: (Link) -> Unit) :
+    RecyclerView.Adapter<SearchAdapter.BaseViewHolder>() {
 
     val differ = AsyncListDiffer(this, CommentDiffUtil())
 
-    fun setList(list: List<Link>){
+    fun setList(list: List<Link>) {
         differ.submitList(list)
     }
+
     override fun getItemViewType(position: Int): Int {
         val item = differ.currentList[position]
         return when (item) {
@@ -142,7 +144,7 @@ class SearchAdapter(val onClick:(Link)->Unit) : RecyclerView.Adapter<SearchAdapt
             }
             is Link.LinkYouTube -> {
                 val holderM = holder as BaseViewHolder.ImageViewHolder
-                val url="https://img.youtube.com/vi/${item.youtubeId}/0.jpg"
+                val url = "https://img.youtube.com/vi/${item.youtubeId}/0.jpg"
                 val binding = holderM.binding
                 holder.itemView.setOnClickListener {
                     onClick.invoke(item)
@@ -269,7 +271,7 @@ class SearchAdapter(val onClick:(Link)->Unit) : RecyclerView.Adapter<SearchAdapt
                 holder.itemView.setOnClickListener {
                     onClick.invoke(item)
                 }
-                val url=item.preview?.images?.last()?.source?.url?.replace("amp;","")
+                val url = item.preview?.images?.last()?.source?.url?.replace("amp;", "")
                 val binding = holderM.binding
                 Glide.with(binding!!.root).load(url).into(binding.imageView)
                 binding.redditName.text = item.subreddit

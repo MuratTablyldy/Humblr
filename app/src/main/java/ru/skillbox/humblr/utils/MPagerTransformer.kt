@@ -6,7 +6,7 @@ import androidx.viewpager2.widget.ViewPager2
 import kotlin.math.abs
 
 
-class MPagerTransformer(private val offscreenPageLimit: Int):ViewPager2.PageTransformer {
+class MPagerTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTransformer {
     companion object {
 
         private const val DEFAULT_TRANSLATION_X = .0f

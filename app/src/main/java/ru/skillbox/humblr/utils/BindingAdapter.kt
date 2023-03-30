@@ -1,7 +1,5 @@
 package ru.skillbox.humblr.utils
 
-import android.os.Handler
-import android.os.Looper
 import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.BindingAdapter

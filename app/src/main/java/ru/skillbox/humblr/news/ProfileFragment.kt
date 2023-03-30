@@ -3,7 +3,6 @@ package ru.skillbox.humblr.news
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +23,6 @@ import ru.skillbox.humblr.data.interfaces.Created
 import ru.skillbox.humblr.data.repositories.RedditApi
 import ru.skillbox.humblr.databinding.UserInfoFragmentBinding
 import ru.skillbox.humblr.mainPackage.MainActivity
-import ru.skillbox.humblr.utils.Com
-
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -33,7 +30,7 @@ class ProfileFragment : Fragment() {
     val binding: UserInfoFragmentBinding
         get() = _binding!!
     val viewModel: ProfileViewModel by viewModels()
-    var sharedPreff:SharedPreferences?=null
+    var sharedPreff: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,24 +44,24 @@ class ProfileFragment : Fragment() {
     @OptIn(InternalCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPreff=(activity as MainActivity).getSharedPreferences("night",0)
-        val isNight=sharedPreff?.getBoolean("night_mode",false)
-        if(isNight==true){
+        sharedPreff = (activity as MainActivity).getSharedPreferences("night", 0)
+        val isNight = sharedPreff?.getBoolean("night_mode", false)
+        if (isNight == true) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            binding.switchy.isChecked=true
+            binding.switchy.isChecked = true
         }
         binding.switchy.setOnCheckedChangeListener { compoundButton, isChecked ->
-            if(isChecked){
-                binding.switchy.isChecked=true
+            if (isChecked) {
+                binding.switchy.isChecked = true
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                val editor=sharedPreff!!.edit()
-                editor.putBoolean("night_mode",true)
+                val editor = sharedPreff!!.edit()
+                editor.putBoolean("night_mode", true)
                 editor.apply()
-            } else{
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                val editor=sharedPreff!!.edit()
-                binding.switchy.isChecked=false
-                editor.putBoolean("night_mode",false)
+                val editor = sharedPreff!!.edit()
+                binding.switchy.isChecked = false
+                editor.putBoolean("night_mode", false)
                 editor.apply()
             }
         }

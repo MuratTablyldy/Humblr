@@ -104,6 +104,5 @@ class ToolbarBehavior : AppBarLayout.Behavior {
                 }
             }
         } else scrollableRecyclerView = true
-
     }
 }

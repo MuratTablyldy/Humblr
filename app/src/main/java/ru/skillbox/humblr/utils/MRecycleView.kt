@@ -1,13 +1,10 @@
 package ru.skillbox.humblr.utils
 
 import android.content.Context
-
 import android.util.AttributeSet
 import android.view.View
-
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
-
 import androidx.recyclerview.widget.DividerItemDecoration
 import ru.skillbox.humblr.utils.adapters.MViewHolder
 
@@ -32,14 +29,15 @@ class MRecycleView : RecyclerView {
             override fun onChildViewAttachedToWindow(view: View) {
                 val holder = getChildViewHolder(view)
                 if (holder is MViewHolder.NewsWithRedditVideoHolder) {
-                   // holder.binding?.playerView?.onResume()
+                    // holder.binding?.playerView?.onResume()
 
                 }
             }
+
             override fun onChildViewDetachedFromWindow(view: View) {
                 val holder = getChildViewHolder(view)
                 if (holder is MViewHolder.NewsWithRedditVideoHolder) {
-                  //  holder.pause()
+                    //  holder.pause()
                 }
             }
         })

@@ -26,7 +26,7 @@ class RedditWithPictAdapter(private val listener: MListener) :
     override fun onCreateViewHolder(parent: ViewGroup): MViewHolder.WithPictRedditViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = SubredditPictLayoutViewBinding.inflate(inflater)
-        binding.root.setPadding(40.dp,20.dp,40.dp,20.dp)
+        binding.root.setPadding(40.dp, 20.dp, 40.dp, 20.dp)
         return MViewHolder.WithPictRedditViewHolder(binding.root)
     }
 
@@ -35,30 +35,30 @@ class RedditWithPictAdapter(private val listener: MListener) :
         holder: MViewHolder.WithPictRedditViewHolder,
         payloads: MutableList<Any>
     ) {
-        val pages=item.getImages()
+        val pages = item.getImages()
         val adapter = WithPictPagerAdapter(pages) {
             listener.onPict(holder.binding!!.pagerView, item.permalink)
         }
         holder.binding?.item = item
         holder.binding?.userName?.setOnClickListener {
-            if(item.author!=null){
+            if (item.author != null) {
                 listener.navigateToUser(item.author!!)
             }
         }
-        holder.binding?.pagerView?.adapter=adapter
+        holder.binding?.pagerView?.adapter = adapter
         holder.binding!!.pagerView.setOnClickListener {
-            listener.onText(it,item.getLink())
+            listener.onText(it, item.getLink())
         }
-        holder.binding!!.commentButton.text=item.numComments
+        holder.binding!!.commentButton.text = item.numComments
         holder.binding!!.commentButton.setOnClickListener {
-            listener.onText(it,item.getLink())
+            listener.onText(it, item.getLink())
         }
-        if(pages.size>1){
+        if (pages.size > 1) {
 
-            holder.binding!!.dotsIndicator.visibility=View.VISIBLE
-            holder.binding!!.counter.visibility=View.VISIBLE
+            holder.binding!!.dotsIndicator.visibility = View.VISIBLE
+            holder.binding!!.counter.visibility = View.VISIBLE
             holder.binding?.dotsIndicator?.setViewPager2(holder.binding!!.pagerView)
-            val res=holder.binding!!.pagerView.context.resources
+            val res = holder.binding!!.pagerView.context.resources
             holder.binding!!.counter.text =
                 String.format(res.getString(R.string.page_count), 1, adapter.itemCount)
             holder.binding!!.pagerView.registerOnPageChangeCallback(object :
@@ -73,15 +73,26 @@ class RedditWithPictAdapter(private val listener: MListener) :
                 }
             })
         } else {
-            holder.binding!!.dotsIndicator.visibility=View.GONE
-            holder.binding!!.counter.visibility=View.GONE
+            holder.binding!!.dotsIndicator.visibility = View.GONE
+            holder.binding!!.counter.visibility = View.GONE
         }
         holder.binding?.join?.onClickListener {
-            item.subInfo?.name?.let { it1 -> listener.onJoin(holder.binding!!.join, it1,holder.binding!!.textView) }
+            item.subInfo?.name?.let { it1 ->
+                listener.onJoin(
+                    holder.binding!!.join,
+                    it1,
+                    holder.binding!!.textView
+                )
+            }
         }
-        if(item.subInfo!=null){
-            if(item.subInfo!!.userIsSubscriber == true){
-                holder.binding!!.textView.setColor(holder.itemView.context.resources.getColor(R.color.selected,null))
+        if (item.subInfo != null) {
+            if (item.subInfo!!.userIsSubscriber == true) {
+                holder.binding!!.textView.setColor(
+                    holder.itemView.context.resources.getColor(
+                        R.color.selected,
+                        null
+                    )
+                )
                 holder.binding?.join?.changeState(MControllerView.State.SELECTED)
             }
 
@@ -89,9 +100,12 @@ class RedditWithPictAdapter(private val listener: MListener) :
         }
 
 
-        val params=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,RecyclerView.LayoutParams.WRAP_CONTENT)
-        params.setMargins(20.dp,10.dp,20.dp,20.dp)
-        holder.itemView.layoutParams=params
+        val params = RecyclerView.LayoutParams(
+            RecyclerView.LayoutParams.MATCH_PARENT,
+            RecyclerView.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(20.dp, 10.dp, 20.dp, 20.dp)
+        holder.itemView.layoutParams = params
 
         /*params.setMargins(left, top, right, bottom)
         yourbutton.setLayoutParams(params)*/

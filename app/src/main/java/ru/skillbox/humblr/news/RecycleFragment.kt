@@ -39,7 +39,7 @@ import ru.skillbox.humblr.utils.adapters.RecyclePagerAdapter.Companion.ARG_TYPE
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
+class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
     private var _kohii: Kohii? = null
     private val kohii: Kohii
         get() = _kohii!!
@@ -51,8 +51,8 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
     private lateinit var layoutManager: LinearLayoutManager
     private var pos = 0
     var choise = 0
-    var loading=false
-    private  var subsribers: HashMap<Int, MViewHolder.YoutubeViewHolder>?=null
+    var loading = false
+    private var subsribers: HashMap<Int, MViewHolder.YoutubeViewHolder>? = null
     val viewModel: RecycleViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,7 +99,7 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
             }
 
             override fun onPict(view: View, link: String) {
-                ViewCompat.setTransitionName(view,"local_screen")
+                ViewCompat.setTransitionName(view, "local_screen")
                 val options = activity?.let {
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         it,
@@ -172,12 +172,16 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
                 return lifecycleScope
             }
 
-            override fun onJoin(view: MControllerView, subredditName: String,textView:MTextView) {
+            override fun onJoin(view: MControllerView, subredditName: String, textView: MTextView) {
                 if (view.state == MControllerView.State.SELECTED) {
                     lifecycleScope.launch {
-                        when (viewModel.subscribe(RedditApi.SubscibeType.unsub, null, subredditName)) {
+                        when (viewModel.subscribe(
+                            RedditApi.SubscibeType.unsub,
+                            null,
+                            subredditName
+                        )) {
                             is Result.Success -> {
-                                textView.setColor(resources.getColor(R.color.unselected,null))
+                                textView.setColor(resources.getColor(R.color.unselected, null))
                             }
                             is Result.Error -> {
                                 view.changeState(MControllerView.State.SELECTED)
@@ -187,9 +191,13 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
 
                 } else if (view.state == MControllerView.State.RELEASED) {
                     lifecycleScope.launch {
-                        when (viewModel.subscribe(RedditApi.SubscibeType.sub, true, subredditName)) {
+                        when (viewModel.subscribe(
+                            RedditApi.SubscibeType.sub,
+                            true,
+                            subredditName
+                        )) {
                             is Result.Success -> {
-                                textView.setColor(resources.getColor(R.color.selected,null))
+                                textView.setColor(resources.getColor(R.color.selected, null))
                             }
                             is Result.Error -> {
                                 view.changeState(MControllerView.State.RELEASED)
@@ -210,10 +218,11 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val lastIndex = layoutManager.findLastVisibleItemPosition()
-                if(adapter.getLink(lastIndex) is Link.LoadingLink && adapter.itemCount>0){
+                if (adapter.getLink(lastIndex) is Link.LoadingLink && adapter.itemCount > 0) {
                     startLoad()
                 }
             }
+
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 when (newState) {
@@ -278,8 +287,8 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
 
     fun bind() {
         viewModel.apply {
-            exceptions.observe(viewLifecycleOwner){
-                if(it!=null){
+            exceptions.observe(viewLifecycleOwner) {
+                if (it != null) {
                     binding.rec.showErrorView(it.message)
                     binding.rec.setOnRetryClickListener {
 
@@ -289,38 +298,38 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
             state.observe(viewLifecycleOwner) {
                 when (it!!) {
                     RecycleViewModel.State.NEW -> {
-                        binding.rec.visibility=View.INVISIBLE
-                        binding.progress.root.visibility=View.VISIBLE
-                        binding.progress.progressL.max=3f
-                        binding.progress.progressL.progress=0f
-                        viewModel.getSubredditNew(null, null, null,binding.progress.progressL)
+                        binding.rec.visibility = View.INVISIBLE
+                        binding.progress.root.visibility = View.VISIBLE
+                        binding.progress.progressL.max = 3f
+                        binding.progress.progressL.progress = 0f
+                        viewModel.getSubredditNew(null, null, null, binding.progress.progressL)
                     }
                     RecycleViewModel.State.ERROR -> {
                         binding.rec.showErrorView(viewModel.exceptions.value?.message)
                     }
                     RecycleViewModel.State.HOT -> {
-                        binding.rec.visibility=View.INVISIBLE
-                        binding.progress.root.visibility=View.VISIBLE
-                        binding.progress.progressL.max=3f
-                        binding.progress.progressL.progress=0f
-                        viewModel.getSubredditHot(null, null, null,binding.progress.progressL)
+                        binding.rec.visibility = View.INVISIBLE
+                        binding.progress.root.visibility = View.VISIBLE
+                        binding.progress.progressL.max = 3f
+                        binding.progress.progressL.progress = 0f
+                        viewModel.getSubredditHot(null, null, null, binding.progress.progressL)
                     }
                     RecycleViewModel.State.INIT -> {
 
                     }
-                    RecycleViewModel.State.HOT_LOADED->{
-                        binding.progress.root.visibility=View.INVISIBLE
-                        binding.rec.visibility=View.VISIBLE
+                    RecycleViewModel.State.HOT_LOADED -> {
+                        binding.progress.root.visibility = View.INVISIBLE
+                        binding.rec.visibility = View.VISIBLE
                         binding.rec.apply {
-                            alpha=0f
+                            alpha = 0f
                             animate().alpha(1f).setDuration(200).start()
                         }
                     }
-                    RecycleViewModel.State.NEW_LOADED->{
-                        binding.progress.root.visibility=View.INVISIBLE
-                        binding.rec.visibility=View.VISIBLE
+                    RecycleViewModel.State.NEW_LOADED -> {
+                        binding.progress.root.visibility = View.INVISIBLE
+                        binding.rec.visibility = View.VISIBLE
                         binding.rec.apply {
-                            alpha=0f
+                            alpha = 0f
                             animate().alpha(1f).setDuration(200).start()
                         }
                     }
@@ -335,7 +344,7 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
             }
             links.observe(viewLifecycleOwner) {
                 adapter.addLinks(it)
-                loading=false
+                loading = false
             }
         }
     }
@@ -390,21 +399,20 @@ class RecycleFragment : Fragment(),LCEERecyclerView2.OnLoad {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        subsribers?.forEach{
+        subsribers?.forEach {
             it.value.onDetached()
         }
     }
 
-    override fun startLoad():Boolean {
-        if (!loading){
-            loading=true
-            val last= viewModel.links.value?.get(viewModel.links.value!!.lastIndex) as Created
-            Log.d(viewModel.state.value.toString(),last.toString())
-            if(viewModel.state.value==RecycleViewModel.State.NEW_LOADED){
-                viewModel.getSubredditNew(null,null,last.getIds(),binding.progress.progressL)
-            }
-            else if (viewModel.state.value==RecycleViewModel.State.HOT_LOADED){
-                viewModel.getSubredditHot(null,null,last.getIds(),binding.progress.progressL)
+    override fun startLoad(): Boolean {
+        if (!loading) {
+            loading = true
+            val last = viewModel.links.value?.get(viewModel.links.value!!.lastIndex) as Created
+            Log.d(viewModel.state.value.toString(), last.toString())
+            if (viewModel.state.value == RecycleViewModel.State.NEW_LOADED) {
+                viewModel.getSubredditNew(null, null, last.getIds(), binding.progress.progressL)
+            } else if (viewModel.state.value == RecycleViewModel.State.HOT_LOADED) {
+                viewModel.getSubredditHot(null, null, last.getIds(), binding.progress.progressL)
             }
         }
         return false

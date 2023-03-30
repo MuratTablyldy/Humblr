@@ -44,7 +44,6 @@ import ru.skillbox.humblr.databinding.*
 import ru.skillbox.humblr.mainPackage.MainActivity
 import ru.skillbox.humblr.utils.Com
 import ru.skillbox.humblr.utils.MControllerView
-import ru.skillbox.humblr.utils.MFloatingActionButton
 import ru.skillbox.humblr.utils.adapters.CommentAdapter
 import ru.skillbox.humblr.utils.adapters.CommentsDelegateAdapter
 import ru.skillbox.humblr.utils.dp
@@ -68,10 +67,10 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
     private val fadeTransition: Transition = Fade()
     private val bindingMain: FullScreenLayoutMBinding
         get() = _bindingMain!!
-    var _bindingLoad: LoadingViewPrevBinding?=null
+    var _bindingLoad: LoadingViewPrevBinding? = null
     val bindingLoad: LoadingViewPrevBinding
         get() = _bindingLoad!!
-    private lateinit var screneLoading:Scene
+    private lateinit var screneLoading: Scene
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,16 +78,16 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
         savedInstanceState: Bundle?
     ): View {
         Com.Companion.NullComment.setPagesCount(0)
-        Com.Companion.NullComment.pages= emptyList()
+        Com.Companion.NullComment.pages = emptyList()
         land = resources.getBoolean(R.bool.land)
-        _bindingLoad= LoadingViewPrevBinding.inflate(inflater,container,false)
+        _bindingLoad = LoadingViewPrevBinding.inflate(inflater, container, false)
         _bindingMain = FullScreenLayoutMBinding.inflate(inflater, container, false)
         _binding2 = WriteCommentLayoutBinding.inflate(inflater, container, false)
         _binding = DetailLinkBinding.inflate(inflater, container, false)
         if (!land) {
             scene = Scene(bindingMain.root, binding2.root)
-            scene2 = Scene(bindingMain.root,binding.root)
-            screneLoading= Scene(bindingMain.root,bindingLoad.root)
+            scene2 = Scene(bindingMain.root, binding.root)
+            screneLoading = Scene(bindingMain.root, bindingLoad.root)
             TransitionManager.go(screneLoading, fadeTransition)
         }
         return bindingMain.root
@@ -97,39 +96,39 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
     @OptIn(InternalCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindingLoad.progressL.max=3f
+        bindingLoad.progressL.max = 3f
         binding.voteNumber.setCharacterLists(TickerUtils.provideNumberList())
         binding.back.setOnClickListener {
             activity?.onBackPressed()
         }
         binding.userName.setOnClickListener {
-            val autor=viewModel.link.value?.author
-            if(autor!=null)
+            val autor = viewModel.link.value?.author
+            if (autor != null)
                 (activity as MainActivity).navigateToProfile(autor)
         }
         binding.save.onClickListener {
-            if(it==MControllerView.State.RELEASED){
+            if (it == MControllerView.State.RELEASED) {
                 lifecycleScope.launch {
-                    val result=viewModel.save(viewModel.link.value?.name!!,"link")
-                    if(!result){
-                        binding.save.state=MControllerView.State.RELEASED
+                    val result = viewModel.save(viewModel.link.value?.name!!, "link")
+                    if (!result) {
+                        binding.save.state = MControllerView.State.RELEASED
                     } else {
-                        binding.save.state=MControllerView.State.SELECTED
+                        binding.save.state = MControllerView.State.SELECTED
                     }
                 }
             } else {
                 lifecycleScope.launch {
-                    val result=viewModel.unsave(viewModel.link.value?.name!!)
-                    if(!result){
-                        binding.save.state=MControllerView.State.SELECTED
+                    val result = viewModel.unsave(viewModel.link.value?.name!!)
+                    if (!result) {
+                        binding.save.state = MControllerView.State.SELECTED
                     } else {
-                        binding.save.state=MControllerView.State.RELEASED
+                        binding.save.state = MControllerView.State.RELEASED
                     }
                 }
             }
         }
         binding.commentNumber.setCharacterLists(TickerUtils.provideNumberList())
-        adapter = CommentsDelegateAdapter(lifecycleScope,this)
+        adapter = CommentsDelegateAdapter(lifecycleScope, this)
         val link = args.link.substring(1)
         binding.rec.setOnRetryClickListener {
             viewModel.exceptions.postValue(null)
@@ -138,14 +137,19 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
         binding.rec.recyclerView.adapter = adapter
         bind()
         binding.share.setOnClickListener {
-            val url=if(viewModel.link.value?.url?.contains("http")==false){
+            val url = if (viewModel.link.value?.url?.contains("http") == false) {
                 "https://${viewModel.link.value?.url}"
             } else viewModel.link.value?.url
 
             val intent = Intent(Intent.ACTION_VIEW)
             intent.setType("text/plain")
             intent.putExtra(Intent.EXTRA_TEXT, Uri.parse(url))
-            requireContext().startActivity(Intent.createChooser(intent,viewModel.link.value?.title))
+            requireContext().startActivity(
+                Intent.createChooser(
+                    intent,
+                    viewModel.link.value?.title
+                )
+            )
         }
         binding.rec.showLoadingView()
         binding.commentButton.setOnClickListener {
@@ -753,7 +757,7 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
                     .reduce { first, second -> "$first,$second" }
                 result += viewModel.getAccounts(ids!!)!!.users
                 from += 200
-                val prevto=to
+                val prevto = to
                 to = if (prevto + 200 < size) to + 200 else to + remainder
             }
             return result
@@ -861,10 +865,11 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
         viewModel.apply {
             link.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    bindingLoad.progressL.progress=1f
+                    bindingLoad.progressL.progress = 1f
                     if (!land) {
-                        val instant =  viewModel.link.value?.createdUTC?.let { Instant.ofEpochSecond(it) }
-                        val prefix =""
+                        val instant =
+                            viewModel.link.value?.createdUTC?.let { Instant.ofEpochSecond(it) }
+                        val prefix = ""
                         val now = Instant.now()
                         val duration = Duration.between(instant, now)
                         when {
@@ -893,7 +898,8 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
                                     )
                             }
                             else -> {
-                                binding.time.text = String.format(resources.getString(R.string.now), prefix)
+                                binding.time.text =
+                                    String.format(resources.getString(R.string.now), prefix)
                             }
                         }
                         binding.upVote.isEnabled = true
@@ -905,15 +911,15 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
                             binding.userName.text = it.author
                             binding.redditName.text = it.subreddit
                             binding.title.text = it.title
-                            binding.text.text=it.selftext
-                            binding.rich.setLink(it.url,lifecycleScope)
+                            binding.text.text = it.selftext
+                            binding.rich.setLink(it.url, lifecycleScope)
 
                             val info = it.author?.let { it1 ->
                                 viewModel.getInfo(it1)
                             }
                             when (info) {
                                 is Result.Success -> {
-                                    bindingLoad.progressL.progress=2f
+                                    bindingLoad.progressL.progress = 2f
                                     val iconLink = info.data.data.icon?.replace("amp;", "")
                                     binding.avatarView.let { it1 ->
                                         Glide.with(requireContext()).load(iconLink).into(it1)
@@ -940,8 +946,8 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
             }
             subInfo.observe(viewLifecycleOwner) {
                 if (!land) {
-                    bindingLoad.progressL.progress=3f
-                    TransitionManager.go(scene2,fadeTransition)
+                    bindingLoad.progressL.progress = 3f
+                    TransitionManager.go(scene2, fadeTransition)
                     if (it.userIsSubscriber == true) {
                         binding.join.changeState(MControllerView.State.SELECTED)
                     }
@@ -1053,6 +1059,6 @@ class DetailLinkFragment : Fragment(), CommentAdapter.CommentHandler {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        _binding2=null
+        _binding2 = null
     }
 }

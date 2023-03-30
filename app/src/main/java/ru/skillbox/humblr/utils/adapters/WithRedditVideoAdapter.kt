@@ -9,10 +9,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ui.PlayerView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import com.robinhood.ticker.TickerUtils
-import com.robinhood.ticker.TickerView
 import kohii.v1.core.Playback
 import ru.skillbox.humblr.R
 import ru.skillbox.humblr.data.entities.Link
@@ -51,23 +48,34 @@ class WithRedditVideoAdapter(val listener: MListener) :
             listener.onMute(holder.binding?.volumeOff!!)
         }
         holder.binding?.userName?.setOnClickListener {
-            if(item.author!=null){
+            if (item.author != null) {
                 listener.navigateToUser(item.author!!)
             }
         }
-        holder.binding?.redditName?.text=item.subreddit
-        holder.binding?.userName?.text=item.author
+        holder.binding?.redditName?.text = item.subreddit
+        holder.binding?.userName?.text = item.author
         holder.binding?.join?.onClickListener {
-            item.subInfo?.name?.let { it1 -> listener.onJoin(holder.binding!!.join, it1,holder.binding!!.textView) }
+            item.subInfo?.name?.let { it1 ->
+                listener.onJoin(
+                    holder.binding!!.join,
+                    it1,
+                    holder.binding!!.textView
+                )
+            }
         }
-        if(item.subInfo!=null){
-            if(item.subInfo!!.userIsSubscriber == true){
-                holder.binding!!.textView.setColor(holder.itemView.context.resources.getColor(R.color.selected,null))
+        if (item.subInfo != null) {
+            if (item.subInfo!!.userIsSubscriber == true) {
+                holder.binding!!.textView.setColor(
+                    holder.itemView.context.resources.getColor(
+                        R.color.selected,
+                        null
+                    )
+                )
                 holder.binding?.join?.changeState(MControllerView.State.SELECTED)
             }
         }
 
-        val url=item.preview?.images?.last()?.source?.url?.replace("amp;","")
+        val url = item.preview?.images?.last()?.source?.url?.replace("amp;", "")
         Glide.with(holder.binding!!.thumbnail).load(url)
             .into(holder.binding!!.thumbnail)
         if (listener.shouldRebindVideo(holder.rebinder)) {
@@ -75,9 +83,9 @@ class WithRedditVideoAdapter(val listener: MListener) :
                 tag = holder.videoTag!!
                 repeatMode = Player.REPEAT_MODE_ALL
                 artworkHintListener = holder
-                controller = object:Playback.Controller{
-                    override fun kohiiCanPause()=true
-                    override fun kohiiCanStart()=true
+                controller = object : Playback.Controller {
+                    override fun kohiiCanPause() = true
+                    override fun kohiiCanStart() = true
                     override fun setupRenderer(playback: Playback, renderer: Any?) {
                         super.setupRenderer(playback, renderer)
                         (renderer as View).setOnClickListener(holder)

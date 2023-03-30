@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.children
-import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import ru.skillbox.humblr.data.interfaces.Created
 import ru.skillbox.humblr.databinding.EmptyViewBinding
@@ -171,7 +170,7 @@ class NullCommentAdapter(val commentHandler: CommentAdapter.CommentHandler) :
                 val iterator = linearLayout.children.iterator()
                 var penult = 0
                 var addFirst = false
-                val pages= mutableListOf<String>()
+                val pages = mutableListOf<String>()
                 while (indexS <= lastIndex) {
                     val view = iterator.next() as TextView
                     when (indexS) {
@@ -212,12 +211,12 @@ class NullCommentAdapter(val commentHandler: CommentAdapter.CommentHandler) :
                     }
                     indexS++
                 }
-                val iter=linearLayout.children.iterator()
-                while (iter.hasNext()){
-                    val valy=iter.next() as TextView
+                val iter = linearLayout.children.iterator()
+                while (iter.hasNext()) {
+                    val valy = iter.next() as TextView
                     pages.add(valy.text.toString())
                 }
-                Com.Companion.NullComment.pages=pages
+                Com.Companion.NullComment.pages = pages
                 Com.Companion.NullComment.previousPage = lastChosenPage
                 onClick(lastChosenPage.toString(), linearLayout)
             }
@@ -227,7 +226,7 @@ class NullCommentAdapter(val commentHandler: CommentAdapter.CommentHandler) :
                 val iterator = linearLayout.children.iterator()
                 var firstView: TextView? = null
                 var removeFirst = false
-                val pages= mutableListOf<String>()
+                val pages = mutableListOf<String>()
                 while (index <= lastIndex) {
                     val view = iterator.next() as TextView
                     when (index) {
@@ -267,12 +266,12 @@ class NullCommentAdapter(val commentHandler: CommentAdapter.CommentHandler) :
                     }
                     index++
                 }
-                val iter=linearLayout.children.iterator()
-                while (iter.hasNext()){
-                    val valy=iter.next() as TextView
+                val iter = linearLayout.children.iterator()
+                while (iter.hasNext()) {
+                    val valy = iter.next() as TextView
                     pages.add(valy.text.toString())
                 }
-                Com.Companion.NullComment.pages=pages
+                Com.Companion.NullComment.pages = pages
                 Com.Companion.NullComment.previousPage = leftChosenPage
                 onClick(leftChosenPage.toString(), linearLayout)
             }

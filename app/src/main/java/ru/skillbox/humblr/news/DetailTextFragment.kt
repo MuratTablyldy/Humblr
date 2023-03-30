@@ -47,13 +47,12 @@ import ru.skillbox.humblr.databinding.WriteCommentLayoutBinding
 import ru.skillbox.humblr.mainPackage.MainActivity
 import ru.skillbox.humblr.utils.Com
 import ru.skillbox.humblr.utils.MControllerView
-import ru.skillbox.humblr.utils.MFloatingActionButton
 import ru.skillbox.humblr.utils.adapters.CommentAdapter
 import ru.skillbox.humblr.utils.adapters.CommentsDelegateAdapter
 import ru.skillbox.humblr.utils.dp
 
 @AndroidEntryPoint
-class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
+class DetailTextFragment : Fragment(), CommentAdapter.CommentHandler {
     private var _binding: DetailTextFragmentBinding? = null
     var land: Boolean = false
     val binding: DetailTextFragmentBinding
@@ -72,10 +71,10 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
     private val fadeTransition: Transition = Fade()
     private val bindingMain: FullScreenLayoutMBinding
         get() = _bindingMain!!
-    var _bindingLoad: LoadingViewPrevBinding?=null
+    var _bindingLoad: LoadingViewPrevBinding? = null
     val bindingLoad: LoadingViewPrevBinding
         get() = _bindingLoad!!
-    private lateinit var screneLoading:Scene
+    private lateinit var screneLoading: Scene
 
 
     override fun onCreateView(
@@ -84,16 +83,16 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
         savedInstanceState: Bundle?
     ): View {
         Com.Companion.NullComment.setPagesCount(0)
-        Com.Companion.NullComment.pages= emptyList()
+        Com.Companion.NullComment.pages = emptyList()
         land = resources.getBoolean(R.bool.land)
         _bindingMain = FullScreenLayoutMBinding.inflate(inflater, container, false)
         _binding2 = WriteCommentLayoutBinding.inflate(inflater, container, false)
         _binding = DetailTextFragmentBinding.inflate(inflater, container, false)
-        _bindingLoad= LoadingViewPrevBinding.inflate(inflater,container,false)
+        _bindingLoad = LoadingViewPrevBinding.inflate(inflater, container, false)
         if (!land) {
             scene = Scene(bindingMain.root, binding2.root)
-            scene2 = Scene(bindingMain.root,binding.root)
-            screneLoading= Scene(bindingMain.root,bindingLoad.root)
+            scene2 = Scene(bindingMain.root, binding.root)
+            screneLoading = Scene(bindingMain.root, bindingLoad.root)
             TransitionManager.go(screneLoading, fadeTransition)
         }
         return bindingMain.root
@@ -102,39 +101,39 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
     @OptIn(InternalCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindingLoad.progressL.max=3f
+        bindingLoad.progressL.max = 3f
         binding.voteNumber.setCharacterLists(TickerUtils.provideNumberList())
         binding.back.setOnClickListener {
             activity?.onBackPressed()
         }
         binding.userName.setOnClickListener {
-            val autor=viewModel.link.value?.author
-            if(autor!=null)
+            val autor = viewModel.link.value?.author
+            if (autor != null)
                 (activity as MainActivity).navigateToProfile(autor)
         }
         binding.save.onClickListener {
-            if(it==MControllerView.State.RELEASED){
+            if (it == MControllerView.State.RELEASED) {
                 lifecycleScope.launch {
-                    val result=viewModel.save(viewModel.link.value?.name!!,"link")
-                    if(!result){
-                        binding.save.state=MControllerView.State.RELEASED
+                    val result = viewModel.save(viewModel.link.value?.name!!, "link")
+                    if (!result) {
+                        binding.save.state = MControllerView.State.RELEASED
                     } else {
-                        binding.save.state=MControllerView.State.SELECTED
+                        binding.save.state = MControllerView.State.SELECTED
                     }
                 }
             } else {
                 lifecycleScope.launch {
-                    val result=viewModel.unsave(viewModel.link.value?.name!!)
-                    if(!result){
-                        binding.save.state=MControllerView.State.SELECTED
+                    val result = viewModel.unsave(viewModel.link.value?.name!!)
+                    if (!result) {
+                        binding.save.state = MControllerView.State.SELECTED
                     } else {
-                        binding.save.state=MControllerView.State.RELEASED
+                        binding.save.state = MControllerView.State.RELEASED
                     }
                 }
             }
         }
         binding.commentNumber.setCharacterLists(TickerUtils.provideNumberList())
-        adapter = CommentsDelegateAdapter(lifecycleScope,this)
+        adapter = CommentsDelegateAdapter(lifecycleScope, this)
         binding.rec.setOnRetryClickListener {
             viewModel.exceptions.postValue(null)
             viewModel.state.postValue(DetailTextViewModel.State.INIT)
@@ -288,14 +287,19 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
             binding2.editor.setBold()
         }
         binding.share.setOnClickListener {
-            val url=if(viewModel.link.value?.url?.contains("http")==false){
+            val url = if (viewModel.link.value?.url?.contains("http") == false) {
                 "https://${viewModel.link.value?.url}"
             } else viewModel.link.value?.url
 
             val intent = Intent(Intent.ACTION_VIEW)
             intent.setType("text/plain")
             intent.putExtra(Intent.EXTRA_TEXT, Uri.parse(url))
-            requireContext().startActivity(Intent.createChooser(intent,viewModel.link.value?.title))
+            requireContext().startActivity(
+                Intent.createChooser(
+                    intent,
+                    viewModel.link.value?.title
+                )
+            )
         }
         binding2.actionUnderline.setonClick {
             binding2.editor.setUnderline()
@@ -850,6 +854,7 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
             return viewModel.getAccounts(ids!!)!!.users
         }
     }
+
     fun bind(root: View, comment: Comment) {
         lifecycleScope.launch {
             val icon = comment.account?.profileImg
@@ -947,10 +952,11 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
         viewModel.apply {
             link.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    bindingLoad.progressL.progress=1f
+                    bindingLoad.progressL.progress = 1f
                     if (!land) {
-                        val instant =  viewModel.link.value?.createdUTC?.let { Instant.ofEpochSecond(it) }
-                        val prefix =""
+                        val instant =
+                            viewModel.link.value?.createdUTC?.let { Instant.ofEpochSecond(it) }
+                        val prefix = ""
                         val now = Instant.now()
                         val duration = Duration.between(instant, now)
                         when {
@@ -979,19 +985,20 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
                                     )
                             }
                             else -> {
-                                binding.time.text = String.format(resources.getString(R.string.now), prefix)
+                                binding.time.text =
+                                    String.format(resources.getString(R.string.now), prefix)
                             }
                         }
                         binding.upVote.isEnabled = true
                         binding.downVote.isEnabled = true
                         lifecycleScope.launch {
-                            bindingLoad.progressL.progress=2f
+                            bindingLoad.progressL.progress = 2f
                             binding.commentNumber.text = it.numComments
                             binding.voteNumber.text = (it.ups - it.downs).toString()
                             binding.userName.text = it.author
                             binding.redditName.text = it.subreddit
                             binding.title.text = it.title
-                            binding.text.text=it.selftext
+                            binding.text.text = it.selftext
 
                             val info = it.author?.let { it1 ->
                                 viewModel.getInfo(it1)
@@ -1024,8 +1031,8 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
             }
             subInfo.observe(viewLifecycleOwner) {
                 if (!land) {
-                    bindingLoad.progressL.progress=3f
-                    TransitionManager.go(scene2,fadeTransition)
+                    bindingLoad.progressL.progress = 3f
+                    TransitionManager.go(scene2, fadeTransition)
                     if (it.userIsSubscriber == true) {
                         binding.join.changeState(MControllerView.State.SELECTED)
                     }
@@ -1137,6 +1144,6 @@ class DetailTextFragment : Fragment(),CommentAdapter.CommentHandler {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        _binding2=null
+        _binding2 = null
     }
 }

@@ -1,7 +1,6 @@
 package ru.skillbox.humblr.news
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import ru.skillbox.humblr.R
-import ru.skillbox.humblr.data.entities.Account
 import ru.skillbox.humblr.databinding.FriendsListBinding
-import ru.skillbox.humblr.utils.AutoFitGridLayoutManager
 import ru.skillbox.humblr.utils.adapters.FriendsAdapter
-import ru.skillbox.humblr.utils.dp
 
 @AndroidEntryPoint
 class FriendsFragment : Fragment() {
@@ -46,7 +41,7 @@ class FriendsFragment : Fragment() {
         }
         viewModel.getFriends(null, null, null, null)
         adapter = FriendsAdapter {
-            val direction=FriendsFragmentDirections.actionFriendsFragmentToProfileUserFragment(it)
+            val direction = FriendsFragmentDirections.actionFriendsFragmentToProfileUserFragment(it)
             findNavController().navigate(direction)
         }
         binding.recyclerView.recyclerView.adapter = adapter

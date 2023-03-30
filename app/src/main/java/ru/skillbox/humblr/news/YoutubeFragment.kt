@@ -75,10 +75,10 @@ class YoutubeFragment : Fragment(), CommentAdapter.CommentHandler {
     private val fadeTransition: Transition = Fade()
     private val bindingMain: FullScreenLayoutMBinding
         get() = _bindingMain!!
-    var _bindingLoad: LoadingViewPrevBinding?=null
+    var _bindingLoad: LoadingViewPrevBinding? = null
     val bindingLoad: LoadingViewPrevBinding
         get() = _bindingLoad!!
-    private lateinit var screneLoading:Scene
+    private lateinit var screneLoading: Scene
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,16 +86,16 @@ class YoutubeFragment : Fragment(), CommentAdapter.CommentHandler {
         savedInstanceState: Bundle?
     ): View {
         Com.Companion.NullComment.setPagesCount(0)
-        Com.Companion.NullComment.pages= emptyList()
+        Com.Companion.NullComment.pages = emptyList()
         land = resources.getBoolean(R.bool.land)
-        _bindingLoad= LoadingViewPrevBinding.inflate(inflater,container,false)
+        _bindingLoad = LoadingViewPrevBinding.inflate(inflater, container, false)
         _binding2 = WriteCommentLayoutBinding.inflate(inflater, container, false)
         _binding = FullscreenYoutubeBinding.inflate(inflater, container, false)
-        _bindingMain= FullScreenLayoutMBinding.inflate(inflater,container,false)
+        _bindingMain = FullScreenLayoutMBinding.inflate(inflater, container, false)
         if (!land) {
             scene = Scene(bindingMain.root, binding2.root)
             scene2 = Scene(bindingMain.root, binding.root)
-            screneLoading= Scene(bindingMain.root,bindingLoad.root)
+            screneLoading = Scene(bindingMain.root, bindingLoad.root)
             TransitionManager.go(screneLoading, fadeTransition)
         }
 
@@ -110,10 +110,10 @@ class YoutubeFragment : Fragment(), CommentAdapter.CommentHandler {
         adapter = CommentsDelegateAdapter(lifecycleScope, this)
         binding.rec?.recyclerView?.adapter = adapter
         binding.rec?.showLoadingView()
-        bindingLoad.progressL.max=3f
+        bindingLoad.progressL.max = 3f
         binding.userName?.setOnClickListener {
-            val autor=viewModel.linkItem.value?.author
-            if(autor!=null)
+            val autor = viewModel.linkItem.value?.author
+            if (autor != null)
                 (activity as MainActivity).navigateToProfile(autor)
         }
         binding.back?.setOnClickListener {
@@ -744,7 +744,7 @@ class YoutubeFragment : Fragment(), CommentAdapter.CommentHandler {
             }
         } else {
             lifecycleScope.launch {
-                when (viewModel.save(commentId,"comment")) {
+                when (viewModel.save(commentId, "comment")) {
                     true -> {
                         //nothing to do, everything ok!
                     }
@@ -843,7 +843,7 @@ class YoutubeFragment : Fragment(), CommentAdapter.CommentHandler {
                     .reduce { first, second -> "$first,$second" }
                 result += viewModel.getAccounts(ids!!)!!.users
                 from += 200
-                val prevto=to
+                val prevto = to
                 to = if (prevto + 200 < size) to + 200 else to + remainder
             }
             return result
@@ -951,12 +951,12 @@ class YoutubeFragment : Fragment(), CommentAdapter.CommentHandler {
         viewModel.apply {
             linkItem.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    bindingLoad.progressL.progress=1f
+                    bindingLoad.progressL.progress = 1f
                     if (!land) {
                         binding.upVote?.isEnabled = true
                         binding.downVote?.isEnabled = true
                         lifecycleScope.launch {
-                            bindingLoad.progressL.progress=2f
+                            bindingLoad.progressL.progress = 2f
                             binding.commentNumber?.text = it.numComments
                             binding.voteNumber?.text = (it.ups - it.downs).toString()
                             binding.userName?.text = it.author
@@ -999,8 +999,8 @@ class YoutubeFragment : Fragment(), CommentAdapter.CommentHandler {
             }
             subInfo.observe(viewLifecycleOwner) {
                 if (!land) {
-                    bindingLoad.progressL.progress=3f
-                    TransitionManager.go(scene2,fadeTransition)
+                    bindingLoad.progressL.progress = 3f
+                    TransitionManager.go(scene2, fadeTransition)
                     if (it.userIsSubscriber == true) {
                         binding.join?.changeState(MControllerView.State.SELECTED)
                     }

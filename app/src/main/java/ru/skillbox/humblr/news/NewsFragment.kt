@@ -30,7 +30,6 @@ import ru.skillbox.humblr.databinding.NewsFragmentBinding
 import ru.skillbox.humblr.databinding.SearchHelperBinding
 import ru.skillbox.humblr.databinding.ViewPageBinding
 import ru.skillbox.humblr.mainPackage.MainActivity
-import ru.skillbox.humblr.utils.Com
 import ru.skillbox.humblr.utils.ZoomTransformer
 import ru.skillbox.humblr.utils.adapters.RecyclePagerAdapter
 import ru.skillbox.humblr.utils.adapters.SearchAdapter
@@ -44,16 +43,16 @@ class NewsFragment : Fragment(R.layout.news_fragment),
     private var _binding: NewsFragmentBinding? = null
     private val binding: NewsFragmentBinding
         get() = _binding!!
-    private var _searchBinding:SearchHelperBinding?=null
-    val searchBinding:SearchHelperBinding
-    get() = _searchBinding!!
+    private var _searchBinding: SearchHelperBinding? = null
+    val searchBinding: SearchHelperBinding
+        get() = _searchBinding!!
     val newsViewModel: NewsViewModel by viewModels()
     lateinit var scene: Scene
-    lateinit var scene2:Scene
-    private var adapter:RecyclePagerAdapter?=null
-    var _pagerBinding:ViewPageBinding?=null
-    val pagerBinding:ViewPageBinding
-    get() = _pagerBinding!!
+    lateinit var scene2: Scene
+    private var adapter: RecyclePagerAdapter? = null
+    var _pagerBinding: ViewPageBinding? = null
+    val pagerBinding: ViewPageBinding
+        get() = _pagerBinding!!
     private val slide: Transition = Slide()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,46 +60,53 @@ class NewsFragment : Fragment(R.layout.news_fragment),
         savedInstanceState: Bundle?
     ): View {
         _binding = NewsFragmentBinding.inflate(inflater, container, false)
-        val searchView=inflater.inflate(R.layout.search_helper,container,false)
-        _searchBinding= SearchHelperBinding.bind(searchView)
-        val view =inflater.inflate(R.layout.view_page,container,false)
-        _pagerBinding= ViewPageBinding.bind(view)
-        scene=Scene(binding.container,pagerBinding.root)
-        scene2= Scene(binding.container,searchBinding.root)
-        TransitionManager.go(scene,slide)
+        val searchView = inflater.inflate(R.layout.search_helper, container, false)
+        _searchBinding = SearchHelperBinding.bind(searchView)
+        val view = inflater.inflate(R.layout.view_page, container, false)
+        _pagerBinding = ViewPageBinding.bind(view)
+        scene = Scene(binding.container, pagerBinding.root)
+        scene2 = Scene(binding.container, searchBinding.root)
+        TransitionManager.go(scene, slide)
         return _binding!!.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter= RecyclePagerAdapter(this)
-        pagerBinding.pager.adapter=adapter
-        pagerBinding.pager.isUserInputEnabled=false
+        adapter = RecyclePagerAdapter(this)
+        pagerBinding.pager.adapter = adapter
+        pagerBinding.pager.isUserInputEnabled = false
         pagerBinding.pager.offscreenPageLimit = 2
         pagerBinding.pager.setPageTransformer(ZoomTransformer())
-        val searchAdapter=SearchAdapter{ link->
-            when(link){
-                is Link.LinkText->{
-                    val direction=NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(link.permalink)
+        val searchAdapter = SearchAdapter { link ->
+            when (link) {
+                is Link.LinkText -> {
+                    val direction =
+                        NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(link.permalink)
                     findNavController().navigate(direction)
                 }
-                is Link.LinkOut->{
-                    val direction=NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(link.permalink)
+                is Link.LinkOut -> {
+                    val direction =
+                        NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(link.permalink)
                     findNavController().navigate(direction)
                 }
-                is Link.LinkPict->{
-                    val direction=NewsFragmentDirections.actionNewsFragmentToDetainFragment(link.permalink)
+                is Link.LinkPict -> {
+                    val direction =
+                        NewsFragmentDirections.actionNewsFragmentToDetainFragment(link.permalink)
                     findNavController().navigate(direction)
                 }
-                is Link.LinkYouTube->{
-                    val direction=NewsFragmentDirections.actionNewsFragmentToYoutubeFragment(link.permalink,0,link.youtubeId!!)
+                is Link.LinkYouTube -> {
+                    val direction = NewsFragmentDirections.actionNewsFragmentToYoutubeFragment(
+                        link.permalink,
+                        0,
+                        link.youtubeId!!
+                    )
                     findNavController().navigate(direction)
                 }
-                is Link.LinkRedditVideo->{
-                    val reb=Rebinder("it")
+                is Link.LinkRedditVideo -> {
+                    val reb = Rebinder("it")
                     reb.with {
-                        controller=object:Playback.Controller{
+                        controller = object : Playback.Controller {
                             override fun kohiiCanPause(): Boolean {
                                 return true
                             }
@@ -111,38 +117,44 @@ class NewsFragment : Fragment(R.layout.news_fragment),
 
                             override fun setupRenderer(playback: Playback, renderer: Any?) {
                                 super.setupRenderer(playback, renderer)
-                                if(renderer is PlayerView){
-                                    renderer.useController=true
+                                if (renderer is PlayerView) {
+                                    renderer.useController = true
                                 }
                             }
 
                             override fun teardownRenderer(playback: Playback, renderer: Any?) {
                                 super.teardownRenderer(playback, renderer)
-                                if(renderer is PlayerView){
-                                    renderer.useController=false
+                                if (renderer is PlayerView) {
+                                    renderer.useController = false
                                 }
                             }
                         }
-                        repeatMode= Player.REPEAT_MODE_ALL
-                        threshold=1f
+                        repeatMode = Player.REPEAT_MODE_ALL
+                        threshold = 1f
                     }
-                    val direction=NewsFragmentDirections.actionNewsFragmentToFullScreenFragment(reb,0,link.permalink)
+                    val direction = NewsFragmentDirections.actionNewsFragmentToFullScreenFragment(
+                        reb,
+                        0,
+                        link.permalink
+                    )
                     findNavController().navigate(direction)
                 }
-                else->{throw IllegalArgumentException("not supported")}
+                else -> {
+                    throw IllegalArgumentException("not supported")
+                }
             }
         }
-        searchBinding.listView.recyclerView.adapter=searchAdapter
+        searchBinding.listView.recyclerView.adapter = searchAdapter
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 newsViewModel.searchList.collect { list ->
-                    if(!list.isNullOrEmpty()){
+                    if (!list.isNullOrEmpty()) {
                         searchAdapter.setList(list)
-                        TransitionManager.go(scene2,slide)
-                        binding.group.visibility=View.GONE
-                    } else{
-                        TransitionManager.go(scene,slide)
-                        binding.group.visibility=View.VISIBLE
+                        TransitionManager.go(scene2, slide)
+                        binding.group.visibility = View.GONE
+                    } else {
+                        TransitionManager.go(scene, slide)
+                        binding.group.visibility = View.VISIBLE
                     }
                 }
             }
@@ -152,13 +164,13 @@ class NewsFragment : Fragment(R.layout.news_fragment),
             binding.search.clearFocus()
             true
         }
-        TabLayoutMediator(binding.group,pagerBinding.pager){ tab, position ->
-            when(position){
-                0->{
-                    tab.text=resources.getText(R.string.hot)
+        TabLayoutMediator(binding.group, pagerBinding.pager) { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = resources.getText(R.string.hot)
                 }
-                1->{
-                    tab.text=resources.getText(R.string.newP)
+                1 -> {
+                    tab.text = resources.getText(R.string.newP)
                 }
             }
 
@@ -170,14 +182,16 @@ class NewsFragment : Fragment(R.layout.news_fragment),
         _binding = null
         newsViewModel.denyJob()
     }
+
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    fun bindFlow(){
-        val callBack=(activity as MainActivity).networkCallback
-        newsViewModel.bind(getTitle(),callBack)
+    fun bindFlow() {
+        val callBack = (activity as MainActivity).networkCallback
+        newsViewModel.bind(getTitle(), callBack)
     }
 
     override fun onSelection(selection: Collection<Playback>) {
     }
+
     @FlowPreview
     @ExperimentalCoroutinesApi
     fun getTitle(): Flow<String> {
@@ -186,9 +200,10 @@ class NewsFragment : Fragment(R.layout.news_fragment),
             .debounce(500)
     }
 
+    override fun onPause() {
+        super.onPause()
+        binding.search.setQuery("", false)
+        binding.search.clearFocus()
+    }
+
 }
-
-
-
-    
-

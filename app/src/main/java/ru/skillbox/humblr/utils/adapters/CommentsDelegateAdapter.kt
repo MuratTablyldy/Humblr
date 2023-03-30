@@ -29,7 +29,7 @@ class CommentsDelegateAdapter(
     }
 
     fun initPreview() {
-         getPage(1, true)
+        getPage(1, true)
     }
 
     fun addComment(comments: List<Comment>) {
@@ -37,9 +37,8 @@ class CommentsDelegateAdapter(
     }
 
 
-
     fun initFirst() {
-        getPage(1,false)
+        getPage(1, false)
         Com.Companion.NullComment.setCurrentPage(1)
     }
 
@@ -47,15 +46,16 @@ class CommentsDelegateAdapter(
         commentHandler.getPage(index, preview)
     }
 
-    fun setPage(list: List<Created>,preview: Boolean) {
-        if(preview){
+    fun setPage(list: List<Created>, preview: Boolean) {
+        if (preview) {
             differ.submitList(list)
-        }else{
-            differ.submitList(list+Com.Companion.NullComment)
+        } else {
+            differ.submitList(list + Com.Companion.NullComment)
         }
 
     }
-    fun setPagesCount(count:Int){
+
+    fun setPagesCount(count: Int) {
         Com.Companion.NullComment.setPagesCount(count)
     }
 
@@ -83,6 +83,7 @@ class CommentsDelegateAdapter(
     }
 
 }
+
 fun signView(textView: TextView, sign: Boolean) {
     if (sign) {
         textView.setTextColor(ContextCompat.getColor(textView.context, R.color.primaryColor))

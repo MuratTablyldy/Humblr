@@ -27,11 +27,11 @@ class DetailLinkViewModel @Inject constructor(private val repository: MainReposi
     private val _link = MutableLiveData<Link.LinkOut>(null)
     val link: LiveData<Link.LinkOut>
         get() = _link
-    val subInfo= MutableLiveData<SubredditInfo>()
-    val exceptions= SingleLiveEvent<Exception>()
+    val subInfo = MutableLiveData<SubredditInfo>()
+    val exceptions = SingleLiveEvent<Exception>()
     val me = MutableLiveData<Account?>()
     val state = MutableLiveData(State.INIT)
-    var currentPage=1
+    var currentPage = 1
     val pageList = MutableLiveData<MutableList<Comment>>(null)
 
     suspend fun vote(dir: Int, id: String, rank: Int?) =
@@ -69,7 +69,7 @@ class DetailLinkViewModel @Inject constructor(private val repository: MainReposi
             when (value) {
                 is Result.Success -> {
                     val array = value.data
-                    Log.d("link",array[0].data.children?.first()?.data.toString())
+                    Log.d("link", array[0].data.children?.first()?.data.toString())
                     val linkq = array[0].data.children?.first()?.data as Link.LinkOut
                     _link.postValue(linkq)
                     comments = mutableListOf()
@@ -95,22 +95,24 @@ class DetailLinkViewModel @Inject constructor(private val repository: MainReposi
             }
         }
     }
-    suspend fun save(fullname:String,category:String):Boolean{
-        return when(repository.save(fullname = fullname, category = category)){
-            is Result.Success->{
+
+    suspend fun save(fullname: String, category: String): Boolean {
+        return when (repository.save(fullname = fullname, category = category)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
     }
-    suspend fun unsave(fullname:String):Boolean{
-        return when(repository.unsave(fullname = fullname)){
-            is Result.Success->{
+
+    suspend fun unsave(fullname: String): Boolean {
+        return when (repository.unsave(fullname = fullname)) {
+            is Result.Success -> {
                 true
             }
-            is Result.Error->{
+            is Result.Error -> {
                 false
             }
         }
@@ -228,8 +230,10 @@ class DetailLinkViewModel @Inject constructor(private val repository: MainReposi
         }
     }
 
-    suspend fun subscribe(action: RedditApi.SubscibeType, skip:Boolean?, srName:String)=repository.subscribe(action,skip,srName)
-    suspend fun getSubredditAbout(subreddit:String)=
+    suspend fun subscribe(action: RedditApi.SubscibeType, skip: Boolean?, srName: String) =
+        repository.subscribe(action, skip, srName)
+
+    suspend fun getSubredditAbout(subreddit: String) =
         repository.getSubredditAbout(subreddit)
 
     enum class State {
