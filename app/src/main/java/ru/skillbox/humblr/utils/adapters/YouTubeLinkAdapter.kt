@@ -3,6 +3,7 @@ package ru.skillbox.humblr.utils.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
@@ -10,6 +11,7 @@ import ru.skillbox.humblr.R
 import ru.skillbox.humblr.data.entities.Link
 import ru.skillbox.humblr.databinding.SubredditLayoutYoutubeBinding
 import ru.skillbox.humblr.data.interfaces.MListener
+import ru.skillbox.humblr.news.NewsFragmentDirections
 import ru.skillbox.humblr.utils.MControllerView
 
 class YouTubeLinkAdapter(val listener: MListener) :
@@ -66,6 +68,12 @@ class YouTubeLinkAdapter(val listener: MListener) :
         val url = "https://img.youtube.com/vi/${item.youtubeId}/0.jpg"
         holder.binding!!.tumbtail.visibility = View.VISIBLE
         Glide.with(view).load(url).into(holder.binding!!.tumbtail)
+        holder.binding?.commentButton?.setOnClickListener {
+            item.youtubeId?.let { it1 -> listener.onYoutube(item.permalink, it1,0) }
+        }
+        holder.binding?.root?.setOnClickListener {
+            item.youtubeId?.let { it1 -> listener.onYoutube(item.permalink, it1,0) }
+        }
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {

@@ -8,20 +8,22 @@ import ru.skillbox.humblr.data.repositories.modules.TokenHolder
 class FetchSessionManager(context: Context) {
     private var prefs: SharedPreferences =
         context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+
     fun fetchAuthToken(): TokenHolder {
-        synchronized(this){
-            val map= TokenHolder.KEYS.values().associate { key ->
+        synchronized(this) {
+            val map = TokenHolder.KEYS.values().associate { key ->
                 val value = prefs.getString(key.toString(), null)
                 key.toString() to value
             }
             return TokenHolder(map)
         }
     }
-    fun removeToken(){
-        synchronized(this){
-            val editor=prefs.edit()
-            TokenHolder.KEYS.values().forEach { key->
-                editor.putString(key.toString(),null)
+
+    fun removeToken() {
+        synchronized(this) {
+            val editor = prefs.edit()
+            TokenHolder.KEYS.values().forEach { key ->
+                editor.putString(key.toString(), null)
             }
             editor.apply()
         }

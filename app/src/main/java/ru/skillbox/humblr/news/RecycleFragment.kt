@@ -6,16 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigatorExtras
-import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
+import androidx.transition.TransitionSet
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import dagger.hilt.android.AndroidEntryPoint
 import kohii.v1.core.*
@@ -24,11 +27,13 @@ import kohii.v1.media.VolumeInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
+import ru.skillbox.humblr.MainNavGraphDirections
 import ru.skillbox.humblr.R
 import ru.skillbox.humblr.data.Result
 import ru.skillbox.humblr.data.entities.Link
 import ru.skillbox.humblr.data.interfaces.Created
 import ru.skillbox.humblr.data.interfaces.MListener
+import ru.skillbox.humblr.data.repositories.MainRepository
 import ru.skillbox.humblr.data.repositories.RedditApi
 import ru.skillbox.humblr.databinding.RecycleFragmentBinding
 import ru.skillbox.humblr.mainPackage.MainActivity
@@ -38,10 +43,11 @@ import ru.skillbox.humblr.utils.adapters.NewsAdapter
 import ru.skillbox.humblr.utils.adapters.RecyclePagerAdapter.Companion.ARG_TYPE
 import kotlin.properties.Delegates
 
+
 @AndroidEntryPoint
-class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
+class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad, MListener, CallBack {
     private var _kohii: Kohii? = null
-    private val kohii: Kohii
+    private val kohiiM: Kohii
         get() = _kohii!!
     private var _binding: RecycleFragmentBinding? = null
     val binding: RecycleFragmentBinding
@@ -61,6 +67,20 @@ class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
     ): View {
         _binding = RecycleFragmentBinding.inflate(inflater, container, false)
         subsribers = HashMap()
+        adapter = NewsAdapter(this, this)
+        layoutManager = binding.rec.recyclerView.layoutManager as LinearLayoutManager
+        binding.rec.recyclerView.adapter = adapter
+        prepareTransitions()
+        //postponeEnterTransition()
+        binding.rec.setOnRetryClickListener {
+            if (choise == 0) {
+                viewModel.exceptions.postValue(null)
+                viewModel.state.postValue(RecycleViewModel.State.HOT)
+            } else {
+                viewModel.exceptions.postValue(null)
+                viewModel.state.postValue(RecycleViewModel.State.NEW)
+            }
+        }
         return binding.root
     }
 
@@ -68,150 +88,30 @@ class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _kohii = KohiiProvider.get(requireContext())
+        //scrollToPosition()
         bind()
-        (activity as MainActivity).setBarVisible()
-        arguments?.takeIf { it.containsKey(ARG_TYPE) }?.apply {
-            when (getInt(ARG_TYPE)) {
-                0 -> {
-                    choise = 0
-                    viewModel.state.postValue(RecycleViewModel.State.HOT)
-                }
-                1 -> {
-                    choise = 1
-                    viewModel.state.postValue(RecycleViewModel.State.NEW)
-                }
-            }
-        }
         binding.rec.setOnRetryClickListener {
-            if (choise == 0) viewModel.state.postValue(RecycleViewModel.State.HOT)
-            else viewModel.state.postValue(RecycleViewModel.State.NEW)
+            invoke()
         }
+        (activity as MainActivity).setBarVisible()
+        if (savedInstanceState == null) {
+            arguments?.takeIf { it.containsKey(ARG_TYPE) }?.apply {
+                when (getInt(ARG_TYPE)) {
+                    0 -> {
+                        choise = 0
+                        viewModel.state.postValue(RecycleViewModel.State.HOT)
+                    }
+                    1 -> {
+                        choise = 1
+                        viewModel.state.postValue(RecycleViewModel.State.NEW)
+                    }
+                }
+            }
+        }
+
         manager =
-            kohii.register(this, memoryMode = MemoryMode.HIGH).addBucket(binding.rec.recyclerView)
-        layoutManager = binding.rec.recyclerView.layoutManager as LinearLayoutManager
+            kohiiM.register(this, memoryMode = MemoryMode.HIGH).addBucket(binding.rec.recyclerView)
 
-        adapter = NewsAdapter(object : MListener {
-            override fun onClick(view: View, item: Link) {
-                val link = item as Link.LinkOut
-                val direction =
-                    NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(link.permalink)
-                findNavController().navigate(direction)
-            }
-
-            override fun onPict(view: View, link: String) {
-                ViewCompat.setTransitionName(view, "local_screen")
-                val options = activity?.let {
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        it,
-                        androidx.core.util.Pair.create(view, "full_screen")
-                    )
-                }
-                val extras = ActivityNavigatorExtras(options)
-                val bundle = Bundle()
-                bundle.putString("link", link)
-                findNavController().navigate(
-                    R.id.action_newsFragment_to_detainFragment,
-                    args = bundle,
-                    null,
-                    extras
-                )
-            }
-
-            override fun onText(view: View, link: String) {
-                findNavController().navigate(
-                    NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(
-                        link
-                    )
-                )
-            }
-
-            override fun getKohii(): Kohii {
-                return kohii
-            }
-
-            override fun shouldRebindVideo(rebinder: Rebinder?): Boolean {
-                return rebinder != selection.second
-            }
-
-            override fun onVideoClick(position: Int, rebinder: Rebinder, view: View) {
-                selectRebinder(position, rebinder)
-                activity?.let {
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        it,
-                        androidx.core.util.Pair.create(view, "on_recycle")
-                    )
-                }
-            }
-
-            override fun onMute(imageView: MImageView) {
-                if (imageView.isOff()) {
-                    imageView.switch()
-                } else {
-                    imageView.switch()
-                }
-                val current = viewModel.recyclerViewVolume.value!!
-                viewModel.recyclerViewVolume.value =
-                    VolumeInfo(!current.mute, current.volume)
-            }
-
-            override fun isMuted(): Boolean {
-                val value = viewModel.recyclerViewVolume.value
-                return value!!.mute
-            }
-
-            override fun subscribe(holder: MViewHolder.YoutubeViewHolder) {
-                val postion = holder.absoluteAdapterPosition
-                subsribers?.set(postion, holder)
-            }
-
-            override fun removeSubscription(index: Int) {
-                subsribers?.remove(index)
-            }
-
-            override fun getScope(): CoroutineScope {
-                return lifecycleScope
-            }
-
-            override fun onJoin(view: MControllerView, subredditName: String, textView: MTextView) {
-                if (view.state == MControllerView.State.SELECTED) {
-                    lifecycleScope.launch {
-                        when (viewModel.subscribe(
-                            RedditApi.SubscibeType.unsub,
-                            null,
-                            subredditName
-                        )) {
-                            is Result.Success -> {
-                                textView.setColor(resources.getColor(R.color.unselected, null))
-                            }
-                            is Result.Error -> {
-                                view.changeState(MControllerView.State.SELECTED)
-                            }
-                        }
-                    }
-
-                } else if (view.state == MControllerView.State.RELEASED) {
-                    lifecycleScope.launch {
-                        when (viewModel.subscribe(
-                            RedditApi.SubscibeType.sub,
-                            true,
-                            subredditName
-                        )) {
-                            is Result.Success -> {
-                                textView.setColor(resources.getColor(R.color.selected, null))
-                            }
-                            is Result.Error -> {
-                                view.changeState(MControllerView.State.RELEASED)
-                            }
-                        }
-                    }
-                }
-            }
-
-            @OptIn(InternalCoroutinesApi::class)
-            override fun navigateToUser(user: String) {
-                (activity as MainActivity).navigateToProfile(user)
-            }
-        })
         binding.rec.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             val PERCENT_SHOW = 80
             val PERCENT_HIDE = 50
@@ -263,7 +163,6 @@ class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
                 }
             }
         })
-        binding.rec.recyclerView.adapter = adapter
     }
 
     internal fun selectRebinder(
@@ -285,14 +184,16 @@ class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
         }
     }
 
+    @OptIn(InternalCoroutinesApi::class)
     fun bind() {
         viewModel.apply {
             exceptions.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    binding.rec.showErrorView(it.message)
-                    binding.rec.setOnRetryClickListener {
-
+                    if (it is MainRepository.TokenISInvalidException) {
+                        (activity as MainActivity).onTokenExpired(this@RecycleFragment)
+                        return@observe
                     }
+                    binding.rec.showErrorView(it.message)
                 }
             }
             state.observe(viewLifecycleOwner) {
@@ -347,6 +248,13 @@ class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
                 loading = false
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        deselectRebinder()
+        _binding = null
+
     }
 
     private var playback: Playback? = null
@@ -416,5 +324,169 @@ class RecycleFragment : Fragment(), LCEERecyclerView2.OnLoad {
             }
         }
         return false
+    }
+
+    override fun onClick(view: View, item: Link) {
+        val link = item as Link.LinkOut
+        val direction =
+            NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(link.permalink, null)
+        findNavController().navigate(direction)
+    }
+
+    override fun onPict(view: View, link: String) {
+        view.transitionName = "pager_small"
+        val extras = FragmentNavigatorExtras(view to "pager")
+        val bundle = Bundle()
+        bundle.putString("link", link)
+        findNavController().navigate(
+            R.id.action_newsFragment_to_detainFragment,
+            args = bundle,
+            null,
+            extras
+        )
+    }
+
+    override fun onText(view: View, link: String) {
+
+    }
+
+    override fun getKohii(): Kohii {
+        return kohiiM
+    }
+
+    override fun shouldRebindVideo(rebinder: Rebinder?): Boolean {
+        return rebinder != selection.second
+    }
+
+    override fun onVideoClick(position: Int, rebinder: Rebinder, view: View) {
+        selectRebinder(position, rebinder)
+        activity?.let {
+            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                it,
+                androidx.core.util.Pair.create(view, "on_recycle")
+            )
+        }
+    }
+
+    override fun onMute(imageView: MImageView) {
+        if (imageView.isOff()) {
+            imageView.switch()
+        } else {
+            imageView.switch()
+        }
+        val current = viewModel.recyclerViewVolume.value!!
+        viewModel.recyclerViewVolume.value =
+            VolumeInfo(!current.mute, current.volume)
+    }
+
+    override fun isMuted(): Boolean {
+        val value = viewModel.recyclerViewVolume.value
+        return value!!.mute
+    }
+
+    override fun subscribe(holder: MViewHolder.YoutubeViewHolder) {
+        val postion = holder.absoluteAdapterPosition
+        subsribers?.set(postion, holder)
+    }
+
+    override fun removeSubscription(index: Int) {
+        subsribers?.remove(index)
+    }
+
+    override fun getScope(): CoroutineScope {
+        return lifecycleScope
+    }
+
+    override fun onJoin(view: MControllerView, subredditName: String, textView: MTextView) {
+        if (view.state == MControllerView.State.SELECTED) {
+            lifecycleScope.launch {
+                when (viewModel.subscribe(
+                    RedditApi.SubscibeType.unsub,
+                    null,
+                    subredditName
+                )) {
+                    is Result.Success -> {
+                        textView.setColor(resources.getColor(R.color.unselected, null))
+                    }
+                    is Result.Error -> {
+                        view.changeState(MControllerView.State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (view.state == MControllerView.State.RELEASED) {
+            lifecycleScope.launch {
+                when (viewModel.subscribe(
+                    RedditApi.SubscibeType.sub,
+                    true,
+                    subredditName
+                )) {
+                    is Result.Success -> {
+                        textView.setColor(resources.getColor(R.color.selected, null))
+                    }
+                    is Result.Error -> {
+                        view.changeState(MControllerView.State.RELEASED)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun navigateToUser(user: String) {
+        val direction = MainNavGraphDirections.actionGlobalProfileGrapth(user)
+        findNavController().navigate(direction)
+    }
+
+    override fun onPict2(extras: FragmentNavigator.Extras, link: String) {
+        val bundle = Bundle()
+        bundle.putString("link", link)
+        findNavController().navigate(
+            R.id.action_newsFragment_to_detainFragment,
+            args = bundle,
+            null,
+            extras
+        )
+    }
+
+    override fun onText2(view: View, link: Link.LinkText) {
+        (exitTransition as TransitionSet?)?.excludeTarget(view, true)
+        val transitioningView = view.findViewById<TextView>(R.id.text_view)
+        val content = view.findViewById<TextView>(R.id.content)
+        startPostponedEnterTransition()
+        val extras =
+            FragmentNavigatorExtras(
+                transitioningView to "title",
+                content to "contentMain"
+            )
+        findNavController().navigate(
+            NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(
+                link.permalink,
+                link.title,
+                link.selftext
+            ), extras
+        )
+    }
+
+    override fun onYoutube(link: String, id: String, second: Long) {
+        NewsFragmentDirections.actionNewsFragmentToYoutubeFragment(
+            link = link,
+            time = second,
+            id = id
+        )
+    }
+
+    private fun prepareTransitions() {
+        exitTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.exit_transition)
+    }
+
+    override fun invoke() {
+        if (choise == 0) {
+            viewModel.exceptions.postValue(null)
+            viewModel.state.postValue(RecycleViewModel.State.HOT)
+        } else {
+            viewModel.exceptions.postValue(null)
+            viewModel.state.postValue(RecycleViewModel.State.NEW)
+        }
     }
 }

@@ -19,7 +19,6 @@ class CommentsDelegateAdapter(
 ) :
     RecyclerView.Adapter<CommentParentViewHolder>() {
 
-
     private val differ = AsyncListDiffer(this, CommentDiffUtil())
     private val delegate = AdapterDelegatesManager<List<Created>>()
 
@@ -31,11 +30,6 @@ class CommentsDelegateAdapter(
     fun initPreview() {
         getPage(1, true)
     }
-
-    fun addComment(comments: List<Comment>) {
-        differ.submitList(comments)
-    }
-
 
     fun initFirst() {
         getPage(1, false)
@@ -74,10 +68,6 @@ class CommentsDelegateAdapter(
         return differ.currentList.size
     }
 
-    fun addComment(comment: Created) {
-    }
-
-
     override fun getItemViewType(position: Int): Int {
         return delegate.getItemViewType(differ.currentList, position)
     }
@@ -101,6 +91,3 @@ class CommentDiffUtil : DiffUtil.ItemCallback<Created>() {
         return oldItem.equals(newItem)
     }
 }
-
-
-

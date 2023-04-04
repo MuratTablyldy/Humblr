@@ -12,20 +12,23 @@ import kotlin.text.buildString
 
 public class EmojiMapAdapter(
     moshi: Moshi
-) : JsonAdapter<HashMap<String,Emoji?>>() {
+) : JsonAdapter<HashMap<String, Emoji?>>() {
 
-    val map =HashMap<String,Emoji?>()
-    private val nullableEmojiAdapter: JsonAdapter<Emoji> = moshi.adapter(Emoji::class.java,
-        emptySet(), "map")
+    val map = HashMap<String, Emoji?>()
+    private val nullableEmojiAdapter: JsonAdapter<Emoji> = moshi.adapter(
+        Emoji::class.java,
+        emptySet(), "map"
+    )
 
     public override fun toString(): String = buildString(38) {
-        append("GeneratedJsonAdapter(").append("EmojisCollection").append(')') }
+        append("GeneratedJsonAdapter(").append("EmojisCollection").append(')')
+    }
 
-    public override fun fromJson(reader: JsonReader): HashMap<String,Emoji?> {
+    public override fun fromJson(reader: JsonReader): HashMap<String, Emoji?> {
         reader.beginObject()
 
         while (reader.hasNext()) {
-            val name =reader.nextName()
+            val name = reader.nextName()
             val emoji = nullableEmojiAdapter.fromJson(reader)
             map[name] = emoji
         }

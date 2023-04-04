@@ -1,6 +1,7 @@
 package ru.skillbox.humblr.data.repositories
 
-import okhttp3.*
+import okhttp3.Interceptor
+import okhttp3.Response
 
 class MInterceptor(private var cancelList: MutableList<String>) : Interceptor {
 
@@ -14,7 +15,8 @@ class MInterceptor(private var cancelList: MutableList<String>) : Interceptor {
         }
         return chain.proceed(
             chain.request().newBuilder().removeHeader("fragment")
-                .build())
+                .build()
+        )
     }
 
     fun addToCancelList(url: String) {
@@ -22,6 +24,6 @@ class MInterceptor(private var cancelList: MutableList<String>) : Interceptor {
     }
 
     fun removeDeathPile(url: String) {
-        cancelList=ArrayList()
+        cancelList = ArrayList()
     }
 }

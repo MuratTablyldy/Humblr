@@ -23,29 +23,48 @@ class LCEERecyclerView constructor(
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
 
-    private  var binding: LceeRecycleViewBinding
-    private  var errorBinding: RecyclerErrorLayoutBinding
-    private  var emptyBinding: RecyclerEmptyLayoutBinding
-    private  var loadingBinding: RecyclerLoadingLayoutBinding
+    private var binding: LceeRecycleViewBinding
+    private var errorBinding: RecyclerErrorLayoutBinding
+    private var emptyBinding: RecyclerEmptyLayoutBinding
+    private var loadingBinding: RecyclerLoadingLayoutBinding
+
     init {
-    val flag=context.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
+        val flag = context.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
         binding = LceeRecycleViewBinding.inflate(LayoutInflater.from(context), this)
         errorBinding = binding.customErrorView
         emptyBinding = binding.customEmptyView
         loadingBinding = binding.customOverlayView
-        when(flag){
-            Configuration.UI_MODE_NIGHT_YES->{
-                binding.customEmptyView.emptyImage.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.empty_night))
-                binding.customErrorView.errorImage.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.wrong_night))
+        when (flag) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                binding.customEmptyView.emptyImage.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        context,
+                        R.drawable.empty_night
+                    )
+                )
+                binding.customErrorView.errorImage.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        context,
+                        R.drawable.wrong_night
+                    )
+                )
             }
-            Configuration.UI_MODE_NIGHT_NO->{
-                binding.customEmptyView.emptyImage.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.empty))
-                binding.customErrorView.errorImage.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.wrong))
+            Configuration.UI_MODE_NIGHT_NO -> {
+                binding.customEmptyView.emptyImage.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        context,
+                        R.drawable.empty
+                    )
+                )
+                binding.customErrorView.errorImage.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        context,
+                        R.drawable.wrong
+                    )
+                )
             }
         }
     }
-
-
 
 
     val recyclerView: RecyclerView

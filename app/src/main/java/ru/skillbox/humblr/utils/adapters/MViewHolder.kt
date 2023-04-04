@@ -192,6 +192,7 @@ sealed class MViewHolder(containerView: View) : RecyclerView.ViewHolder(containe
 
         init {
             binding = DataBindingUtil.bind(containerView)
+
         }
 
         fun initYoutube(videoPlayer: YouTubePlayerView, transit: (NavDirections) -> Unit) {
@@ -259,7 +260,7 @@ sealed class MViewHolder(containerView: View) : RecyclerView.ViewHolder(containe
                         val item = binding?.item
                         youTubePlayer.addListener(this@YoutubeViewHolder)
                         if (item?.youtubeId != null) {
-                            youTubePlayer.loadVideo(item.youtubeId!!, 0f)
+                            youTubePlayer.cueVideo(item.youtubeId!!, 0f)
                             binding!!.tumbtail.visibility = View.GONE
                         }
                     }

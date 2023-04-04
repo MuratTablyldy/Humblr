@@ -3,32 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent"
     app:cardCornerRadius="20dp">
 
     <FrameLayout
         android:id="@+id/sceneHolder"
+        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!-- <LinearLayout
-             android:id="@+id/linear"
-             android:layout_width="match_parent"
-             android:orientation="vertical"
-             android:layout_height="match_parent"
-             android:background="@color/white_o">-->
-        <!--    <FrameLayout
-                android:id="@+id/m_bar"
-                android:animateLayoutChanges="true"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:elevation="10dp"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">-->
-
-        <!-- </FrameLayout>-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/roo"
             android:layout_width="match_parent"
@@ -38,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:animateLayoutChanges="true"
-                android:background="@color/white"
+                android:background="@color/background_card"
                 android:elevation="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,10 +42,9 @@
                 android:id="@+id/rec"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="#F8F6FD"
-                app:emptyIcon="@drawable/empty"
+                android:background="@color/background"
+
                 app:emptyText="Oops! Nothing Here"
-                app:errorIcon="@drawable/wrong"
                 app:errorText="Something went wrong!"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:layout_constraintBottom_toBottomOf="parent"

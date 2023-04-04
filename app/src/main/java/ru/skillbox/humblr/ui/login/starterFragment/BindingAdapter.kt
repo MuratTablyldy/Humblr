@@ -1,6 +1,5 @@
 package ru.skillbox.humblr.ui.login.starterFragment
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -23,6 +22,5 @@ class BindingAdapter {
         fun getStringFromRes(view: TextView, @StringRes res: Int) {
             view.setText(res)
         }
-
     }
 }

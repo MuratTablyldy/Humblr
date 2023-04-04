@@ -2,7 +2,6 @@ package ru.skillbox.humblr.utils
 
 import android.R
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -23,8 +22,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.view.inputmethod.EditorInfoCompat
 import androidx.core.view.inputmethod.InputConnectionCompat
-import com.bumptech.glide.Glide
-import jp.wasabeef.richeditor.RichEditor
 import jp.wasabeef.richeditor.Utils
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
@@ -68,7 +65,7 @@ class EditTextWithOptions @SuppressLint("SetJavaScriptEnabled") constructor(
 
     init {
 
-        isVerticalScrollBarEnabled = false
+        isVerticalScrollBarEnabled = true
         isHorizontalScrollBarEnabled = false
         settings.javaScriptEnabled = true
         webChromeClient = WebChromeClient()
@@ -372,7 +369,8 @@ class EditTextWithOptions @SuppressLint("SetJavaScriptEnabled") constructor(
         exec("javascript:RE.prepareInsert();")
         exec("javascript:RE.insertLink('$href', '$title');")
     }
-    fun insertL(href: String,title:String){
+
+    fun insertL(href: String, title: String) {
         exec("javascript:RE.prepareInsert();")
         exec("javascript:RE.insertHTML('$href','$title')")
     }
@@ -464,15 +462,21 @@ class EditTextWithOptions @SuppressLint("SetJavaScriptEnabled") constructor(
                         return@OnCommitContentListener false
                     }
                 }
-                Log.d("path","${inputContentInfo.linkUri?.host}${inputContentInfo.linkUri?.path}")
-                val path="${inputContentInfo.linkUri?.host}${inputContentInfo.linkUri?.path}"
+                val path = "${inputContentInfo.linkUri?.host}${inputContentInfo.linkUri?.path}"
                 Handler(Looper.getMainLooper()).post {
-                    insertL("<img src=\"https://$path\" alt=\"$title\"></img>","title")
+                    insertL(
+                        "<img src=\"https://$path\" alt=\"$title\" style=\"width:200px;height:200px;\"></img>",
+                        "title"
+                    )
                 }
                 true
             }
-        if(ic==null){
-            return InputConnectionCompat.createWrapper(BaseInputConnection(this,true), outAttrs, callback)
+        if (ic == null) {
+            return InputConnectionCompat.createWrapper(
+                BaseInputConnection(this, true),
+                outAttrs,
+                callback
+            )
         }
         return InputConnectionCompat.createWrapper(ic, outAttrs, callback)
     }

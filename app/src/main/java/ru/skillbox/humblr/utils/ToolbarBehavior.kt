@@ -3,16 +3,12 @@ package ru.skillbox.humblr.utils
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import kotlin.math.abs
-
 
 class ToolbarBehavior : AppBarLayout.Behavior {
     private var scrollableRecyclerView = false
@@ -91,15 +87,15 @@ class ToolbarBehavior : AppBarLayout.Behavior {
                     scrollableRecyclerView = false
                     count = adapter.itemCount
                     val layoutManager = recyclerView.layoutManager
-                    val rect=Rect()
-                    val rvRect=Rect()
+                    val rect = Rect()
+                    val rvRect = Rect()
                     if (layoutManager != null) {
-
                         if (layoutManager is LinearLayoutManager) {
-                            layoutManager.findViewByPosition(adapter.itemCount-1)?.getGlobalVisibleRect(rect)
+                            layoutManager.findViewByPosition(adapter.itemCount - 1)
+                                ?.getGlobalVisibleRect(rect)
                             recyclerView.getGlobalVisibleRect(rvRect)
                         }
-                        scrollableRecyclerView =rect.bottom>rvRect.bottom
+                        scrollableRecyclerView = rect.bottom > rvRect.bottom
                     }
                 }
             }

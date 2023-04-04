@@ -37,21 +37,20 @@ import ru.skillbox.humblr.utils.subscribeFlow
 
 @InternalCoroutinesApi
 @AndroidEntryPoint
-class NewsFragment : Fragment(R.layout.news_fragment),
-    Manager.OnSelectionListener {
+class NewsFragment : Fragment(R.layout.news_fragment){
 
     private var _binding: NewsFragmentBinding? = null
     private val binding: NewsFragmentBinding
         get() = _binding!!
     private var _searchBinding: SearchHelperBinding? = null
-    val searchBinding: SearchHelperBinding
+    private val searchBinding: SearchHelperBinding
         get() = _searchBinding!!
-    val newsViewModel: NewsViewModel by viewModels()
+    private val newsViewModel: NewsViewModel by viewModels()
     lateinit var scene: Scene
     lateinit var scene2: Scene
     private var adapter: RecyclePagerAdapter? = null
-    var _pagerBinding: ViewPageBinding? = null
-    val pagerBinding: ViewPageBinding
+    private var _pagerBinding: ViewPageBinding? = null
+    private val pagerBinding: ViewPageBinding
         get() = _pagerBinding!!
     private val slide: Transition = Slide()
     override fun onCreateView(
@@ -70,7 +69,6 @@ class NewsFragment : Fragment(R.layout.news_fragment),
         return _binding!!.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = RecyclePagerAdapter(this)
@@ -82,17 +80,27 @@ class NewsFragment : Fragment(R.layout.news_fragment),
             when (link) {
                 is Link.LinkText -> {
                     val direction =
-                        NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(link.permalink)
+                        NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(
+                            link.permalink,
+                            null,
+                            null
+                        )
                     findNavController().navigate(direction)
                 }
                 is Link.LinkOut -> {
                     val direction =
-                        NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(link.permalink)
+                        NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(
+                            link.permalink,
+                            null
+                        )
                     findNavController().navigate(direction)
                 }
                 is Link.LinkPict -> {
                     val direction =
-                        NewsFragmentDirections.actionNewsFragmentToDetainFragment(link.permalink)
+                        NewsFragmentDirections.actionNewsFragmentToDetainFragment(
+                            link.permalink,
+                            null
+                        )
                     findNavController().navigate(direction)
                 }
                 is Link.LinkYouTube -> {
@@ -189,9 +197,6 @@ class NewsFragment : Fragment(R.layout.news_fragment),
         newsViewModel.bind(getTitle(), callBack)
     }
 
-    override fun onSelection(selection: Collection<Playback>) {
-    }
-
     @FlowPreview
     @ExperimentalCoroutinesApi
     fun getTitle(): Flow<String> {
@@ -205,5 +210,4 @@ class NewsFragment : Fragment(R.layout.news_fragment),
         binding.search.setQuery("", false)
         binding.search.clearFocus()
     }
-
 }

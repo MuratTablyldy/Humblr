@@ -14,6 +14,7 @@
         android:id="@+id/rich_link_image"
         android:layout_width="110dp"
         android:layout_height="90dp"
+        android:transitionName="rich_link_image"
         android:scaleType="centerCrop" />
 
     <LinearLayout
@@ -30,6 +31,7 @@
             android:maxWidth="300dp"
             android:maxLines="1"
             android:padding="2dp"
+            android:transitionName="rich_link_title"
             android:textColor="@color/grey_900"
             android:textStyle="bold"
             tools:text="Data" />
@@ -40,6 +42,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:transitionName="rich_link_desp"
             android:padding="2dp"
             android:maxWidth="300dp"
             android:textColor="@color/blue_grey_300"
@@ -49,6 +52,7 @@
             android:id="@+id/rich_link_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:transitionName="rich_link_url"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="2dp"

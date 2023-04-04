@@ -21,7 +21,7 @@ class AuthRepository @Inject constructor(
         )
     }
 
-    fun handleFragment(fragment: String):TokenHolder {
+    fun handleFragment(fragment: String): TokenHolder {
         val values =
             """(access_token=.+&|$)(token_type=.+&|$)(state=.+&|$)(expires_in=.+&|$)""".toRegex()
                 .find(fragment)?.groupValues
@@ -33,13 +33,13 @@ class AuthRepository @Inject constructor(
             } else parts[1]
             key to value
         }
-        val tokenHolder=TokenHolder(parameters)
+        val tokenHolder = TokenHolder(parameters)
         sessionManager.saveAuthToken(tokenHolder)
-        State.getInstance().expired.value=false
+        State.getInstance().expired.value = false
         return tokenHolder
     }
 
-    fun startWorker(token:String, expTime:Long, tokenType:String, context: Context) {
+    fun startWorker(token: String, expTime: Long, tokenType: String, context: Context) {
         val workConstraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -52,12 +52,13 @@ class AuthRepository @Inject constructor(
         val workRequest = OneTimeWorkRequestBuilder<TokenWorker>()
             .setConstraints(workConstraints)
             .setBackoffCriteria(BackoffPolicy.LINEAR, 20L, TimeUnit.SECONDS)
-            .setInitialDelay(expTime,TimeUnit.SECONDS)
+            .setInitialDelay(expTime, TimeUnit.SECONDS)
             .setInputData(workData)
             .build()
         WorkManager.getInstance(context)
             .enqueueUniqueWork(WORKER_ID, ExistingWorkPolicy.REPLACE, workRequest)
     }
+
     fun subscribeWorkInfo(
         context: Context,
         lifecycleOwner: LifecycleOwner,
@@ -69,19 +70,25 @@ class AuthRepository @Inject constructor(
                 it.forEach { work -> onWork(work) }
             }
     }
-    fun fetch():TokenHolder{
+
+    fun fetch(): TokenHolder {
         return sessionManager.fetchAuthToken()
     }
-    fun isWorkerRunning(context:Context):Boolean{
-       return  WorkManager.getInstance(context).getWorkInfosForUniqueWorkLiveData(WORKER_ID).hasActiveObservers()
+
+    fun isWorkerRunning(context: Context): Boolean {
+        return WorkManager.getInstance(context).getWorkInfosForUniqueWorkLiveData(WORKER_ID)
+            .hasActiveObservers()
     }
+
     companion object {
-        const val WORKER_ID="grgr"
+        const val WORKER_ID = "grgr"
     }
-    fun isFirstTime():Boolean{
+
+    fun isFirstTime(): Boolean {
         return sessionManager.isFirstTime()
     }
-    fun setFirstTime(){
+
+    fun setFirstTime() {
         sessionManager.setFirst()
     }
 

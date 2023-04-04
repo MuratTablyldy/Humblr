@@ -22,7 +22,7 @@
         android:tag="draging_view"
         app:behavior_peekHeight="0dp"
         android:id="@+id/filter_fragment"
-        android:name="ru.skillbox.humblr.news.WindowFragment"
+        android:name="ru.skillbox.humblr.detailReddits.WindowFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:behavior_skipCollapsed="false"

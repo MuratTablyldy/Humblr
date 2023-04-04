@@ -36,8 +36,8 @@ object AuthPropertiesModule {
             val responseType = properties.getProperty("response_type")
             val uuid = UUID.randomUUID().toString()
             val authUri = properties.getProperty("auth_uri")
-            val tokenEndPint=properties.getProperty("token_uri")
-            val pathRevokeToken=properties.getProperty("revoke_path")
+            val tokenEndPint = properties.getProperty("token_uri")
+            val pathRevokeToken = properties.getProperty("revoke_path")
             authProperties = AuthProperties(
                 clientId = clientId,
                 scope = scope,

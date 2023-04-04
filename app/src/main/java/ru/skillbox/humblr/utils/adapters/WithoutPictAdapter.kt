@@ -11,6 +11,8 @@ import ru.skillbox.humblr.utils.MControllerView
 
 class WithoutPictAdapter(val listener: MListener) :
     AbsListItemAdapterDelegate<Link.LinkText, Link, MViewHolder.NewsWithoutPictViewHolder>() {
+
+
     override fun isForViewType(
         item: Link,
         items: MutableList<Link>,
@@ -58,10 +60,10 @@ class WithoutPictAdapter(val listener: MListener) :
             }
         }
         holder.binding!!.root.setOnClickListener {
-            listener.onText(it, item.permalink)
+            listener.onText2(it, item)
         }
         holder.binding!!.commentButton.setOnClickListener {
-            listener.onText(it, item.getLink())
+            listener.onText2(it, item)
         }
 
     }

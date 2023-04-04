@@ -20,10 +20,9 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     var isActive = false
     val account = MutableLiveData<Account>()
     val prefs = MutableLiveData<Prefs>()
-    val tokenHold=SingleLiveEvent<TokenHolder?>(null)
+    val tokenHold=MutableLiveData<TokenHolder?>(null)
     val error=SingleLiveEvent<Exception>(null)
     val visible=MutableLiveData(true)
-    //val visibleBottom=MutableLiveData(false)
     private val coroutineHandler = CoroutineExceptionHandler { _, throwable ->
         fail.postValue(
             throwable
@@ -51,22 +50,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
 
     }
 
-
-    fun getPrefs() {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val thing = repository.getPrefs(viewModelScope)
-            prefs.postValue(thing)
-        }
-    }
-
-
-    fun savePrefs() {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            //repository.savePrefs(viewModelScope, PrefsSave(over_18 = true))
-        }
-    }
-
-
     fun getTrophies() {
         viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
             val trophies = repository.getTrophies(viewModelScope)
@@ -74,12 +57,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         }
     }
 
-    fun getCollection(id: String, include: Boolean) {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val trophies = repository.getCollection(viewModelScope, id, include)
-            Log.d("trophies", trophies.toString())
-        }
-    }
     @InternalCoroutinesApi
     fun subscribe(lifecycleOwner: LifecycleOwner, doWork: (Boolean) -> Unit){
         repository.subscribe(lifecycleOwner, doWork)
@@ -92,77 +69,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         }
        return isValid
     }
-
-    /*fun getSubredditsHot(language: String?, before: String?, after: String?) {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val list = repository.getSubredditsHot(language, before, after)
-        }
-    }*/
-
-
-    fun getByID() {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-
-            var list = repository.getByID(viewModelScope, "t3_4utbnj")
-            list.data.children?.forEach { Log.d("subreddit", it.toString()) }
-        }
-    }
-
-
-    fun getByParameter() {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-
-            var list = repository.getByParameter(viewModelScope, "redditdev", "new")
-            list.data.children?.forEach { Log.d("subreddit", it.toString()) }
-        }
-    }
-
-
-    fun searchSubreddit(
-        query: String,
-        limit: Int,
-        sort: String
-    ) {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val list = repository.searchSubreddit(viewModelScope, query, limit, sort)
-            list.data.children?.forEach { Log.d("subreddit", it.toString()) }
-        }
-    }
-
-    fun getSubscribers(
-        query: String,
-        limit: Int,
-        sort: String
-    ) {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val list = repository.searchSubreddit(viewModelScope, query, limit, sort)
-            list.data.children?.forEach { Log.d("subreddit", it.toString()) }
-        }
-
-    }
-
-    fun getCollections(
-        name: String
-    ) {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val list = repository.getCollections(viewModelScope, name)
-            list.data.children?.forEach { Log.d("subreddit", it.toString()) }
-        }
-    }
-
-    fun getUserInfo(username: String) {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val list = repository.getUserInfo(viewModelScope, username)
-            Log.d("user", list.data.subreddit.toString())
-        }
-    }
-
-    fun getCollections2(collectionId: String, includeLinks: Boolean) {
-        viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {
-            val list = repository.getCollection2(collectionId, includeLinks)
-        }
-    }
-
 
     fun getSubredditAbout(subreddit: String) {
         viewModelScope.launch(Dispatchers.IO + coroutineHandler + SupervisorJob()) {

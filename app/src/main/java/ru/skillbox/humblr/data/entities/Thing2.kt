@@ -10,5 +10,5 @@ data class Thing2(
     @Json(name = "loid_created")
     val created: Long?,
     val kind: String,
-    val data: Any) {
-}
+    val data: Any
+)

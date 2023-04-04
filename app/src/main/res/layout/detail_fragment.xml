@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_m"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -127,6 +123,7 @@
                             <androidx.viewpager2.widget.ViewPager2
                                 android:id="@+id/pager_view"
                                 android:layout_width="match_parent"
+                                android:transitionName="pager"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 android:layout_height="300dp"
@@ -318,6 +315,6 @@
                 app:layout_constraintBottom_toTopOf="@id/comment_button"
                 app:layout_constraintEnd_toEndOf="@id/comment_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
-
+   <!-- </FrameLayout>
+-->
 

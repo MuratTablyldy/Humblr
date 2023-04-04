@@ -35,11 +35,8 @@ class MTextView : AppCompatTextView {
         val startLine = layout.getLineForOffset(0)
         val endLine = layout.getLineForOffset(text.length)
         if (startLine == endLine) {
-            //val lineTop = layout.getLineTop(startLine)
             val lineTop = layout.getLineTop(startLine) + (abs(layout.getLineDescent(startLine)))
-
             val lineBottom = layout.getLineBottom(startLine)
-
             val startCoor = layout.getPrimaryHorizontal(0).toInt()
             val endCoor = layout.width + startCoor
             val drawable = AppCompatResources.getDrawable(context, R.drawable.background_text)
@@ -58,7 +55,7 @@ class MTextView : AppCompatTextView {
                 val end = layout.width + start
                 val top = layout.getLineTop(i) + (abs(layout.getLineDescent(i)))
                 val bottom = layout.getLineBaseline(i)
-                var drawable = AppCompatResources.getDrawable(context, R.drawable.background_text)
+                val drawable = AppCompatResources.getDrawable(context, R.drawable.background_text)
                 if (color != null) {
                     val wrappedDrawable = DrawableCompat.wrap(drawable!!)
                     DrawableCompat.setTint(wrappedDrawable, color!!)
@@ -68,11 +65,8 @@ class MTextView : AppCompatTextView {
                     drawable!!.setBounds(start, top, end, bottom)
                     drawable.draw(canvas!!)
                 }
-
             }
-
         }
-
         super.onDraw(canvas)
     }
 }

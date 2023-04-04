@@ -1,6 +1,5 @@
 package ru.skillbox.humblr.data.entities
 
-import android.util.Log
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
@@ -10,34 +9,45 @@ import java.lang.NullPointerException
 import kotlin.Any
 import kotlin.Long
 import kotlin.String
-import kotlin.Suppress
 import kotlin.Unit
 import kotlin.collections.emptySet
 import kotlin.text.buildString
 
-public class Thing2JsonAdapter(
+class Thing2JsonAdapter(
     moshi: Moshi
 ) : JsonAdapter<Thing2>() {
-    private val options: JsonReader.Options = JsonReader.Options.of("loid", "loid_created", "kind",
-        "data")
+    private val options: JsonReader.Options = JsonReader.Options.of(
+        "loid", "loid_created", "kind",
+        "data"
+    )
 
-    private val nullableStringAdapter: JsonAdapter<String?> = moshi.adapter(String::class.java,
-        emptySet(), "id")
+    private val nullableStringAdapter: JsonAdapter<String?> = moshi.adapter(
+        String::class.java,
+        emptySet(), "id"
+    )
 
-    private val nullableLongAdapter: JsonAdapter<Long?> = moshi.adapter(Long::class.javaObjectType,
-        emptySet(), "created")
+    private val nullableLongAdapter: JsonAdapter<Long?> = moshi.adapter(
+        Long::class.javaObjectType,
+        emptySet(), "created"
+    )
 
-    private val stringAdapter: JsonAdapter<String> = moshi.adapter(String::class.java, emptySet(),
-        "kind")
+    private val stringAdapter: JsonAdapter<String> = moshi.adapter(
+        String::class.java, emptySet(),
+        "kind"
+    )
 
-    private val commentAdapter: JsonAdapter<Comment> = moshi.adapter(Comment::class.java, emptySet(), "data")
+    private val commentAdapter: JsonAdapter<Comment> =
+        moshi.adapter(Comment::class.java, emptySet(), "data")
 
-    private val linkAdapter:JsonAdapter<Link> =moshi.adapter(Link::class.java,
-        emptySet(),"data")
-    private val moreAdapter:JsonAdapter<More> = moshi.adapter(More::class.java, emptySet(),"data")
+    private val linkAdapter: JsonAdapter<Link> = moshi.adapter(
+        Link::class.java,
+        emptySet(), "data"
+    )
+    private val moreAdapter: JsonAdapter<More> = moshi.adapter(More::class.java, emptySet(), "data")
 
     public override fun toString(): String = buildString(28) {
-        append("GeneratedJsonAdapter(").append("Thing2").append(')') }
+        append("GeneratedJsonAdapter(").append("Thing2").append(')')
+    }
 
     public override fun fromJson(reader: JsonReader): Thing2 {
         var id: String? = null
@@ -49,18 +59,20 @@ public class Thing2JsonAdapter(
             when (reader.selectName(options)) {
                 0 -> id = nullableStringAdapter.fromJson(reader)
                 1 -> created = nullableLongAdapter.fromJson(reader)
-                2 -> kind = stringAdapter.fromJson(reader) ?: throw Util.unexpectedNull("kind", "kind",
-                    reader)
+                2 -> kind = stringAdapter.fromJson(reader) ?: throw Util.unexpectedNull(
+                    "kind", "kind",
+                    reader
+                )
                 3 -> {
-                    when(kind){
-                        "t3"->{
-                            data_=linkAdapter.fromJson(reader)
+                    when (kind) {
+                        "t3" -> {
+                            data_ = linkAdapter.fromJson(reader)
                         }
-                        "t1"->{
-                            data_=commentAdapter.fromJson(reader)
+                        "t1" -> {
+                            data_ = commentAdapter.fromJson(reader)
                         }
-                        "more"->{
-                            data_=moreAdapter.fromJson(reader)
+                        "more" -> {
+                            data_ = moreAdapter.fromJson(reader)
                         }
                     }
                 }

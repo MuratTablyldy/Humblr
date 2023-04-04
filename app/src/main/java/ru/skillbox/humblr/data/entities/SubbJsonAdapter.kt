@@ -12,12 +12,9 @@ import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.squareup.moshi.`internal`.Util
-import okio.BufferedSource
 import java.lang.NullPointerException
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.emptySet
 import kotlin.text.buildString
 
@@ -41,9 +38,9 @@ public class SubbJsonAdapter(
         while (reader.hasNext()) {
             val value = reader.readJsonValue()
             if (value is ArrayList<*> && value.isNotEmpty()) {
-                for(sub in value){
+                for (sub in value) {
                     if (sub is ArrayList<*> && sub.isNotEmpty()) {
-                        for (para in sub){
+                        for (para in sub) {
                             if (para is ArrayList<*> && para.isNotEmpty()) {
                                 val data = para.first()
                                 comment = thingOfCommentAdapter.fromJsonValue(data)
@@ -59,7 +56,7 @@ public class SubbJsonAdapter(
         )
     }
 
-    public override fun toJson(writer: JsonWriter, value_: Subb?): Unit {
+    public override fun toJson(writer: JsonWriter, value_: Subb?) {
         if (value_ == null) {
             throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
         }

@@ -8,5 +8,4 @@ data class Rules(
     val rules: List<Rule>,
     @Json(name = "site_rules")
     val siteRules: List<String>
-) {
-}
+)

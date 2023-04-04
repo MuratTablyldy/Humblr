@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<!--<FrameLayout
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rootq">
+    android:id="@+id/rootq">-->
     <androidx.constraintlayout.widget.ConstraintLayout
-
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/layout_m"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:transitionName="title"
                 android:textColor="@color/white_o"
                 android:textSize="16sp"
                 android:layout_margin="10dp"
@@ -89,7 +90,7 @@
                             android:id="@+id/avatar_view"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-
+                            android:layout_margin="3dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:src="@tools:sample/avatars" />
@@ -131,6 +132,7 @@
                             android:layout_margin="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:transitionName="content"
                             app:layout_constraintStart_toStartOf="parent"
                             android:textColor="@color/textSub"
                             android:textSize="20sp"
@@ -144,8 +146,11 @@
                             android:layout_marginStart="20dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:transitionName="contentMain"
+                            android:textColorHint="@color/primaryTextColor"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primaryTextColor"
                             android:textSize="15sp"
                             android:textStyle="bold"/>
 
@@ -287,4 +292,4 @@
             app:layout_constraintBottom_toTopOf="@id/comment_button"
             app:layout_constraintEnd_toEndOf="@id/comment_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+<!--</FrameLayout>-->

@@ -11,8 +11,8 @@ import net.openid.appauth.AuthorizationService
 @InstallIn(ViewModelComponent::class)
 @Module
 class ViewModelModule {
-@Provides
-fun provideAuthService(@ApplicationContext context:Context): AuthorizationService {
-    return AuthorizationService(context)
-}
+    @Provides
+    fun provideAuthService(@ApplicationContext context: Context): AuthorizationService {
+        return AuthorizationService(context)
+    }
 }

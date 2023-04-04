@@ -1,8 +1,5 @@
 package ru.skillbox.humblr.data.entities
 
-import retrofit2.http.Header
-import retrofit2.http.Query
-
 data class SubredditCreator(
     var acceptFollowers: Boolean?,
     var overrideSpam: Boolean?,

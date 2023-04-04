@@ -2,14 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:gravity="center"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/background"
+
     android:backgroundTint="@color/background"
     android:orientation="vertical"
     android:visibility="gone"
     tools:visibility="visible">
 
     <ImageView
+        android:layout_marginTop="100dp"
         android:id="@+id/empty_image"
         android:layout_width="100dp"
         android:layout_height="100dp"

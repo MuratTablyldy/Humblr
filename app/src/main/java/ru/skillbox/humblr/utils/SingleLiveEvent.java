@@ -28,21 +28,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * A lifecycle-aware observable that sends only new updates after subscription, used for events like
- * navigation and Snackbar messages.
- * <p>
- * This avoids a common problem with events: on configuration change (like rotation) an update
- * can be emitted if the observer is active. This LiveData only calls the observable if there's an
- * explicit call to setValue() or call().
- * <p>
- * Note that only one observer is going to be notified of changes.
- */
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
-    public SingleLiveEvent(T t){
+    public SingleLiveEvent(T t) {
         super(t);
     }
-    public SingleLiveEvent(){
+
+    public SingleLiveEvent() {
         super();
     }
 

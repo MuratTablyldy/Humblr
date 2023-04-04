@@ -14,8 +14,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 val Int.dp: Int get() = (this * getSystem().displayMetrics.density).toInt()
-/*fun <T,R> Flow<T>.toPair(second: Flow<R>): Flow<Pair<T, R>> =
-    this.combine(second) { firstC: T, secondC: R -> firstC to secondC }*/
 
 @ExperimentalCoroutinesApi
 fun EditText.subscribeFlow(): Flow<String> {
@@ -26,7 +24,12 @@ fun EditText.subscribeFlow(): Flow<String> {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                trySendBlocking(s.toString()).onFailure { exception-> Log.d(this.javaClass.toString(),"$exception") }
+                trySendBlocking(s.toString()).onFailure { exception ->
+                    Log.d(
+                        this.javaClass.toString(),
+                        "$exception"
+                    )
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -40,21 +43,32 @@ fun EditText.subscribeFlow(): Flow<String> {
         }
     }
 }
-fun SearchView.subscribeFlow():Flow<String>{
+
+fun SearchView.subscribeFlow(): Flow<String> {
     return callbackFlow {
-        val listener=object:SearchView.OnQueryTextListener{
+        val listener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                trySendBlocking(query.toString()).onFailure { exception-> Log.d(this.javaClass.toString(),"$exception") }
+                trySendBlocking(query.toString()).onFailure { exception ->
+                    Log.d(
+                        this.javaClass.toString(),
+                        "$exception"
+                    )
+                }
                 return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                trySendBlocking(query.toString()).onFailure { exception-> Log.d(this.javaClass.toString(),"$exception") }
+                trySendBlocking(query.toString()).onFailure { exception ->
+                    Log.d(
+                        this.javaClass.toString(),
+                        "$exception"
+                    )
+                }
                 return false
             }
         }
         this@subscribeFlow.setOnQueryTextListener(listener)
         awaitClose {
-            }
+        }
     }
 }

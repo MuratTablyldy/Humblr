@@ -21,6 +21,7 @@ public class CustomTabActivity extends Activity {
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();

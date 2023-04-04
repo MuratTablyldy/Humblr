@@ -11,9 +11,9 @@ data class Account(
     val carma: Int?,
 
     @Json(name = "is_employee")
-    val isEmployee:Boolean?,
+    val isEmployee: Boolean?,
     @Json(name = "awardee_karma")
-    val karma:Int?,
+    val karma: Int?,
     @Json(name = "has_mail")
     val hasMail: Boolean?,
     @Json(name = "has_mod_mail")
@@ -35,14 +35,14 @@ data class Account(
     val name: String?,
     @Json(name = "over_18")
     val over18: Boolean?,
-    val subreddit:SubReddit?,
+    val subreddit: SubReddit?,
     override val created: Long?,
     @Json(name = "created_utc")
     override val createdUTC: Long?,
     @Json(name = "icon_img")
-    var icon:String?,
-    @Json(name="snoovatar_img")
-    val snoovatar:String?
+    var icon: String?,
+    @Json(name = "snoovatar_img")
+    val snoovatar: String?
 ) : Created {
     override fun getParent(): String {
         return ""

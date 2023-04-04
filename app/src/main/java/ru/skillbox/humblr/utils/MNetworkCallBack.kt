@@ -9,13 +9,17 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import java.util.concurrent.atomic.AtomicBoolean
 
-class MNetworkCallBack constructor(private val context: Context,private val onState:(Boolean)->Unit) : ConnectivityManager.NetworkCallback(),DefaultLifecycleObserver {
-    private lateinit var  networkRequest: NetworkRequest
+class MNetworkCallBack constructor(
+    private val context: Context,
+    private val onState: (Boolean) -> Unit
+) : ConnectivityManager.NetworkCallback(), DefaultLifecycleObserver {
+    private lateinit var networkRequest: NetworkRequest
 
-    val isAval=AtomicBoolean(true)
-    fun init(){
-        networkRequest=NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build()
+    val isAval = AtomicBoolean(true)
+    fun init() {
+        networkRequest =
+            NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build()
     }
 
     override fun onCreate(owner: LifecycleOwner) {
@@ -32,6 +36,7 @@ class MNetworkCallBack constructor(private val context: Context,private val onSt
         super.onStop(owner)
         unregister()
     }
+
     fun register() {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -51,7 +56,8 @@ class MNetworkCallBack constructor(private val context: Context,private val onSt
         onState.invoke(true)
         isAval.set(true)
     }
-    fun isAvailable():Boolean{
+
+    fun isAvailable(): Boolean {
         return isAval.get()
     }
 
@@ -59,8 +65,5 @@ class MNetworkCallBack constructor(private val context: Context,private val onSt
         super.onLost(network)
         onState.invoke(false)
         isAval.set(false)
-    }
-    interface OnState{
-       fun onStateChanged(state:Boolean)
     }
 }

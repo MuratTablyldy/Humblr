@@ -9,11 +9,14 @@ sealed class Result<out T : Any> {
         return when (this) {
             is Success<*> -> RESULT_OK
             is Error -> RESULT_FAILED
-            else -> {""}
+            else -> {
+                ""
+            }
         }
     }
-    companion object{
-        const val RESULT_OK="resultOk"
-        const val RESULT_FAILED="resultFailed"
+
+    companion object {
+        const val RESULT_OK = "resultOk"
+        const val RESULT_FAILED = "resultFailed"
     }
 }

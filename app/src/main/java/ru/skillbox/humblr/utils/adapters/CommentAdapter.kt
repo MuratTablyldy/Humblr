@@ -40,10 +40,9 @@ class CommentAdapter(
         linearLayoutCompat: LinearLayoutCompat,
         comment: Comment,
         depth: Int,
-        paretntView: View?,
+        parentView: View?,
     ) {
-        val rootLin = linearLayoutCompat
-        AsyncLayoutInflater(rootLin.context).inflate(
+        AsyncLayoutInflater(linearLayoutCompat.context).inflate(
             R.layout.comment_view_reply,
             linearLayoutCompat
         ) { root, _, _ ->
@@ -63,7 +62,7 @@ class CommentAdapter(
             buttone.setOnClickListener {
                 commentHandler.writeComment(root, linearLayoutCompat, comment, false, depth)
             }
-            val index = rootLin.children.indexOf(paretntView)
+            val index = linearLayoutCompat.children.indexOf(parentView)
             linearLayoutCompat.addView(root, index + 1)
             if (!comment.replies.data.children.isNullOrEmpty()) {
                 val comments = comment.replies.data.children
@@ -222,8 +221,8 @@ class CommentAdapter(
                 )
             }
             bind(firstView, comments!!.first().data as Comment)
-            val button = holder.binding!!.commentButton
-            button.setOnClickListener {
+            val buttonComment = holder.binding!!.commentButton
+            buttonComment.setOnClickListener {
                 commentHandler.writeComment(
                     holder.binding!!.root,
                     holder.binding!!.replyView,

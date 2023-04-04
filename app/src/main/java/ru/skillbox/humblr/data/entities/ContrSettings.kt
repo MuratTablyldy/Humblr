@@ -4,7 +4,8 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ContrSettings(@Json(name="allowed_media_types")val allowedMediaTypes:List<Contr>) {
+data class ContrSettings(@Json(name = "allowed_media_types") val allowedMediaTypes: List<Contr>) {
 
 }
-enum class Contr {giphy, unknown, animated, static}
+
+enum class Contr { giphy, unknown, animated, static }

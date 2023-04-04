@@ -37,4 +37,5 @@
     <color name="backo">#FFFFFF</color>
     <color name="progress_background">#B2A0DA</color>
     <color name="progress">#EC615B</color>
+    <color name="background_card_2">#DCD3F6</color>
 </resources>

@@ -1,10 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_grapth"
     app:startDestination="@id/main_nav_graph">
 
-    <include app:graph="@navigation/main_nav_graph"/>
-    <include app:graph="@navigation/nav_frag" />
-    <include app:graph="@navigation/detail_graph"/>
+    <navigation
+        android:id="@+id/detail_graph"
+        app:startDestination="@id/profileFragment">
+        <fragment
+            android:id="@+id/profileFragment"
+            tools:layout="@layout/profile_user"
+            android:name="ru.skillbox.humblr.profile.ProfileFragment"
+            android:label="ProfileFragment">
+            <action
+                android:id="@+id/action_profileFragment_to_friendsFragment"
+                app:destination="@id/friendsFragment"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth" />
+        </fragment>
+        <fragment
+            android:id="@+id/friendsFragment"
+            tools:layout="@layout/friends_list"
+            android:name="ru.skillbox.humblr.friends.FriendsFragment"
+            android:label="FriendsFragment"/>
+        <action
+            android:id="@+id/action_global_profile_grapth3"
+            app:destination="@id/profile_grapth"
+            app:enterAnim="@anim/slide_left_in"
+            app:exitAnim="@anim/slide_out_rigth"
+            app:popEnterAnim="@anim/slide_right"
+            app:popExitAnim="@anim/slide_left" />
+    </navigation>
+
+    <navigation
+        android:id="@+id/favorites"
+        app:startDestination="@id/favoritesFragment">
+        <fragment
+            android:id="@+id/favoritesFragment"
+
+            tools:layout="@layout/favorites_fragment"
+            android:name="ru.skillbox.humblr.favorites.FavoritesFragment"
+            android:label="FavoritesFragment" />
+        <action
+            android:id="@+id/action_global_detail_graph"
+            app:destination="@id/detail_graph"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+        <action
+            android:id="@+id/action_global_profile_grapth2"
+            app:destination="@id/profile_grapth"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+    </navigation>
+
+    <navigation
+        android:id="@+id/main_nav_graph"
+        app:startDestination="@id/newsFragment">
+
+        <fragment
+            android:id="@+id/newsFragment"
+            android:name="ru.skillbox.humblr.news.NewsFragment"
+            android:label="NewsFragment"
+            tools:layout="@layout/news_fragment">
+            <action
+                android:id="@+id/action_newsFragment_to_detainFragment"
+                app:destination="@id/detailFragment"
+                app:exitAnim="@anim/slide_left"
+                app:popExitAnim="@anim/slide_out_rigth" />
+            <!-- app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth"-->
+            <action
+                android:id="@+id/action_newsFragment_to_detailTextFragment"
+                app:destination="@id/detailTextFragment"
+                app:exitAnim="@anim/slide_left"
+                app:popExitAnim="@anim/slide_out_rigth" />
+            <action
+                android:id="@+id/action_newsFragment_to_fullScreenFragment"
+                app:destination="@id/fullScreenFragment"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth" />
+            <argument
+                android:name="index"
+                app:argType="string"
+                app:nullable="true" />
+            <action
+                android:id="@+id/action_newsFragment_to_youtubeFragment"
+                app:destination="@id/youtubeFragment"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth" />
+            <action
+                android:id="@+id/action_newsFragment_to_detailLinkFragment"
+                app:destination="@id/detailLinkFragment"
+                app:exitAnim="@anim/slide_left"
+                app:popExitAnim="@anim/slide_out_rigth" />
+        </fragment>
+        <fragment
+            android:id="@+id/detailFragment"
+            tools:layout="@layout/detail_fragment"
+            android:name="ru.skillbox.humblr.detailReddits.DetailFragment"
+            android:label="DetailFragment">
+            <argument
+                android:name="link"
+                app:argType="string" />
+            <action
+                android:id="@+id/action_detailFragment_to_globalProfileUser"
+                app:destination="@id/detail_graph"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth">
+                <argument
+                    android:name="account"
+                    app:argType="string" />
+            </action>
+            <argument
+                android:name="images"
+                app:argType="string[]"
+                app:nullable="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/detailTextFragment"
+            tools:layout="@layout/detail_text_fragment"
+            android:name="ru.skillbox.humblr.detailReddits.DetailTextFragment"
+            android:label="DetailTextFragment">
+            <argument
+                android:name="link"
+                app:argType="string" />
+            <argument
+                android:name="text"
+                app:argType="string"
+                app:nullable="true" />
+            <argument android:name="content"
+                app:argType="string"
+                app:nullable="true"/>
+
+        </fragment>
+        <fragment
+            android:id="@+id/fullScreenFragment"
+            android:name="ru.skillbox.humblr.detailReddits.FullScreenFragment"
+            tools:layout="@layout/full_screen_md"
+            android:label="FullScreenFragment">
+            <argument
+                android:name="rebinder"
+                app:argType="kohii.v1.core.Rebinder" />
+            <argument
+                android:name="position"
+                app:argType="integer" />
+            <argument
+                android:name="link"
+                app:argType="string" />
+            <action
+                android:id="@+id/action_fullScreenFragment_to_newsFragment"
+                app:destination="@id/newsFragment"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth" />
+        </fragment>
+        <fragment
+            android:id="@+id/youtubeFragment"
+            android:name="ru.skillbox.humblr.detailReddits.YoutubeFragment"
+            android:label="YoutubeFragment"
+            tools:layout="@layout/fullscreen_youtube">
+            <argument
+                android:name="link"
+                app:argType="string" />
+            <argument
+                android:name="time"
+                app:argType="long" />
+            <argument
+                android:name="id"
+                app:argType="string" />
+        </fragment>
+        <fragment
+            android:id="@+id/detailLinkFragment"
+            tools:layout="@layout/detail_link"
+            android:name="ru.skillbox.humblr.detailReddits.DetailLinkFragment"
+            android:label="DetailLinkFragment">
+            <argument
+                android:name="link"
+                app:argType="string" />
+            <argument
+                android:name="url"
+                app:argType="string"
+                app:nullable="true"/>
+            <action
+                android:id="@+id/action_detailLinkFragment_to_globalProfileUser"
+                app:destination="@id/profileUserFragment"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_favorites"
+            app:destination="@id/favorites"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+        <action
+            android:id="@+id/action_global_detail_graph2"
+            app:destination="@id/detail_graph"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth"/>
+        <action
+            android:id="@+id/action_global_profile_grapth"
+            app:destination="@id/profile_grapth"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_out_rigth">
+            <argument app:argType="string" android:name="account"/>
+        </action>
+    </navigation>
+
+    <navigation
+        android:id="@+id/profile_grapth"
+        app:startDestination="@id/profileUserFragment">
+        <fragment
+            android:id="@+id/profileUserFragment"
+            tools:layout="@layout/profile_user"
+            android:name="ru.skillbox.humblr.profile.ProfileUserFragment"
+            android:label="ProfileUserFragment" >
+            <argument
+                android:name="account"
+                app:argType="string" />
+            <action
+                android:id="@+id/action_profileUserFragment_to_writeMessageFragment"
+                app:destination="@id/writeMessageFragment"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth"/>
+        </fragment>
+        <fragment
+            tools:layout="@layout/write_message_fragment"
+            android:id="@+id/writeMessageFragment"
+            android:name="ru.skillbox.humblr.profile.WriteMessageFragment"
+            android:label="WriteMessageFragment" >
+            <argument
+                android:name="from"
+                app:argType="string" />
+            <argument
+                android:name="to"
+                app:argType="string" />
+            <action
+                android:id="@+id/action_writeMessageFragment_to_profileUserFragment"
+                app:destination="@id/profileUserFragment"
+                app:enterAnim="@anim/slide_right"
+                app:exitAnim="@anim/slide_left"
+                app:popEnterAnim="@anim/slide_left_in"
+                app:popExitAnim="@anim/slide_out_rigth"/>
+        </fragment>
+    </navigation>
 </navigation>

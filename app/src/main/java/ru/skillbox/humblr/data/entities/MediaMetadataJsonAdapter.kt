@@ -24,25 +24,28 @@ public class MediaMetadataJsonAdapter(
 ) : JsonAdapter<MediaMetadata>() {
 
   private val listOfMediaMetAdapter: JsonAdapter<MediaMet> =
-      moshi.adapter(MediaMet::class.java, emptySet(),
-      "mediaMetadata")
+    moshi.adapter(
+      MediaMet::class.java, emptySet(),
+      "mediaMetadata"
+    )
 
   public override fun toString(): String = buildString(35) {
-      append("GeneratedJsonAdapter(").append("MediaMetadata").append(')') }
+    append("GeneratedJsonAdapter(").append("MediaMetadata").append(')')
+  }
 
   public override fun fromJson(reader: JsonReader): MediaMetadata {
-    var map: HashMap<String,MediaMet> = HashMap()
+    var map: HashMap<String, MediaMet> = HashMap()
     reader.beginObject()
     while (reader.hasNext()) {
-      val name=reader.nextName()
-      val json=reader.readJsonValue()
-      val obj=listOfMediaMetAdapter.fromJsonValue(json)
-      if(obj!=null)
+      val name = reader.nextName()
+      val json = reader.readJsonValue()
+      val obj = listOfMediaMetAdapter.fromJsonValue(json)
+      if (obj != null)
         map[name] = obj
     }
     reader.endObject()
     return MediaMetadata(
-        list = map
+      list = map
     )
   }
 
@@ -51,9 +54,9 @@ public class MediaMetadataJsonAdapter(
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }
     writer.beginObject()
-    for(pair in value_.list){
+    for (pair in value_.list) {
       writer.name(pair.key)
-      listOfMediaMetAdapter.toJson(writer,pair.value)
+      listOfMediaMetAdapter.toJson(writer, pair.value)
     }
     writer.endObject()
   }

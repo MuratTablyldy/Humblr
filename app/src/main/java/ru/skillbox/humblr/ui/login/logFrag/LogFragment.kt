@@ -8,12 +8,12 @@ import androidx.navigation.fragment.findNavController
 import ru.skillbox.humblr.R
 import ru.skillbox.humblr.ui.login.LoginActivity
 
-class LogFragment:Fragment(R.layout.login_view) {
+class LogFragment : Fragment(R.layout.login_view) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val button=view.findViewById<Button>(R.id.login)
+        val button = view.findViewById<Button>(R.id.login)
         val activity = activity as LoginActivity
-        if(activity.isFirstTimeLoad()){
+        if (activity.isFirstTimeLoad()) {
             activity.setFirstTimeLoad()
             findNavController().navigate(LogFragmentDirections.actionLogFragmentToStarterFragment())
         }

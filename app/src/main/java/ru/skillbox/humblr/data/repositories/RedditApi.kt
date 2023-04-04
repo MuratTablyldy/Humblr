@@ -5,7 +5,6 @@ import retrofit2.http.*
 import ru.skillbox.humblr.data.entities.*
 import retrofit2.http.GET
 
-
 interface RedditApi {
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/api/me")
@@ -29,9 +28,11 @@ interface RedditApi {
         @Header("User-Agent") agent: String,
         @Body prefs: PrefsSave
     ): Response<Unit>
+
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/api/v1/me/trophies")
     suspend fun getTrophies(@Header("Authorization") token: String): Thing<Listing2<Thing<Trophie>>>
+
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/api/v1/collections/collection")
     suspend fun getCollection(
@@ -61,7 +62,7 @@ interface RedditApi {
         @Query("g") language: String?,
         @Query("before") beforeID: String?,
         @Query("after") afterID: String?,
-        @Query("limit")limit:Int
+        @Query("limit") limit: Int
     ): Thing<Listing<Thing<Link>>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
@@ -71,7 +72,7 @@ interface RedditApi {
         @Query("g") language: String?,
         @Query("before") beforeID: String?,
         @Query("after") afterID: String?,
-        @Query("limit")limit:Int
+        @Query("limit") limit: Int
     ): Thing<Listing<Thing<Link>>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
@@ -156,8 +157,8 @@ interface RedditApi {
     @GET("/r/subreddit/api/info")
     suspend fun getSubredditsAbout(
         @Header("Authorization") token: String,
-        @Query("sr_name")srName:String
-    ):Thing<Listing<Thing<SubredditInfo>>>
+        @Query("sr_name") srName: String
+    ): Thing<Listing<Thing<SubredditInfo>>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/api/follow_post")
@@ -407,8 +408,8 @@ interface RedditApi {
         @Query("before") before: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-        @Query("sr_detail")srDetail:Boolean?,
-        @Query("show")show:String
+        @Query("sr_detail") srDetail: Boolean?,
+        @Query("show") show: String
     ): Thing<Listing<Account>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
@@ -419,94 +420,94 @@ interface RedditApi {
         @Query("before") before: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-        @Query("sr_detail")srDetail:Boolean?,
-        @Query("show")show:String
-    ):Thing<Listing<SubReddit>>
+        @Query("sr_detail") srDetail: Boolean?,
+        @Query("show") show: String
+    ): Thing<Listing<SubReddit>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/user/username/saved")
     suspend fun getSubredditsSaved(
         @Header("Authorization") token: String,
-        @Path("username")username:String,
+        @Path("username") username: String,
         @Query("after") after: String?,
         @Query("before") before: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-        @Query("sr_detail")srDetail:Boolean?,
-        @Query("show")show:String,
-        @Query("type")type:Type,
-        @Query("t")time:Time,
-        @Query("context")context:Int,
-        @Query("sort")sort: Sort
-    ):Thing<Listing<SubReddit>>
+        @Query("sr_detail") srDetail: Boolean?,
+        @Query("show") show: String,
+        @Query("type") type: Type,
+        @Query("t") time: Time,
+        @Query("context") context: Int,
+        @Query("sort") sort: Sort
+    ): Thing<Listing<SubReddit>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/user/{username}/comments")
     suspend fun getCommentsMine(
         @Header("Authorization") token: String,
-        @Path("username")username:String,
+        @Path("username") username: String,
         @Query("after") after: String?,
         @Query("before") before: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-        @Query("sr_detail")srDetail:Boolean?,
-        @Query("show")show:String,
-        @Query("type")type:Type,
-        @Query("t")time:Time,
-        @Query("context")context:Int,
-        @Query("sort")sort: Sort
-    ):Thing<Listing<Thing<Comment>>>
+        @Query("sr_detail") srDetail: Boolean?,
+        @Query("show") show: String,
+        @Query("type") type: Type,
+        @Query("t") time: Time,
+        @Query("context") context: Int,
+        @Query("sort") sort: Sort
+    ): Thing<Listing<Thing<Comment>>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/user/{username}/saved")
     suspend fun getCommentsSaved(
         @Header("Authorization") token: String,
-        @Path("username")username:String,
+        @Path("username") username: String,
         @Query("after") after: String?,
         @Query("before") before: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-        @Query("sr_detail")srDetail:Boolean?,
-        @Query("show")show:String,
-        @Query("type")type:Type,
-        @Query("t")time:Time,
-        @Query("context")context:Int,
-        @Query("sort")sort: Sort
-    ):Thing<Listing<Thing<Comment>>>
+        @Query("sr_detail") srDetail: Boolean?,
+        @Query("show") show: String,
+        @Query("type") type: Type,
+        @Query("t") time: Time,
+        @Query("context") context: Int,
+        @Query("sort") sort: Sort
+    ): Thing<Listing<Thing<Comment>>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/user/{username}/saved")
     suspend fun getSubredditSaved(
         @Header("Authorization") token: String,
-        @Path("username")username:String,
+        @Path("username") username: String,
         @Query("after") after: String?,
         @Query("before") before: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-        @Query("sr_detail")srDetail:Boolean?,
-        @Query("show")show:String,
-        @Query("type")type:Type,
-        @Query("t")time:Time,
-        @Query("context")context:Int,
-        @Query("sort")sort: Sort
-    ):Thing<Listing<Thing<Link>>>
+        @Query("sr_detail") srDetail: Boolean?,
+        @Query("show") show: String,
+        @Query("type") type: Type,
+        @Query("t") time: Time,
+        @Query("context") context: Int,
+        @Query("sort") sort: Sort
+    ): Thing<Listing<Thing<Link>>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @GET("/user/{username}/submitted")
     suspend fun getSubredditUser(
         @Header("Authorization") token: String,
-        @Path("username")username:String,
+        @Path("username") username: String,
         @Query("after") after: String?,
         @Query("before") before: String?,
         @Query("count") count: Int?,
         @Query("limit") limit: Int?,
-        @Query("sr_detail")srDetail:Boolean?,
-        @Query("show")show:String,
-        @Query("type")type:Type,
-        @Query("t")time:Time,
-        @Query("context")context:Int,
-        @Query("sort")sort: Sort
-    ):Thing<Listing<Thing<Link>>>
+        @Query("sr_detail") srDetail: Boolean?,
+        @Query("show") show: String,
+        @Query("type") type: Type,
+        @Query("t") time: Time,
+        @Query("context") context: Int,
+        @Query("sort") sort: Sort
+    ): Thing<Listing<Thing<Link>>>
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @POST("/api/save")
@@ -527,24 +528,24 @@ interface RedditApi {
     @GET("/api/saved_categories")
     suspend fun getSavedCategories(
         @Header("Authorization") token: String
-    ):String
+    ): String
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @POST("/api/sendreplies")
     suspend fun sendReplies(
-        @Query("id") id:String,
-        @Query("state")state:Boolean
+        @Query("id") id: String,
+        @Query("state") state: Boolean
     )
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @POST("/api/compose")
     suspend fun sendMessage(
         @Header("Authorization") token: String,
-        @Query("api_type")apiType:String,
-        @Query("subject")subject:String,
-        @Query("text")text:String,
-        @Query("to")to:String
-    ):String
+        @Query("api_type") apiType: String,
+        @Query("subject") subject: String,
+        @Query("text") text: String,
+        @Query("to") to: String
+    ): String
 
     @Headers("User-Agent: android:hampApp:v1.0.0 (by /u/MuratTabyldy)")
     @POST("/api/v1/me/friends/{username}")
@@ -552,16 +553,18 @@ interface RedditApi {
         @Header("Authorization") token: String,
     )
 
-    enum class Time{
+    enum class Time {
         hour, day, week, month, year, all
     }
+
     enum class Type {
         links, comments
     }
 
-    enum class Sort{
+    enum class Sort {
         hot, new, top, controversial
     }
+
     enum class SubscibeType {
         sub, unsub
     }

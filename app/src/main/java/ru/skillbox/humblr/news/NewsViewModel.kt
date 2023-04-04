@@ -19,12 +19,10 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(val repository: MainRepository) : ViewModel() {
 
-
     val exceptions = MutableLiveData<Exception>(null)
     private val _job = MutableStateFlow<Job?>(null)
     val job: StateFlow<Job?> = _job
     val searchList = MutableStateFlow<List<Link>?>(null)
-
     val state = MutableLiveData(State.HOT)
 
     suspend fun getInfo(subName: String) = repository.getAccountInfo(subName)
@@ -59,14 +57,15 @@ class NewsViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     }
 
     fun denyJob() {
-        _job.value?.cancel()
+        job.value?.cancel()
         _job.value = null
     }
 
     suspend fun getSearch(query: String) = repository.searchLink(query)
 
+    enum class State {
+        LOADING, HOT, ERROR, NEW
+    }
 }
 
-enum class State {
-    LOADING, HOT, ERROR, NEW
-}
+

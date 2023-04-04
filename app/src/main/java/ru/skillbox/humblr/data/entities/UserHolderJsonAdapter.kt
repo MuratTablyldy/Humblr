@@ -11,10 +11,8 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import com.squareup.moshi.`internal`.Util
 import java.lang.NullPointerException
-
 import kotlin.String
 import kotlin.Suppress
 import kotlin.Unit
@@ -42,12 +40,12 @@ public class UserHolderJsonAdapter(
         while (reader.hasNext()) {
             val name = reader.nextName()
             val json = reader.readJsonValue()
-          val info=userInfoAdapter.fromJsonValue(json)
+            val info = userInfoAdapter.fromJsonValue(json)
 
-          if(info!=null){
-            info.id=name
-            users?.put(name,info)
-          }
+            if (info != null) {
+                info.id = name
+                users?.put(name, info)
+            }
         }
         reader.endObject()
         return UserHolder(

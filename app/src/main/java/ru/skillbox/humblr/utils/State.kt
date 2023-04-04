@@ -3,16 +3,16 @@ package ru.skillbox.humblr.utils
 import kotlinx.coroutines.flow.MutableStateFlow
 
 object State {
-    private var state:StateF?=null
-    fun getInstance():StateF{
-        if(state==null){
-            state= StateF()
+    private var state: StateF? = null
+    fun getInstance(): StateF {
+        if (state == null) {
+            state = StateF()
         }
         return state!!
     }
-    class StateF{
+
+    class StateF {
         val expired = MutableStateFlow(false)
-        var error= MutableStateFlow<Throwable?>(null)
-        var fileName= ""
+        var error = MutableStateFlow<Throwable?>(null)
     }
 }

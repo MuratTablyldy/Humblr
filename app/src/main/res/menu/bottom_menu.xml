@@ -3,7 +3,7 @@
     <item android:id="@+id/main_nav_graph"
         android:title="@string/news"
         android:icon="@drawable/list_selected" />
-    <item android:id="@+id/write_comment_grapth"
+    <item android:id="@+id/favorites"
         android:title="@string/favorite"
         android:icon="@drawable/favorites_selection" />
     <item android:id="@+id/detail_graph"

@@ -7,10 +7,10 @@ AuthProperties(
     val redirectUri: String,
     val baseUri: String,
     val duration: String,
-    val responseType:String,
+    val responseType: String,
     val uuid: String,
-    val authUri:String,
+    val authUri: String,
     val tokenEndPoint: String,
-    var state:String?,
-    val revokePath:String
+    var state: String?,
+    val revokePath: String
 )

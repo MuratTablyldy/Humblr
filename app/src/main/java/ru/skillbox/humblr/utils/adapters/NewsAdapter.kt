@@ -1,7 +1,7 @@
 package ru.skillbox.humblr.utils.adapters
 
-import android.util.Log
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +9,7 @@ import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import ru.skillbox.humblr.data.entities.Link
 import ru.skillbox.humblr.data.interfaces.MListener
 
-class NewsAdapter(listener: MListener) : RecyclerView.Adapter<MViewHolder>() {
+class NewsAdapter(listener: MListener, fragment: Fragment) : RecyclerView.Adapter<MViewHolder>() {
 
     private val differ = AsyncListDiffer(this, DiffUtilCallBack())
     private val delegate = AdapterDelegatesManager<List<Link>>()
@@ -23,16 +23,18 @@ class NewsAdapter(listener: MListener) : RecyclerView.Adapter<MViewHolder>() {
         youtubeAdap = YouTubeLinkAdapter(listener)
         delegate.addDelegate(redditVidAdapter)
             .addDelegate(youtubeAdap)
-            .addDelegate(WithLinkAdapter(listener))
+            .addDelegate(WithLinkAdapter(listener, fragment))
             .addDelegate(WithoutPictAdapter(listener))
-            .addDelegate(RedditWithPictAdapter(listener))
+            .addDelegate(RedditWithPictAdapter(listener, fragment = fragment))
             .addDelegate(LoadingAdapter())
     }
+
 
     fun removeLoad() {
         val mList = ArrayList(differ.currentList)
         mList.remove(Link.LoadingLink)
         differ.submitList(mList)
+
     }
 
     fun getItemLink(position: Int): String {
@@ -96,7 +98,7 @@ class NewsAdapter(listener: MListener) : RecyclerView.Adapter<MViewHolder>() {
     fun remove() {
         if (differ.currentList.size > 0) {
             val list = ArrayList(differ.currentList)
-            val result = list.remove(Link.LoadingLink)
+            list.remove(Link.LoadingLink)
             differ.submitList(list)
         }
     }

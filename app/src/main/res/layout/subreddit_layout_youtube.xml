@@ -111,7 +111,6 @@
                 android:backgroundTint="@color/white"
                 android:text="@{item.numComments}"
                 tools:text="36"
-
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintTop_toBottomOf="@id/youtube_player"
                 app:layout_constraintEnd_toEndOf="parent"

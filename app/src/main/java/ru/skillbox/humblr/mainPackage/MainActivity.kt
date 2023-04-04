@@ -1,4 +1,4 @@
-package ru.skillbox.humblr .mainPackage
+package ru.skillbox.humblr.mainPackage
 
 import android.animation.ValueAnimator
 import android.content.Intent
@@ -13,21 +13,19 @@ import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
+import androidx.navigation.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import dagger.hilt.android.AndroidEntryPoint
 import kohii.v1.core.Rebinder
 import kotlinx.coroutines.InternalCoroutinesApi
-import ru.skillbox.humblr.R
 import ru.skillbox.humblr.databinding.MainActivityBinding
 import ru.skillbox.humblr.news.NewsFragmentDirections
-import ru.skillbox.humblr.news.ProfileFragmentDirections
 import ru.skillbox.humblr.ui.login.LoginActivity
 import ru.skillbox.humblr.utils.MNetworkCallBack
 import ru.skillbox.humblr.utils.dp
-
+import ru.skillbox.humblr.R
+import ru.skillbox.humblr.utils.CallBack
 
 @InternalCoroutinesApi
 @AndroidEntryPoint
@@ -35,10 +33,12 @@ class MainActivity : AppCompatActivity() {
     private var _binding: MainActivityBinding? = null
     private val binding: MainActivityBinding
         get() = _binding!!
-    //private lateinit var controller:WindowInsetsControllerCompat
-    var insvible = false
-    val viewModel:MainViewModel by viewModels()
+    val viewModel: MainViewModel by viewModels()
     lateinit var networkCallback:MNetworkCallBack
+    private var currentCallback:CallBack?=null
+    companion object{
+        var currentPosition=0
+    }
 
     private var activityResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -55,8 +55,9 @@ class MainActivity : AppCompatActivity() {
         if(isNight==true){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
-        bind()
         viewModel.fetchAuthToken()
+        setContentView(binding.root)
+        bind()
         networkCallback = MNetworkCallBack(this) {
             Handler(Looper.getMainLooper()).post {
                 if(viewModel.internetAvailable.value!=it)
@@ -84,32 +85,35 @@ class MainActivity : AppCompatActivity() {
     }
     fun navigateToLinkFragment(link:String){
         findNavController(R.id.fragment_main).navigate(R.id.main_nav_graph)
-        val direction=NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(link)
+        val direction=NewsFragmentDirections.actionNewsFragmentToDetailLinkFragment(link,null)
         findNavController(R.id.fragment_main).navigate(direction)
     }
     fun navigateToTextFragment(link:String){
         findNavController(R.id.fragment_main).navigate(R.id.main_nav_graph)
-        val direction=NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(link)
+        val direction=NewsFragmentDirections.actionNewsFragmentToDetailTextFragment(link,null,null)
         findNavController(R.id.fragment_main).navigate(direction)
     }
     fun navigateToPictFragment(link:String){
         findNavController(R.id.fragment_main).navigate(R.id.main_nav_graph)
-        val direction=NewsFragmentDirections.actionNewsFragmentToDetainFragment(link)
+        val direction=NewsFragmentDirections.actionNewsFragmentToDetainFragment(link,null)
         findNavController(R.id.fragment_main).navigate(direction)
     }
     fun navigateToYoutubeFragment(direction: NavDirections){
         findNavController(R.id.fragment_main).navigate(R.id.main_nav_graph)
         findNavController(R.id.fragment_main).navigate(direction)
     }
+    fun navigateToYoutubeFragment(link: String, id: String, time: Long) {
+        findNavController(R.id.fragment_main).navigate(R.id.main_nav_graph)
+        val direction = NewsFragmentDirections.actionNewsFragmentToYoutubeFragment(
+            link = link,
+            time = time,
+            id = id
+        )
+        findNavController(R.id.fragment_main).navigate(direction)
+    }
     fun navigateToRedditVideoFragment(rebinder: Rebinder,pos:Int, link:String){
         findNavController(R.id.fragment_main).navigate(R.id.main_nav_graph)
         val direction=NewsFragmentDirections.actionNewsFragmentToFullScreenFragment(rebinder,pos,link)
-        findNavController(R.id.fragment_main).navigate(direction)
-    }
-
-    fun navigateToProfile(userName:String){
-        findNavController(R.id.fragment_main).navigate(R.id.detail_graph)
-        val direction=ProfileFragmentDirections.actionProfileFragmentToProfileUserFragment(userName)
         findNavController(R.id.fragment_main).navigate(direction)
     }
 
@@ -121,8 +125,11 @@ class MainActivity : AppCompatActivity() {
                     if (!viewModel.isTokenValid(it)) {
                         val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         activityResultLauncher.launch(intent)
-                    } else{
-                        setContentView(binding.root)
+                    }
+                } else{
+                    if (currentCallback!=null){
+                        currentCallback!!.invoke()
+                        currentCallback=null
                     }
                 }
             }
@@ -134,13 +141,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        viewModel.subscribe(this) { expired ->
-            if (expired && viewModel.isActive) {
-                val intent = Intent(this, LoginActivity::class.java)
-                activityResultLauncher.launch(intent)
-            }
-        }
+    }
+    fun onTokenExpired(callBack: CallBack){
+        this.currentCallback=callBack
+        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+        activityResultLauncher.launch(intent)
     }
 
     override fun onStart() {
@@ -152,7 +157,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun closeNoNetworkView() {
+    private fun closeNoNetworkView() {
         val animator = ValueAnimator.ofFloat(-20.dp.toFloat(), 0f)
         binding.networkView.setBackgroundColor(resources.getColor(R.color.green, null))
         binding.connection.text = resources.getText(R.string.connection_restored)
@@ -163,10 +168,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         animator.start()
-
     }
 
-    fun openNoNetworkView() {
+    private fun openNoNetworkView() {
         val animator = ValueAnimator.ofFloat(0f, -20.dp.toFloat())
         binding.networkView.setBackgroundColor(resources.getColor(R.color.red, null))
         binding.connection.text = resources.getText(R.string.network_not_available)

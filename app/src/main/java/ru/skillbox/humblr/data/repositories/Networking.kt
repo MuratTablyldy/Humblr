@@ -14,7 +14,7 @@ import javax.inject.Inject
 class Networking @Inject constructor(val application: Application) {
 
     private val okHttpClient = OkHttpClient.Builder()
-       .cache(
+        .cache(
             Cache(
                 directory = File(application.cacheDir, "http_cache"),
                 maxSize = 50L * 1024L * 1024L
@@ -22,7 +22,11 @@ class Networking @Inject constructor(val application: Application) {
         )
         .connectionPool(ConnectionPool(0, 5, TimeUnit.MINUTES))
         .protocols(listOf(Protocol.HTTP_1_1))
-        .addNetworkInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addNetworkInterceptor(
+            HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(
+                HttpLoggingInterceptor.Level.BODY
+            )
+        )
         .build()
     private val retrofit = Retrofit.Builder()
         .client(okHttpClient)

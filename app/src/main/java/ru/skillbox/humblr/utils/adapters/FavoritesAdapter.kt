@@ -3,7 +3,7 @@ package ru.skillbox.humblr.utils.adapters
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import ru.skillbox.humblr.news.FavoritesSavedFragment
+import ru.skillbox.humblr.favorites.FavoritesSavedFragment
 
 class FavoritesAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {

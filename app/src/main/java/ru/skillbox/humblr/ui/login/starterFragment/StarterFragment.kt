@@ -12,13 +12,13 @@ import ru.skillbox.humblr.databinding.StarterViewBinding
 
 class StarterFragment : Fragment() {
     private var _binding: StarterViewBinding? = null
-    val binding:StarterViewBinding get()  = _binding!!
+    val binding: StarterViewBinding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = StarterViewBinding.inflate(inflater,container,false)
+        _binding = StarterViewBinding.inflate(inflater, container, false)
         return _binding!!.root
     }
 
@@ -34,35 +34,35 @@ class StarterFragment : Fragment() {
         )
         binding.pager.adapter = adapter
         binding.dotsIndicator.setViewPager2(binding.pager)
-        binding.pager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
+        binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if(position==2){
-                    binding.button.text=resources.getText(R.string.exit)
-                } else{
-                    binding.button.text=resources.getText(R.string.skip)
+                if (position == 2) {
+                    binding.button.text = resources.getText(R.string.exit)
+                } else {
+                    binding.button.text = resources.getText(R.string.skip)
                 }
             }
         })
-        val skip=resources.getText(R.string.skip)
-        val exit=resources.getText(R.string.exit)
-        binding.button.setOnClickListener { view->
-         when(binding.button.text){
-             skip->{
-                 val position=binding.pager.currentItem
-                 binding.pager.currentItem = position+1
-             }
-             exit->{
-                 val action=StarterFragmentDirections.actionStarterFragmentToLogFragment()
-                 findNavController().navigate(action)
-             }
-         }
+        val skip = resources.getText(R.string.skip)
+        val exit = resources.getText(R.string.exit)
+        binding.button.setOnClickListener { view ->
+            when (binding.button.text) {
+                skip -> {
+                    val position = binding.pager.currentItem
+                    binding.pager.currentItem = position + 1
+                }
+                exit -> {
+                    val action = StarterFragmentDirections.actionStarterFragmentToLogFragment()
+                    findNavController().navigate(action)
+                }
+            }
         }
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding=null
+        _binding = null
     }
 }

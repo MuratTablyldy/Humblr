@@ -11,7 +11,7 @@
         android:id="@+id/toolB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnPrimary"
+        android:background="@color/background_card"
         android:backgroundTint="@color/grey2"
         android:elevation="10dp"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,6 +20,7 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/background_card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolB">
 
@@ -27,18 +28,20 @@
             android:id="@+id/bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryLightColor"
+            android:background="@color/background_card"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing"
                 android:layout_width="match_parent"
+                android:background="@color/background_card"
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/top_bar"
                     android:layout_width="match_parent"
+                    android:background="@color/background_card"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -105,6 +108,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/bar_data"
                 android:layout_width="match_parent"
+                android:background="@color/background_card"
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="noScroll">
 
@@ -115,7 +119,7 @@
                     android:layout_margin="5dp"
                     app:fabSize="mini"
                     android:layout_gravity="center"
-
+                    android:backgroundTint="@color/background_card"
                     app:on_selected="@drawable/upvote_cl"
                     app:on_released="@drawable/upvote_un"
                     android:foregroundTint="@color/grey"
@@ -149,6 +153,7 @@
                     app:on_released="@drawable/downvote_un"
                     app:tint_on_release="@color/grey"
                     app:tint_on_selected="?attr/colorPrimary"
+                    android:backgroundTint="@color/background_card"
                     android:foregroundTint="@color/grey"
                     android:src="@drawable/ic_baseline_thumb_down_24"
                     app:backgroundTint="@color/white"
@@ -160,7 +165,7 @@
                     android:id="@+id/comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/background_card"
                     android:foregroundTint="@color/grey"
                     android:src="@drawable/ic_baseline_mode_comment_32"
                     android:textColor="@color/grey"
@@ -172,6 +177,7 @@
                 <com.robinhood.ticker.TickerView
                     android:id="@+id/comment_number"
                     android:layout_width="30dp"
+                    android:backgroundTint="@color/background_card"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="2dp"
@@ -186,7 +192,7 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/background_card"
                     android:drawableLeft="@drawable/ic_baseline_share_32"
                     android:drawableTint="@color/grey"
                     android:text="@string/share"
@@ -197,7 +203,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/background_card"
                     app:on_selected="@drawable/saved"
                     app:on_released="@drawable/save"
                     android:clickable="false" />

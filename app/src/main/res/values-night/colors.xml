@@ -5,8 +5,8 @@
     <color name="primaryDarkColor">#5222D0</color>
     <color name="secondaryColor">#6D46D3</color>
     <color name="secondaryLightColor">#ECC0D8</color>
-    <color name="secondaryDarkColor">#bf5f82</color>
-    <color name="primaryTextColor">#F7F6F6</color>
+    <color name="secondaryDarkColor">#ECE8EA</color>
+    <color name="primaryTextColor">#C2C1C1</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="opaque">#00FBFBFB</color>
     <color name="opaqueDark">#DF000000</color>
@@ -37,4 +37,5 @@
     <color name="backo">#424242</color>
     <color name="progress_background">#FFFFFF</color>
     <color name="progress">#EC615B</color>
+    <color name="background_card_2">#27292D</color>
 </resources>

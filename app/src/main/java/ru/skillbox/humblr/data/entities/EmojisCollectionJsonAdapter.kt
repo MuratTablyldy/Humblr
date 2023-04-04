@@ -14,19 +14,20 @@ public class EmojisCollectionJsonAdapter(
   moshi: Moshi
 ) : JsonAdapter<EmojisCollection>() {
 
-  private val map =HashMap<String,HashMap<String,Emoji?>>()
+  private val map = HashMap<String, HashMap<String, Emoji?>>()
   private val nullableEmojiAdapter = EmojiMapAdapter(moshi)
 
   public override fun toString(): String = buildString(38) {
-      append("GeneratedJsonAdapter(").append("EmojisCollection").append(')') }
+    append("GeneratedJsonAdapter(").append("EmojisCollection").append(')')
+  }
 
   public override fun fromJson(reader: JsonReader): EmojisCollection {
     reader.beginObject()
 
     while (reader.hasNext()) {
-      var i=0
-      val name =reader.nextName()
-      val emoji=nullableEmojiAdapter.fromJson(reader)
+      var i = 0
+      val name = reader.nextName()
+      val emoji = nullableEmojiAdapter.fromJson(reader)
       map[name] = emoji
     }
     reader.endObject()

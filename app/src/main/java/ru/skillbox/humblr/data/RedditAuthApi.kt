@@ -10,8 +10,8 @@ interface RedditAuthApi {
     @POST(value = "/api/v1/access_token")
     @FormUrlEncoded
     fun postAuthCode(
-        @Field("grant_type")grantType:String,
-        @Field("code")code:String,
-        @Field("redirect_uri")redirectUri:String
+        @Field("grant_type") grantType: String,
+        @Field("code") code: String,
+        @Field("redirect_uri") redirectUri: String
     )
 }

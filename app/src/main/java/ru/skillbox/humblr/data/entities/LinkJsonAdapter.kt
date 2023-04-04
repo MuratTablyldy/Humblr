@@ -314,7 +314,7 @@ public class LinkJsonAdapter(
                     ), name = name
                 )
             }
-            (secureMedia?.oembed != null && secureMedia.oembed?.providerUrl?.contains("https://www.youtube.com") == true)-> {
+            (secureMedia?.oembed != null && secureMedia.oembed?.providerUrl?.contains("https://www.youtube.com") == true) -> {
                 Link.LinkYouTube(
                     created = created ?: throw Util.missingProperty("created", "created", reader),
                     createdUTC = createdUTC ?: throw Util.missingProperty(
@@ -378,10 +378,11 @@ public class LinkJsonAdapter(
 
                 )
             }
-            (url != null && !url.contains("redd"))||secureMedia?.oembed?.url!=null -> {
-                if(secureMedia?.oembed?.url!=null){
-                    url=secureMedia.oembed?.url
-                }
+            (url != null && !url.contains("redd")) -> {
+                /*   if(secureMedia?.oembed?.url!=null){
+                       url=secureMedia.oembed?.url
+                       /*||*//*(secureMedia?.oembed?.url!=null && !secureMedia.oembed!!.url!!.contains("redd")*///)
+                   }*/
                 Link.LinkOut(
                     created = created ?: throw Util.missingProperty("created", "created", reader),
                     createdUTC = createdUTC ?: throw Util.missingProperty(

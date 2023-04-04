@@ -1,23 +1,24 @@
 package ru.skillbox.humblr.utils.richLink
 
-
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.skillbox.humblr.R
 import ru.skillbox.humblr.data.Result
-
 
 open class RichLinkView : RelativeLayout {
     private var view: View? = null
@@ -28,7 +29,6 @@ open class RichLinkView : RelativeLayout {
     var textViewDesp: TextView? = null
     var textViewUrl: TextView? = null
     private var main_url: String? = null
-
 
 
     constructor(context: Context) : super(context) {
@@ -72,7 +72,7 @@ open class RichLinkView : RelativeLayout {
             imageView!!.visibility = GONE
         } else {
             imageView!!.visibility = VISIBLE
-            val url=meta?.imageurl?.replace("amp;","")
+            val url = meta?.imageurl?.replace("amp;", "")
             Glide.with(context).load(url).into(imageView!!)
         }
         if (meta?.title.isNullOrBlank()) {
@@ -95,12 +95,77 @@ open class RichLinkView : RelativeLayout {
             textViewDesp?.text = meta?.description
         }
         linearLayout?.setOnClickListener { view ->
-                richLinkClicked()
+            richLinkClicked()
+        }
+    }
+
+    fun initView(onFinished: () -> Unit) {
+        if (findLinearLayoutChild() != null) {
+            view = findLinearLayoutChild()
+        } else {
+            view = this
+            inflate(context, R.layout.link_layout, this)
+        }
+        linearLayout = findViewById(R.id.rich_link_card)
+        imageView = findViewById(R.id.rich_link_image)
+        textViewTitle = findViewById(R.id.rich_link_title)
+        textViewDesp = findViewById(R.id.rich_link_desp)
+        textViewUrl = findViewById(R.id.rich_link_url)
+        if (meta?.imageurl.isNullOrBlank()) {
+            imageView!!.visibility = GONE
+        } else {
+            imageView!!.visibility = VISIBLE
+            val url = meta?.imageurl?.replace("amp;", "")
+            Glide.with(context).load(url).listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    onFinished.invoke()
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    onFinished.invoke()
+                    return false
+                }
+
+            }).into(imageView!!)
+        }
+        if (meta?.title.isNullOrBlank()) {
+            textViewTitle!!.visibility = GONE
+        } else {
+            textViewTitle!!.visibility = VISIBLE
+            textViewTitle!!.text = meta?.title
+        }
+        if (meta?.url.isNullOrBlank()) {
+            textViewUrl?.visibility = GONE
+        } else {
+            textViewUrl?.visibility = VISIBLE
+            main_url = meta?.url
+            textViewUrl?.text = meta?.url
+        }
+        if (meta?.description.isNullOrBlank()) {
+            textViewDesp?.visibility = GONE
+        } else {
+            textViewDesp?.visibility = VISIBLE
+            textViewDesp?.text = meta?.description
+        }
+        linearLayout?.setOnClickListener { view ->
+            richLinkClicked()
         }
     }
 
     private fun richLinkClicked() {
-        val url=if(main_url?.contains("http")==false){
+        val url = if (main_url?.contains("http") == false) {
             "https://$main_url"
         } else main_url
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -123,15 +188,28 @@ open class RichLinkView : RelativeLayout {
         get() = meta
 
     fun setLink(url: String, scope: CoroutineScope) {
-
         scope.launch {
-            when(val data=LinkHandler.getLink(url)){
-                is Result.Success->{
-                    meta=data.data
+            when (val data = LinkHandler.getLink(url)) {
+                is Result.Success -> {
+                    meta = data.data
                     initView()
                 }
-                is Result.Error->{
+                is Result.Error -> {
 
+                }
+            }
+        }
+    }
+
+    fun setLink(url: String, scope: CoroutineScope, onFinished: () -> Unit) {
+        scope.launch {
+            when (val data = LinkHandler.getLink(url)) {
+                is Result.Success -> {
+                    meta = data.data
+                    initView(onFinished)
+                }
+                is Result.Error -> {
+                    onFinished.invoke()
                 }
             }
         }

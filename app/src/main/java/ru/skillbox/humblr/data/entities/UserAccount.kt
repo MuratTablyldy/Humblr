@@ -24,19 +24,19 @@ data class UserAccount(
     val isMod: Boolean?,
     @Json(name = "link_karma")
     val linkKarma: Int?,
-    val is_employee:Boolean,
+    val is_employee: Boolean,
     @Json(name = "mod_hash")
     val modHash: String?,
-    val subreddit:SubReddit,
+    val subreddit: SubReddit,
     val name: String,
     @Json(name = "over_18")
     val over18: Boolean?,
     override val created: Long,
     @Json(name = "created_utc")
     override val createdUTC: Long,
-    val icon_img:String,
+    val icon_img: String,
     @Json(name = "snoovatar_img")
-    val snoovatarImg:String
+    val snoovatarImg: String
 ) : Created {
     override fun getParent(): String? {
         return null

@@ -9,46 +9,45 @@ import com.google.android.material.appbar.AppBarLayout
 
 
 class FlingBehavior : AppBarLayout.Behavior {
-	private var isPositive = false
+    private var isPositive = false
 
-	constructor() {}
-	constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
+    constructor() {}
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
 
-	override fun onNestedFling(
-		coordinatorLayout: CoordinatorLayout,
-		child: AppBarLayout, target: View, velocityX: Float,
-		velocityY: Float, consumed: Boolean
-	): Boolean {
-		var velocityY = velocityY
-		var consumed = consumed
-		if (velocityY > 0 && !isPositive || velocityY < 0 && isPositive) {
-			velocityY = velocityY * -1
-		}
-		if (target is RecyclerView && velocityY < 0) {
-			val recyclerView = target
-			val firstChild: View = recyclerView.getChildAt(0)
-			val childAdapterPosition = recyclerView.getChildAdapterPosition(firstChild)
-			consumed = childAdapterPosition > TOP_CHILD_FLING_THRESHOLD
-		}
-		return super
-			.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed)
-	}
+    override fun onNestedFling(
+        coordinatorLayout: CoordinatorLayout,
+        child: AppBarLayout, target: View, velocityX: Float,
+        velocityY: Float, consumed: Boolean
+    ): Boolean {
+        var velocityYM = velocityY
+        var consumedM = consumed
+        if (velocityYM > 0 && !isPositive || velocityYM < 0 && isPositive) {
+            velocityYM *= -1
+        }
+        if (target is RecyclerView && velocityYM < 0) {
+            val recyclerView = target
+            val firstChild: View = recyclerView.getChildAt(0)
+            val childAdapterPosition = recyclerView.getChildAdapterPosition(firstChild)
+            consumedM = childAdapterPosition > TOP_CHILD_FLING_THRESHOLD
+        }
+        return super
+            .onNestedFling(coordinatorLayout, child, target, velocityX, velocityYM, consumedM)
+    }
 
-	override fun onNestedPreScroll(
-		coordinatorLayout: CoordinatorLayout,
-		child: AppBarLayout,
-		target: View,
-		dx: Int,
-		dy: Int,
-		consumed: IntArray,
-		type: Int
-	) {
-		super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-		isPositive = dy > 0
-	}
+    override fun onNestedPreScroll(
+        coordinatorLayout: CoordinatorLayout,
+        child: AppBarLayout,
+        target: View,
+        dx: Int,
+        dy: Int,
+        consumed: IntArray,
+        type: Int
+    ) {
+        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
+        isPositive = dy > 0
+    }
 
-
-	companion object {
-		private const val TOP_CHILD_FLING_THRESHOLD = 3
-	}
+    companion object {
+        private const val TOP_CHILD_FLING_THRESHOLD = 3
+    }
 }

@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResFragViewModel @Inject constructor(val repository: MainRepository) : ViewModel() {
-    val links = MutableLiveData<List<Link>>(emptyList())
+    val links = MutableLiveData<List<Link>>(null)
     val exceptions = MutableLiveData<Exception>()
-    val comments = MutableLiveData<List<Comment>>(emptyList())
+    val comments = MutableLiveData<List<Comment>>(null)
     val me = MutableLiveData<Account>()
     val recyclerViewVolume = MutableLiveData(VolumeInfo(true, 1F))
     private val _selectedRebinder = MutableLiveData<Pair<Int, Rebinder?>>(-1 to null)
@@ -45,16 +45,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
     ) {
         viewModelScope.launch {
             val result = repository.getSavedSubreddit(
-                username,
-                after,
-                before,
-                count,
-                limit,
-                srDetail,
-                "given",
-                time,
-                context,
-                sort
+                username, after, before, count, limit, srDetail, "given", time, context, sort
             )
             when (result) {
                 is Result.Success -> {
@@ -70,7 +61,9 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
                         var infos: List<SubredditInfo>? = null
                         when (res) {
                             is Result.Success -> {
+                                progress.progress = ++index
                                 infos = res.data.data.children?.map { it.data }
+
                             }
                             is Result.Error -> {
                                 exceptions.postValue(res.exception)
@@ -78,7 +71,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
                         }
                         data.forEach { link ->
                             val info = infos?.find { it.displayName == link.getSubredditI() }
-                            progress.progress = index++
+                            progress.progress = ++index
                             link.subInfo = info
                         }
                         links.postValue(data!!)
@@ -87,6 +80,19 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
                 is Result.Error -> {
                     exceptions.postValue(result.exception)
                 }
+            }
+        }
+    }
+
+    suspend fun postComment(thingId: String, text: String): Comment? {
+        return when (val result = repository.postComment(thingId, text)) {
+            is Result.Success -> {
+                val resultq = result.data.jquery.first().comment?.data
+                resultq
+            }
+            is Result.Error -> {
+                exceptions.postValue(result.exception)
+                null
             }
         }
     }
@@ -104,15 +110,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
     ) {
         viewModelScope.launch {
             val result = repository.getCommentsSaved(
-                username,
-                after,
-                before,
-                count,
-                limit,
-                srDetail,
-                time,
-                context,
-                sort
+                username, after, before, count, limit, srDetail, time, context, sort
             )
             when (result) {
                 is Result.Success -> {
@@ -127,8 +125,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
 
     fun getMe() {
         viewModelScope.launch {
-            val result = repository.getMe()
-            when (result) {
+            when (val result = repository.getMe()) {
                 is Result.Success -> {
                     me.postValue(result.data.data!!)
                 }
@@ -152,15 +149,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
     ) {
         viewModelScope.launch {
             when (val result = repository.getCommentsMine(
-                username,
-                after,
-                before,
-                count,
-                limit,
-                srDetail,
-                time,
-                context,
-                sort
+                username, after, before, count, limit, srDetail, time, context, sort
             )) {
                 is Result.Success -> {
                     comments.postValue(result.data.data.children?.map { it.data })
@@ -189,22 +178,11 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
             when (result) {
                 is Result.Success -> {
                     val data = result.data.data.children?.map { it.data }
-
                     if (data.isNullOrEmpty()) {
                         onEmpty.invoke()
                     } else {
                         progress.max = data.size.toFloat()
                         var index = 0f
-                        /*data.forEach { link->
-                            progress.progress=index++
-                            when(val info=repository.getSubredditAbout(link.getSubredditI())){
-                                is Result.Success->{
-                                    link.subInfo=info.data.data
-                                }
-                                is Result.Error->{
-                                }
-                            }
-                        }*/
                         val ids = data.map { link -> link.getSubredditI() }
                             .reduce { first, second -> "$first,$second" }
                         val res = repository.getSubredditsAbout(ids)
@@ -212,6 +190,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
                         when (res) {
                             is Result.Success -> {
                                 infos = res.data.data.children?.map { it.data }
+                                progress.progress = ++index
                             }
                             is Result.Error -> {
                                 exceptions.postValue(res.exception)
@@ -219,7 +198,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
                         }
                         data.forEach { link ->
                             val info = infos?.find { it.displayName == link.getSubredditI() }
-                            progress.progress = index++
+                            progress.progress = ++index
                             link.subInfo = info
                         }
                         links.postValue(data!!)
@@ -238,8 +217,7 @@ class ResFragViewModel @Inject constructor(val repository: MainRepository) : Vie
     suspend fun subscribe(action: RedditApi.SubscibeType, skip: Boolean?, srName: String) =
         repository.subscribe(action, skip, srName)
 
-    suspend fun getSubredditAbout(subreddit: String) =
-        repository.getSubredditAbout(subreddit)
+    suspend fun getSubredditAbout(subreddit: String) = repository.getSubredditAbout(subreddit)
 
     suspend fun vote(dir: Int, id: String, rank: Int?) = repository.vote(dir, id, rank)
     suspend fun save(fullname: String, category: String): Boolean {

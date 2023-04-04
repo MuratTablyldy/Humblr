@@ -67,5 +67,6 @@
     <string name="minutes_ago2">%1$s • %2$s • %3$d m ago</string>
     <string name="bottom_view_format">%1$d :upvotes • %2$s :comments</string>
     <string name="search_link">search link</string>
+    <string name="pager_image">pagerImage</string>
 
 </resources>

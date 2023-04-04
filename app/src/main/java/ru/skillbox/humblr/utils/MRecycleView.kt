@@ -25,30 +25,8 @@ class MRecycleView : RecyclerView {
             DividerItemDecoration.VERTICAL
         )
         addItemDecoration(dividerItemDecoration)
-        addOnChildAttachStateChangeListener(object : OnChildAttachStateChangeListener {
-            override fun onChildViewAttachedToWindow(view: View) {
-                val holder = getChildViewHolder(view)
-                if (holder is MViewHolder.NewsWithRedditVideoHolder) {
-                    // holder.binding?.playerView?.onResume()
-
-                }
-            }
-
-            override fun onChildViewDetachedFromWindow(view: View) {
-                val holder = getChildViewHolder(view)
-                if (holder is MViewHolder.NewsWithRedditVideoHolder) {
-                    //  holder.pause()
-                }
-            }
-        })
     }
-
     override fun findViewHolderForAdapterPosition(position: Int): ViewHolder? {
         return super.findViewHolderForAdapterPosition(position)
     }
 }
-
-
-
-
-

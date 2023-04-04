@@ -1,5 +1,5 @@
 package ru.skillbox.humblr.utils
 
 interface OnLink {
-    fun getLink(link:String)
+    fun getLink(link: String)
 }

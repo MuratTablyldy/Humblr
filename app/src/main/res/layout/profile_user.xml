@@ -53,6 +53,7 @@
                             app:civ_border_color="@color/grey"
                             android:scaleType="centerCrop"
                             app:civ_border_width="1.5dp"
+                            android:layout_margin="5dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
                         <ru.skillbox.humblr.utils.MTextView
@@ -145,6 +146,7 @@
                         app:layout_constraintStart_toEndOf="@id/avatar_view"
                         android:drawableLeft="@drawable/group_92"
                         android:textSize="11sp"
+                        android:layout_gravity="start"
                         android:textColor="@color/text_button"
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         app:layout_constraintTop_toBottomOf="@id/write_comment"
@@ -154,7 +156,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/vector__10_"
+                        android:layout_gravity="start"
                         android:elevation="0dp"
+                        android:contentDescription="@string/write_comment"
                         android:foregroundTint="@color/unselected"
                         android:tint="@color/unselected"
                         app:borderWidth="0dp"
@@ -165,6 +169,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/subscribe2"
+                        android:contentDescription="@string/subscribe"
                         android:foregroundTint="@color/unselected"
                         android:elevation="0dp"
                         app:borderWidth="0dp"

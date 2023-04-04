@@ -7,17 +7,17 @@ import ru.skillbox.humblr.data.interfaces.Votable
 
 @JsonClass(generateAdapter = true)
 data class SubReddit(
-    val id:String?,
+    val id: String?,
     @Json(name = "account_active")
     val accountActive: Int?,
     @Json(name = "active_user_count")
-    val activeUserCount:Int?,
+    val activeUserCount: Int?,
     @Json(name = "comment_score_hide_mins")
     val commentsHideMins: Int?,
     val description: String?,
     @Json(name = "display_name")
     val displayName: String?,
-    @Json(name ="header_img" )
+    @Json(name = "header_img")
     val headerImg: String?,
     @Json(name = "header_title")
     val headerTitle: String?,
@@ -37,17 +37,17 @@ data class SubReddit(
     val subredditType: SubredditType?,
     val title: String?,
     val url: String?,
-    val name:String?,
-    val score:Int?,
-    val link_flair_text:String?,
-    val gildings:Gildings?,
-    val clicked:Boolean?,
-    val hidden:Boolean?,
-    val link_flair_richtext:List<Flair>?,
-    val subreddit_name_prefixed:String?,
-    val secure_media_embed:Media?,
-    val preview:ImageUrl?,
-    val gilded:Int?,
+    val name: String?,
+    val score: Int?,
+    val link_flair_text: String?,
+    val gildings: Gildings?,
+    val clicked: Boolean?,
+    val hidden: Boolean?,
+    val link_flair_richtext: List<Flair>?,
+    val subreddit_name_prefixed: String?,
+    val secure_media_embed: Media?,
+    val preview: ImageUrl?,
+    val gilded: Int?,
     @Json(name = "user_is_banned")
     val userIsBanned: Boolean?,
     @Json(name = "user_is_contributor")
@@ -61,7 +61,7 @@ data class SubReddit(
     override val likes: Boolean?,
     override val created: Long?,
     override val createdUTC: Long?,
-) :  Votable, Created {
+) : Votable, Created {
     override fun getParent(): String? {
         return null
     }

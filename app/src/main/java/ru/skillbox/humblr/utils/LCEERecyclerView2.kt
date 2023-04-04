@@ -32,7 +32,7 @@ class LCEERecyclerView2 constructor(
     private val errorBinding: RecyclerErrorLayoutBinding = binding.customErrorView
     private val emptyBinding: RecyclerEmptyLayoutBinding = binding.customEmptyView
     private val loadingBinding: RecyclerLoadingLayoutBinding = binding.customOverlayView
-    private var onLoad:OnLoad?=null
+    private var onLoad: OnLoad? = null
 
 
     init {
@@ -44,8 +44,9 @@ class LCEERecyclerView2 constructor(
             }
         }
     }
-    fun setOnLoad(onLoad: OnLoad){
-        this.onLoad=onLoad
+
+    fun setOnLoad(onLoad: OnLoad) {
+        this.onLoad = onLoad
     }
 
     val recyclerView: RecyclerView
@@ -69,12 +70,14 @@ class LCEERecyclerView2 constructor(
             field = value
             errorBinding.errorImage.setImageResource(value)
         }
+
     @DrawableRes
     var emptyIcon = 0
         set(value) {
             field = value
             emptyBinding.emptyImage.setImageResource(value)
         }
+
     init {
 
         context.theme.obtainStyledAttributes(
@@ -84,7 +87,8 @@ class LCEERecyclerView2 constructor(
             0
         ).apply {
             try {
-                errorText = getString(R.styleable.LCEERecyclerView_errorText) ?: "Something went wrong"
+                errorText =
+                    getString(R.styleable.LCEERecyclerView_errorText) ?: "Something went wrong"
                 emptyText =
                     getString(R.styleable.LCEERecyclerView_emptyText) ?: "Nothing to show"
                 errorIcon = getResourceId(
@@ -130,7 +134,8 @@ class LCEERecyclerView2 constructor(
             callback()
         }
     }
-    interface OnLoad{
-        fun startLoad():Boolean
+
+    interface OnLoad {
+        fun startLoad(): Boolean
     }
 }

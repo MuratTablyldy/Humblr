@@ -109,7 +109,7 @@ class MainRepository @Inject constructor(
         }
 
     suspend fun savePrefs(scope: CoroutineScope, prefs: PrefsSave) =
-        suspendCancellableCoroutine<Response<Unit>> { continuation ->
+        suspendCancellableCoroutine{ continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -190,7 +190,7 @@ class MainRepository @Inject constructor(
     }
 
     suspend fun getByID(scope: CoroutineScope, id: String) =
-        suspendCancellableCoroutine{ continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -261,7 +261,7 @@ class MainRepository @Inject constructor(
     }
 
     suspend fun getCollection(scope: CoroutineScope, id: String, include: Boolean) =
-        suspendCancellableCoroutine{ continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -280,7 +280,7 @@ class MainRepository @Inject constructor(
         }
 
     suspend fun getCollections(scope: CoroutineScope, name: String) =
-        suspendCancellableCoroutine{ continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -416,7 +416,7 @@ class MainRepository @Inject constructor(
         scope: CoroutineScope,
         subreddit: String
     ) =
-        suspendCancellableCoroutine{ continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (isTokenValid()) {
                 scope.launch {
                     try {
@@ -882,14 +882,6 @@ class MainRepository @Inject constructor(
             repository.unsave(token = "bearer " + tokenHolder!!.access_token!!, fullname)
         }
     }
-
-    /*suspend fun getCatigories(
-        fullname: String
-    ): Result<String> {
-        return invoke(Dispatchers.IO) {
-            repository.getSavedCategories(token = "bearer " + tokenHolder!!.access_token!!)
-        }
-    }*/
 
     suspend fun sendMessage(subject: String, text: String, to: String): Result<String> {
         return invoke(Dispatchers.IO) {
